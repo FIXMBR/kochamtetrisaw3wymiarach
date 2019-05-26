@@ -1,7 +1,7 @@
 class Piece extends THREE.Object3D{
-    constructor(){
+    constructor(color){
         super()
-        var length = 9, width = 9, depth = 10
+        var length = 8, width = 8, depth = 10
 
         var shape = new THREE.Shape();
         shape.moveTo( 0,0 );
@@ -11,7 +11,7 @@ class Piece extends THREE.Object3D{
         shape.lineTo( 0, 0 );
         
         var extrudeSettings = {
-            steps: 2,
+            steps: 1,
             depth: depth,
             bevelEnabled: true,
             bevelThickness: 1,
@@ -22,11 +22,11 @@ class Piece extends THREE.Object3D{
         
         var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
         geometry.translate(-length/2,-width/2,-depth/2)
-        var material = new THREE.MeshNormalMaterial()
+        var material = window.getMaterialTetra(color)
         var mesh = new THREE.Mesh( geometry, material ) ;
         this.add( mesh );
         var axes = new THREE.AxesHelper(200) // osie konieczne do kontroli kierunku ruchu
-        this.add(axes)
+       //this.add(axes)
         
     }
 }

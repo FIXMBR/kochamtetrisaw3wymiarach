@@ -1,4 +1,4 @@
-var express = require('express');
+ var express = require('express');
 var app = express()
 var http = require('http').createServer(app);
 var socketio = require('socket.io')(http);
@@ -18,6 +18,12 @@ http.listen(3000, function () {
 socketio.on("connection", function (client) {    
     console.log("klient się podłączył"+ client.id) 
     // client.id - unikalna nazwa klienta generowana przez socket.io
+    client.on("boards", function (data) {
+        client.broadcast.emit("boards", {
+            board: data.board,
+            liveBoard: data.liveBoard
+        })
+    })
+    
 
 })
-

@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
-    var client = io();
-    client.on("onconnect", function (data) {
+    window.client = io();
+    window.client.on("onconnect", function (data) {
         alert(data.clientName)
     })
 
@@ -42,32 +42,79 @@
 
     //zmienne do kamery
 
-    camera.position.x = 50;
+    camera.position.x = 40;
     camera.position.y = 100;
-    camera.position.z = 50;
-    camera.lookAt(window.scene.position);
+    camera.position.z = 300;
+   // camera.lookAt(window.scene.position);
+   // 
+   camera.lookAt(40,100,0);
+    console.log(window.scene.position);
+    //grid = new Grid
+    //window.scene.add(grid.getGrid())
 
-    grid = new Grid
-    window.scene.add(grid.getGrid())
-    
-    var orbitControl = new THREE.OrbitControls(camera, renderer.domElement);
-    orbitControl.addEventListener('change', function () {
-        renderer.render(window.scene, camera)
-    });
+    game = new Game
+    frame = new Frame
+    scene.add(frame)
+    frame.position.x = 45;
 
-    window.scene.add(new Piece())
+    window.tetramino = new Tetramino(Math.floor(Math.random()*7))
 
-var lastUpdate =   Date.now() 
+
+  //  var orbitControl = new THREE.OrbitControls(camera, renderer.domElement);
+  //  orbitControl.addEventListener('change', function () {
+ //       renderer.render(window.scene, camera)
+  //  });
+
+    //window.scene.add(new Piece())
+    var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(0,1,5)
+    window.scene.add(directionalLight);
+    var light = new THREE.AmbientLight( 0x404040,1.5 ); // soft white light
+    scene.add( light );
+
+    var lastUpdate = Date.now()
+
+    new Render(true)
 
     function render() {
         var now = Date.now();
         var dt = (now - lastUpdate) * 0.01;
         lastUpdate = now;
-        
+
         requestAnimationFrame(render);
         renderer.render(window.scene, camera);
 
     }
     render();
+
+    window.client.on("boards", function (data) {
+        window.board = data.board
+        window.liveBoard = data.liveBoard
+        new Render(true)
+        new Render(false)
+})
+    
+
+    document.onkeydown = checkKey;
+    function checkKey(e) {
+        e = e || window.event;
+        if (e.keyCode == '38') {
+            window.tetramino.move(1)
+        } else if (e.keyCode == '40') {
+            window.tetramino.move(0)
+        } else if (e.keyCode == '37') {
+            window.tetramino.move(3)
+        } else if (e.keyCode == '39') {
+            window.tetramino.move(2)
+        } else if (e.keyCode == '90') {
+            window.tetramino.rotateLeft()
+        } else if (e.keyCode == '88') {
+            window.tetramino.rotateRight()
+        }else if (e.keyCode == '32') {
+            window.tetramino.place()
+        }
+        
+    }
+
 
 })
