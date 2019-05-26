@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>TEETYROOOS    </title>
+    <script src="libs/three.js"></script>
+    <script src="libs/jquery.js"></script>
+    <script src="libs/Grid.js"></script>
+    <script src="libs/OrbitControls.js"></script>
+    <script src="js/Main.js"></script>
+    <script src="js/Ball.js"></script>
+    <script src="js/Cannon.js"></script>
+    <script src="js/Piece.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="render"></div>
+    
+    <div id="UI">
+        <div id="wincontainer">
+           <input type="range" name="rotation" id="rotation" min="0" max="360" value="0" step="1">
+           <input type="range" name="angle" id="angle"  min="0" max="90" value="45" step="1">
+            <button id="shootyboy">shoot</button>
+        </div>
+    </div>
+</body>
+
+</html>
