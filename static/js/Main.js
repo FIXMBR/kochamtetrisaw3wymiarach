@@ -7,21 +7,23 @@
 
     let width = window.innerWidth;
     let height = window.innerHeight;
-    let fov = 45;
+    let fov = 15;
     window.scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(
-        fov,
-        width / height,
-        0.1,
-        10000
-    );
-    //var controls = new THREE.OrbitControls( camera );
+    //window.camera = new THREE.PerspectiveCamera(
+    // fov,
+    // width / height,
+    //     0.1,
+    //     10000
+    //);
+    window.camera = new THREE.OrthographicCamera(width / -4, width / 4, height / 4, height / -4, 1, 1000);
+    scene.add(camera);
+    var controls = new THREE.OrbitControls(window.camera);
 
-
+    cameraBoy = new CameraBoy()
 
     $(window).resize(function () {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
+        window.camera.aspect = window.innerWidth / window.innerHeight;
+        window.camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
@@ -42,12 +44,12 @@
 
     //zmienne do kamery
 
-    camera.position.x = 40;
-    camera.position.y = 100;
-    camera.position.z = 300;
-   // camera.lookAt(window.scene.position);
-   // 
-   camera.lookAt(40,100,0);
+    window.camera.position.x = 40;
+    window.camera.position.y = 100;
+    window.camera.position.z = 1000;
+    // camera.lookAt(window.scene.position);
+    // 
+    window.camera.lookAt(40, 100, 0);
     console.log(window.scene.position);
     //grid = new Grid
     //window.scene.add(grid.getGrid())
@@ -57,20 +59,20 @@
     scene.add(frame)
     frame.position.x = 45;
 
-    window.tetramino = new Tetramino(Math.floor(Math.random()*7))
+    window.tetramino = new Tetramino(Math.floor(Math.random() * 7))
 
 
-  //  var orbitControl = new THREE.OrbitControls(camera, renderer.domElement);
-  //  orbitControl.addEventListener('change', function () {
- //       renderer.render(window.scene, camera)
-  //  });
+    //  var orbitControl = new THREE.OrbitControls(camera, renderer.domElement);
+    //  orbitControl.addEventListener('change', function () {
+    //       renderer.render(window.scene, camera)
+    //  });
 
     //window.scene.add(new Piece())
     var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-    directionalLight.position.set(0,1,5)
+    directionalLight.position.set(0, 1, 5)
     window.scene.add(directionalLight);
-    var light = new THREE.AmbientLight( 0x404040,1.5 ); // soft white light
-    scene.add( light );
+    var light = new THREE.AmbientLight(0x404040, 1.5); // soft white light
+    scene.add(light);
 
     var lastUpdate = Date.now()
 
@@ -82,7 +84,7 @@
         lastUpdate = now;
 
         requestAnimationFrame(render);
-        renderer.render(window.scene, camera);
+        renderer.render(window.scene, window.camera);
 
     }
     render();
@@ -92,10 +94,11 @@
         window.liveBoard = data.liveBoard
         new Render(true)
         new Render(false)
-})
-    
+    })
+
 
     document.onkeydown = checkKey;
+
     function checkKey(e) {
         e = e || window.event;
         if (e.keyCode == '38') {
@@ -110,10 +113,10 @@
             window.tetramino.rotateLeft()
         } else if (e.keyCode == '88') {
             window.tetramino.rotateRight()
-        }else if (e.keyCode == '32') {
+        } else if (e.keyCode == '32') {
             window.tetramino.place()
         }
-        
+
     }
 
 
