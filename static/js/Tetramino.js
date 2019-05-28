@@ -60,6 +60,53 @@ class Tetramino {
 
     }
 
+    calculateBorderRight() {
+        let border = 0
+        for (let i = 0; i < this.blocksPosition.length; i++) {
+            let lineBorder = 0
+            for (let j = 0; j < this.blocksPosition[i].length; j++) {
+                const element = this.blocksPosition[i][j];
+                if (element == 1) {
+                    lineBorder = j
+                }
+            }
+            if (border < lineBorder) border = lineBorder
+        }
+        return border
+    }
+
+    calculateBorderLeft() {
+        let border = 0
+        for (let i = 0; i < this.blocksPosition.length; i++) {
+            let lineBorder = 0
+            for (let j = 0; j < this.blocksPosition[i].length; j++) {
+                const element = this.blocksPosition[i][j];
+                if (element == 1) {
+                    lineBorder = j - 1
+                    break
+                }
+            }
+            if (border < lineBorder) border = lineBorder
+        }
+        return border
+    }
+
+    boxCollisions(left) {
+        if (left) {
+            if (this.x + this.calculateBorderLeft() <= 0) {
+                return false
+            } else {
+                return true
+            }
+        } else {
+            if (this.x + this.calculateBorderRight() >= 9) {
+                return false
+            } else {
+                return true
+            }
+        }
+    }
+
     rotateLeft() {
         if (this.blockNum == 0 || this.blockNum == 4 || this.blockNum == 5) {
             if (this.blockRotation == 1) {
@@ -89,10 +136,10 @@ class Tetramino {
                 this.y--
                 break;
             case (2):
-                this.x++
+                if (this.boxCollisions(false)) this.x++
                 break;
             case (3):
-                this.x--
+                if (this.boxCollisions(true)) this.x--
                 break;
         }
         game.clearLiveBoard()
@@ -136,7 +183,7 @@ class Tetramino {
             for (let j = 0; j < window.liveBoard[i].length; j++) {
                 if (window.liveBoard[i][j] != -1) {
                     window.board[i][j] = this.blockNum
-                } 
+                }
 
             }
         }

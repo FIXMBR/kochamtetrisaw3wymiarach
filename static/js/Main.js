@@ -7,17 +7,19 @@
 
     let width = window.innerWidth;
     let height = window.innerHeight;
-    let fov = 15;
+    let fov = 90;
     window.scene = new THREE.Scene();
-    //window.camera = new THREE.PerspectiveCamera(
-    // fov,
-    // width / height,
-    //     0.1,
-    //     10000
-    //);
+    window.camera2 = new THREE.PerspectiveCamera(
+        fov,
+        width / height,
+        0.1,
+        10000
+    );
     window.camera = new THREE.OrthographicCamera(width / -4, width / 4, height / 4, height / -4, 1, 1000);
-    scene.add(camera);
+    scene.add(window.camera);
+    scene.add(camera2);
     var controls = new THREE.OrbitControls(window.camera);
+    var controls = new THREE.OrbitControls(window.camera2);
 
     cameraBoy = new CameraBoy()
 
@@ -46,10 +48,16 @@
 
     window.camera.position.x = 40;
     window.camera.position.y = 100;
-    window.camera.position.z = 1000;
+    window.camera.position.z = 500;
     // camera.lookAt(window.scene.position);
     // 
     window.camera.lookAt(40, 100, 0);
+    window.camera2.position.x = 40;
+    window.camera2.position.y = 100;
+    window.camera2.position.z = 500;
+    // camera.lookAt(window.scene.position);
+    // 
+    window.camera2.lookAt(40, 100, 0);
     console.log(window.scene.position);
     //grid = new Grid
     //window.scene.add(grid.getGrid())
@@ -77,6 +85,7 @@
     var lastUpdate = Date.now()
 
     new Render(true)
+    window.cameraNum = 1
 
     function render() {
         var now = Date.now();
@@ -84,7 +93,11 @@
         lastUpdate = now;
 
         requestAnimationFrame(render);
-        renderer.render(window.scene, window.camera);
+        if (window.cameraNum == 1) {
+            renderer.render(window.scene, window.camera);
+        } else {
+            renderer.render(window.scene, window.camera2);
+        }
 
     }
     render();
