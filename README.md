@@ -1,2 +1,2 @@
 # kochamtetrisaw3wymiarach
-jezus co się dzieje
+co się dzieje

@@ -3,7 +3,6 @@ var app = express()
 var http = require('http').createServer(app);
 var socketio = require('socket.io')(http);
 
-
 app.use(express.static('static'))
 
 app.get('/', function (req, res) {
