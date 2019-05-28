@@ -2,7 +2,7 @@
 var app = express()
 var http = require('http').createServer(app);
 var socketio = require('socket.io')(http);
-
+//jezus nienawidzeskaurb
 
 app.use(express.static('static'))
 
