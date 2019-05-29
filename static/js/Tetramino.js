@@ -97,20 +97,34 @@ class Tetramino {
         return border
     }
 
-    boxCollisions(left) {
-        if (left) {
-            if (this.x + this.calculateBorderLeft()  <= 0) {
-                return false
-            } else {
-                return true
-            }
-        } else {
-            if (this.x + this.calculateBorderRight() >= 9) {
-                return false
-            } else {
-                return true
-            }
+
+    boxCollisions(direction) {
+        switch (direction) {
+            case "left":
+                if (this.x + this.calculateBorderLeft() <= 0) {
+                    return false
+                } else {
+                    return true
+                }
+
+                case "right":
+                    if (this.x + this.calculateBorderRight() >= 9) {
+                        return false
+
+                    } else {
+                        return true
+                    }
+
+                    case "bottom":
+                        if (this.y >= 19) {
+                            return false
+                        } else {
+                            return true
+                        }
+
         }
+
+        
     }
 
     rotateLeft() {
