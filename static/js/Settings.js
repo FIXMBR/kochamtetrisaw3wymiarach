@@ -9,7 +9,6 @@ var settings = {
 window.getMaterialTetra= function(color){ 
     let materialTetra =  new THREE.MeshLambertMaterial({
         color: settings.colors[color],
-        side: THREE.DoubleSide,
     })
     return materialTetra
 }
