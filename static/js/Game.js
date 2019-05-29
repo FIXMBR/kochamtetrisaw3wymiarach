@@ -69,6 +69,12 @@ class Game {
             liveBoard: window.liveBoard
         })
     }
+    clearStaticBoard3D(){
+        console.log(window.staticBoisArray)
+        window.staticBoisArray.forEach(element => {
+            window.scene.remove(element)
+        });
+    }
     newTetramino(){
         window.tetramino = new Tetramino(Math.floor(Math.random()*7))
     }

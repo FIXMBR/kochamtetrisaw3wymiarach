@@ -5,6 +5,7 @@
     })
 
 
+    window.staticBoisArray = [];
     let width = window.innerWidth;
     let height = window.innerHeight;
     let fov = 90;

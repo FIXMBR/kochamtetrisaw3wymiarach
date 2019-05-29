@@ -138,20 +138,24 @@ class Tetramino {
     }
 
     hekForLines(){
-        var linesTab = []
+        let linesTab = [ ]
         for (let i = 0; i < window.board.length; i++) {
-            var lineFull = true;
-            for (let j = 0; j < window.board[i].length - 1; j++) {
-                if(window.board[i][j] != -1) {
+            let lineFull = true;
+            for (let j = 0; j < window.board[i].length; j++) {
+                if(window.board[i][j] == -1) {
                     lineFull = false;
+                    //console.log(i,j)
                 }
                 //const element = window.board[i][j];
-                //console.log(element)
+                //console.log(window.board[i][j])
             }
             if(lineFull) linesTab.push(i)
         }  
+        console.log(linesTab)
         linesTab.forEach(line => {
-            window.board.remo
+            window.board.splice(line,1)
+            let nl = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+            window.board.unshift(nl)
         });
     }
 
@@ -287,7 +291,8 @@ class Tetramino {
             }
 
         }
-        window.liveBoard
+        //window.liveBoard
+        //this.hekForLines()
     }
 
     place() {
@@ -300,6 +305,8 @@ class Tetramino {
             }
         }
         game.clearLiveBoard()
+        game.clearStaticBoard3D()
+        this.hekForLines()
         new Render(false)
         new Render(true)
         game.newTetramino()

@@ -7,10 +7,11 @@ class Render {
                     const element = window.board[i][j];
                     if(element!=-1){
                         let piece = new Piece(element)
-                       
+                        piece.name = "staticBoy"
                         piece.position.y = 200-10*i
                         piece.position.x = 10*j
                         window.scene.add(piece)
+                        window.staticBoisArray.push(piece)
                     }
                 }
             }
