@@ -76,24 +76,30 @@ class Tetramino {
     }
 
     calculateBorderLeft() {
+        console.log(this.blocksPosition);
+        console.log(this.x);
+        let done = false
         let border = 0
-        for (let i = 0; i < this.blocksPosition.length; i++) {
-            let lineBorder = 0
-            for (let j = 0; j < this.blocksPosition[i].length; j++) {
-                const element = this.blocksPosition[i][j];
-                if (element == 1) {
-                    lineBorder = j - 1
-                    break
+        for (let i = 0; i < this.blocksPosition[0].length; i++) {
+            for (let j = 0; j < this.blocksPosition.length; j++) {
+                const element = this.blocksPosition[j][i];
+                if (!done) {
+                    if (element == 1) {
+                        border = i
+                        console.log(border)
+                        done = true
+                    }
                 }
             }
-            if (border < lineBorder) border = lineBorder
+
         }
+
         return border
     }
 
     boxCollisions(left) {
         if (left) {
-            if (this.x + this.calculateBorderLeft() <= 0) {
+            if (this.x + this.calculateBorderLeft()  <= 0) {
                 return false
             } else {
                 return true
