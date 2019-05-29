@@ -4,7 +4,7 @@ class Tetramino {
         this.blockNum = num;
         this.blockRotation = 0;
         this.x = 3
-        this.y = 0
+        this.y = -1
         switch (this.blockNum) {
             case 0:
 
@@ -99,7 +99,7 @@ class Tetramino {
 
     boxCollisions(left) {
         if (left) {
-            if (this.x + this.calculateBorderLeft()  <= 0) {
+            if (this.x + this.calculateBorderLeft() <= 0) {
                 return false
             } else {
                 return true

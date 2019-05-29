@@ -8,7 +8,7 @@ class Render {
                     if(element!=-1){
                         let piece = new Piece(element)
                        
-                        piece.position.y = 190-10*i
+                        piece.position.y = 200-10*i
                         piece.position.x = 10*j
                         window.scene.add(piece)
                     }
@@ -21,7 +21,7 @@ class Render {
                     if(element!=-1){
                         let piece = new Piece(element)
                         piece.name = "fallyBoy"
-                        piece.position.y = 190-10*i
+                        piece.position.y = 200-10*i
                         piece.position.x = 10*j
                         window.scene.add(piece)
                         window.fallyBoisArray.push(piece)
