@@ -1,6 +1,6 @@
 class Render {
     constructor(bol) {
-        window.fallyBoisArray = [];
+        //window.fallyBoisArray = [];
         if(bol){
             for (let i = 0; i < window.board.length; i++) {
                 for (let j = 0; j < window.board[i].length; j++) {

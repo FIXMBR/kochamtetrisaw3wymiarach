@@ -68,8 +68,9 @@
     scene.add(frame)
     frame.position.x = 45;
 
-    window.tetramino = new Tetramino(Math.floor(Math.random() * 7))
+    rng = new RNG()
 
+    game.newTetramino()
 
     //  var orbitControl = new THREE.OrbitControls(camera, renderer.domElement);
     //  orbitControl.addEventListener('change', function () {

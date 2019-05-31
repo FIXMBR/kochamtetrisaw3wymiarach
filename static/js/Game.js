@@ -46,6 +46,9 @@ class Game {
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
         ];
+        window.oldTetraminos = []
+        window.newTetraminos = []
+        window.fallyBoisArray=[]
     }
     clearLiveBoard() {
         window.liveBoard.forEach(i => {
@@ -76,6 +79,15 @@ class Game {
         });
     }
     newTetramino(){
-        window.tetramino = new Tetramino(Math.floor(Math.random()*7))
+        //window.oldTetraminos.pull()
+        //window.oldTetraminos.push()
+        
+        window.tetramino = new Tetramino(rng.gen())
+        window.tetramino.addTetramino()
+        
+        new Render(false)
+    }
+    smartRandom(){
+
     }
 }

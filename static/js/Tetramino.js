@@ -99,10 +99,10 @@ class Tetramino {
     calculateBorderBottom() {
         let done = false
         let border = 0
-        for (let i = this.blocksPosition.length -1 ; i >= 0; i--) {
+        for (let i = this.blocksPosition.length - 1; i >= 0; i--) {
             for (let j = 0; j < this.blocksPosition[i].length; j++) {
                 const element = this.blocksPosition[i][j]
-                if(!done) {
+                if (!done) {
                     if (element == 1) {
                         border = i - 1
                         //console.log(border)
@@ -110,13 +110,13 @@ class Tetramino {
                     }
                 }
             }
-            
+
         }
         return border
     }
     tetraminoCollision(callback) {
         let collision = false
-        for (let i = window.liveBoard.length-1; i > 0; i--) {
+        for (let i = window.liveBoard.length - 1; i > 0; i--) {
             for (let j = 0; j < window.liveBoard[i].length; j++) {
                 const element = window.liveBoard[i][j];
                 //console.log(element)
@@ -137,29 +137,29 @@ class Tetramino {
         }
     }
 
-    hekForLines(){
-        let linesTab = [ ]
+    hekForLines() {
+        let linesTab = []
         for (let i = 0; i < window.board.length; i++) {
             let lineFull = true;
             for (let j = 0; j < window.board[i].length; j++) {
-                if(window.board[i][j] == -1) {
+                if (window.board[i][j] == -1) {
                     lineFull = false;
                     //console.log(i,j)
                 }
                 //const element = window.board[i][j];
                 //console.log(window.board[i][j])
             }
-            if(lineFull) linesTab.push(i)
-        }  
+            if (lineFull) linesTab.push(i)
+        }
         console.log(linesTab)
         linesTab.forEach(line => {
-            window.board.splice(line,1)
+            window.board.splice(line, 1)
             let nl = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
             window.board.unshift(nl)
         });
     }
 
-    boxCollisions(direction)  {
+    boxCollisions(direction) {
         switch (direction) {
             case "left":
                 if (this.x + this.calculateBorderLeft() <= 0) {
@@ -168,21 +168,21 @@ class Tetramino {
                     return true
                 }
 
-                case "right":
-                    if (this.x + this.calculateBorderRight() >= 9) {
-                        return false
+            case "right":
+                if (this.x + this.calculateBorderRight() >= 9) {
+                    return false
 
-                    } else {
-                        return true
-                    }
+                } else {
+                    return true
+                }
 
-                    case "bottom":
-                        if (this.y  + this.calculateBorderBottom() >= 19) {
-                            return false
-                        } else {
-                            return true
-                            
-                        }
+            case "bottom":
+                if (this.y + this.calculateBorderBottom() >= 19) {
+                    return false
+                } else {
+                    return true
+
+                }
 
         }
 
@@ -190,13 +190,7 @@ class Tetramino {
     }
 
     rotateLeft() {
-        if (this.blockNum == 0 || this.blockNum == 4 || this.blockNum == 5) {
-            if (this.blockRotation == 1) {
-                this.blockRotation = 0
-            } else {
-                this.blockRotation = 1
-            }
-        } else if (this.blockNum == 7) {
+        if (this.blockNum == 7) {
             this.blockRotation = 0
         } else {
 
@@ -263,13 +257,8 @@ class Tetramino {
         })
     }
     rotateRight() {
-        if (this.blockNum == 0 || this.blockNum == 5 || this.blockNum == 4) {
-            if (this.blockRotation == 1) {
-                this.blockRotation = 0
-            } else {
-                this.blockRotation = 1
-            }
-        } else if (this.blockNum == 7) {
+
+        if (this.blockNum == 7) {
             this.blockRotation = 0
         } else {
             this.blockRotation++
@@ -332,6 +321,22 @@ class Tetramino {
                             [0, 0, 1, 0],
                         ];
                         break;
+                    case 2:
+                        this.blocksPosition = [
+                            [0, 0, 0, 0],
+                            [0, 0, 0, 0],
+                            [1, 1, 1, 1],
+                            [0, 0, 0, 0]
+                        ];
+                        break;
+                    case 3:
+                        this.blocksPosition = [
+                            [0, 1, 0, 0],
+                            [0, 1, 0, 0],
+                            [0, 1, 0, 0],
+                            [0, 1, 0, 0],
+                        ];
+                        break;
                 }
                 break;
 
@@ -353,9 +358,9 @@ class Tetramino {
                         break;
                     case 2:
                         this.blocksPosition = [
-                            [0, 0, 0],
                             [0, 1, 0],
-                            [1, 1, 1]
+                            [1, 1, 1],
+                            [0, 0, 0]
                         ];
                         break;
                     case 3:
@@ -371,76 +376,93 @@ class Tetramino {
                 switch (this.blockRotation) {
                     case 0:
                         this.blocksPosition = [
-                            [0, 0, 0],
+                            [0, 0, 1],
                             [1, 1, 1],
-                            [1, 0, 0]
+                            [0, 0, 0]
                         ];
                         break;
                     case 1:
-                        this.blocksPosition = [
-                            [1, 1, 0],
-                            [0, 1, 0],
-                            [0, 1, 0]
-                        ];
-                        break;
-                    case 2:
-                        this.blocksPosition = [
-                            [0, 0, 0],
-                            [0, 0, 1],
-                            [1, 1, 1]
-                        ];
-                        break;
-                    case 3:
                         this.blocksPosition = [
                             [0, 1, 0],
                             [0, 1, 0],
                             [0, 1, 1]
                         ];
                         break;
+                    case 2:
+                        this.blocksPosition = [
+                            [0, 0, 0],
+                            [1, 1, 1],
+                            [1, 0, 0]
+                        ];
+                        break;
+                    case 3:
+                        this.blocksPosition = [
+                            [1, 1, 0],
+                            [0, 1, 0],
+                            [0, 1, 0]
+                        ];
+                        break;
+
+
                 }
                 break;
             case 3:
                 switch (this.blockRotation) {
                     case 0:
                         this.blocksPosition = [
-                            [0, 0, 0],
+                            [1, 0, 0],
                             [1, 1, 1],
-                            [0, 0, 1]
+                            [0, 0, 0]
                         ];
                         break;
                     case 1:
-                        this.blocksPosition = [
-                            [0, 1, 0],
-                            [0, 1, 0],
-                            [1, 1, 0]
-                        ];
-                        break;
-                    case 2:
-                        this.blocksPosition = [
-                            [0, 0, 0],
-                            [1, 0, 0],
-                            [1, 1, 1]
-                        ];
-                        break;
-                    case 3:
                         this.blocksPosition = [
                             [0, 1, 1],
                             [0, 1, 0],
                             [0, 1, 0]
                         ];
                         break;
+                    case 2:
+                        this.blocksPosition = [
+                            [0, 0, 0],
+                            [1, 1, 1],
+                            [0, 0, 1]
+                        ];
+                        break;
+                    case 3:
+                        this.blocksPosition = [
+                            [0, 1, 0],
+                            [0, 1, 0],
+                            [1, 1, 0]
+                        ];
+                        break;
+
                 }
                 break;
             case 4:
                 switch (this.blockRotation) {
                     case 0:
                         this.blocksPosition = [
+                            [0, 1, 1],
+                            [1, 1, 0],
+                            [0, 0, 0]
+                        ];
+                        break;
+                    case 1:
+                        this.blocksPosition = [
+                            [0, 1, 0],
+                            [0, 1, 1],
+                            [0, 0, 1]
+                        ];
+                        break;
+                    case 2:
+                        this.blocksPosition = [
                             [0, 0, 0],
                             [0, 1, 1],
                             [1, 1, 0]
                         ];
                         break;
-                    case 1:
+                    case 3:
                         this.blocksPosition = [
                             [1, 0, 0],
                             [1, 1, 0],
@@ -453,9 +475,9 @@ class Tetramino {
                 switch (this.blockRotation) {
                     case 0:
                         this.blocksPosition = [
-                            [0, 0, 0],
                             [1, 1, 0],
-                            [0, 1, 1]
+                            [0, 1, 1],
+                            [0, 0, 0]
                         ];
                         break;
                     case 1:
@@ -463,6 +485,20 @@ class Tetramino {
                             [0, 0, 1],
                             [0, 1, 1],
                             [0, 1, 0]
+                        ];
+                        break;
+                    case 0:
+                        this.blocksPosition = [
+                            [0, 0, 0],
+                            [1, 1, 0],
+                            [0, 1, 1]
+                        ];
+                        break;
+                    case 1:
+                        this.blocksPosition = [
+                            [0, 1, 0],
+                            [1, 1, 0],
+                            [1, 0, 0]
                         ];
                         break;
                 }
