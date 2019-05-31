@@ -189,6 +189,27 @@ class Tetramino {
 
     }
 
+    tetraminoRotationCollision(dir){
+        switch (dir) {
+            case "left":
+                if (this.x + this.calculateBorderLeft() <= 0) {
+                    return false
+                } else {
+                    return true
+                }
+
+            case "right":
+                if (this.x + this.calculateBorderRight() >= 9) {
+                    return false
+
+                } else {
+                    return true
+                }
+
+        }
+    }
+
+
     rotateLeft() {
         if (this.blockNum == 7) {
             this.blockRotation = 0
@@ -203,6 +224,7 @@ class Tetramino {
 
         this.updateArray()
     }
+    
     move(dir) {
         let didAction
         switch (dir) {
@@ -233,7 +255,6 @@ class Tetramino {
         let _this = this
         this.tetraminoCollision(function (result) {
             if (result) {
-
                 new Render(false)
             } else {
                 switch (didAction) {
@@ -487,14 +508,14 @@ class Tetramino {
                             [0, 1, 0]
                         ];
                         break;
-                    case 0:
+                    case 2:
                         this.blocksPosition = [
                             [0, 0, 0],
                             [1, 1, 0],
                             [0, 1, 1]
                         ];
                         break;
-                    case 1:
+                    case 3:
                         this.blocksPosition = [
                             [0, 1, 0],
                             [1, 1, 0],

@@ -16,6 +16,8 @@ class Render {
                 }
             }
         }else{
+            
+            new Ghost()
             for (let i = 0; i < window.liveBoard.length; i++) {
                 for (let j = 0; j < window.liveBoard[i].length; j++) {
                     const element = window.liveBoard[i][j];

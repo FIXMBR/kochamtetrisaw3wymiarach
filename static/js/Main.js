@@ -41,7 +41,7 @@
     var renderer = new THREE.WebGLRenderer({
         antialias: true
     });
-    renderer.setClearColor(0xf0f0f0); //kolor tła sceny
+    renderer.setClearColor(0x112d59); //kolor tła sceny
     renderer.setSize(width, height); //rozmiary renderowanego okna
     $("#render").append(renderer.domElement);
 
@@ -90,9 +90,9 @@
     window.cameraNum = 1
 
     function render() {
-        var now = Date.now();
-        var dt = (now - lastUpdate) * 0.01;
-        lastUpdate = now;
+        // var now = Date.now();
+        // var dt = (now - lastUpdate) * 0.01;
+        // lastUpdate = now;
 
         requestAnimationFrame(render);
         if (window.cameraNum == 1) {
@@ -104,12 +104,12 @@
     }
     render();
 
-    window.client.on("boards", function (data) {
-        window.board = data.board
-        window.liveBoard = data.liveBoard
-        new Render(true)
-        new Render(false)
-    })
+    // window.client.on("boards", function (data) {
+    //     window.board = data.board
+    //     window.liveBoard = data.liveBoard
+    //     new Render(true)
+    //     new Render(false)
+    // })
 
 
     document.onkeydown = checkKey;
