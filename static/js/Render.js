@@ -8,29 +8,35 @@ class Render {
                     if(element!=-1){
                         let piece = new Piece(element)
                         piece.name = "staticBoy"
-                        piece.position.y = 200-10*i
+                        piece.position.y = 210-10*i
                         piece.position.x = 10*j
                         window.scene.add(piece)
                         window.staticBoisArray.push(piece)
                     }
                 }
             }
+            // window.fallyBoisArray.forEach(element => {
+            //     window.scene.remove(element)
+            // });
+
         }else{
             
-            new Ghost()
+             
             for (let i = 0; i < window.liveBoard.length; i++) {
                 for (let j = 0; j < window.liveBoard[i].length; j++) {
                     const element = window.liveBoard[i][j];
                     if(element!=-1){
                         let piece = new Piece(element)
                         piece.name = "fallyBoy"
-                        piece.position.y = 200-10*i
+                        piece.position.y = 210-10*i
                         piece.position.x = 10*j
                         window.scene.add(piece)
                         window.fallyBoisArray.push(piece)
                     }
                 }
             }
+            
+        window.ghost = new Ghost()
         }
         return window.board
     }

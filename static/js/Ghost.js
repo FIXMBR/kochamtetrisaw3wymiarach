@@ -1,50 +1,75 @@
 class Ghost {
     constructor() {
+        window.ghostyBoisArray.forEach(element => {
+            window.scene.remove(element)
+        });
+
         this.x = tetramino.x
-        this.y = 0
-        console.log(window.board.length)
+        this.y = tetramino.y
         this.blocksPosition = tetramino.blocksPosition
-        for (let height = window.tetramino.y; height < window.board.length - 1; height++) {
-            for (let i = this.blocksPosition.length - 1; i >= 0; i--) {
-                for (let j = 0; j < this.blocksPosition[i].length; j++) {
-                    if (this.blocksPosition[i][j] == 1) {
-                        if (this.blocksPosition.length-i-1 + height >= window.board.length-1) {
-                            if (this.y < height - 1) {
-                                this.y = height - 1
-                                console.log('uwu');
-                                console.log("data " + height + " i: " + i + " j: " + j + " abominacja: " + (this.blocksPosition.length-i-1))
-                            }
 
-                        } else if (window.board[this.blocksPosition.length-i -1+ height][j + this.x] != -1) {
-                            if (this.y < height - 1) {
-                                this.y = height - 1
-                                console.log('owo');
-                                console.log("data "+ height + " i: " + i + " j: " + j + " abominacja: " + (this.blocksPosition.length-i-1))
+        let climax
+        let loops = true
 
-                            }
-
-                            //console.log("ghosty ghost: " + (i + height) + " " + (window.board[i + height][j]))
-
-                        } 
+        let done = false
+        let border = 0
+        for (let i = this.blocksPosition.length - 1; i >= 0; i--) {
+            for (let j = 0; j < this.blocksPosition[i].length; j++) {
+                const element = this.blocksPosition[i][j]
+                if (!done) {
+                    if (element == 1) {
+                        border = this.blocksPosition.length - i
+                        done = true
                     }
                 }
+            }
 
+        }
+        //console.log(border)
+        for (let h = tetramino.y; h < 22; h++) {
+            if (loops) {
+                for (let i = 0; i < tetramino.blocksPosition.length; i++) {
+                    for (let j = 0; j < tetramino.blocksPosition[i].length; j++) {
+                        if (tetramino.blocksPosition[i][j] == 1) {
+                            if (h + i < window.board.length) {
+                                if (window.board[h + i][tetramino.x + j] != -1) {
+
+                                    climax = h - 1
+                                    loops = false
+                                    break
+
+                                }
+                            } else {
+                                climax = 21 - tetramino.blocksPosition.length + border
+                            }
+                        }
+                    }
+                }
             }
         }
-        console.log(this.y)
+
+        this.hardDrop = climax
+        //console.log(climax)
+
+
         for (let i = 0; i < this.blocksPosition.length; i++) {
             for (let j = 0; j < this.blocksPosition[i].length; j++) {
                 const element = this.blocksPosition[i][j];
                 if (element != 0) {
                     let piece = new Piece('ghost')
                     piece.name = "ghostyBoy"
-                    piece.position.y = 200 - 10 * i - 10 * this.y
+                    piece.position.y = 210 - 10 * i - 10 * (climax)
                     piece.position.x = 10 * j + 10 * this.x
                     window.scene.add(piece)
-                    window.fallyBoisArray.push(piece)
+                    window.ghostyBoisArray.push(piece)
                 }
             }
         }
+
+
+
+
+
     }
 
 }

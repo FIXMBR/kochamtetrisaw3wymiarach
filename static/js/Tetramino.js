@@ -16,22 +16,22 @@ class Tetramino {
 
             case 1:
                 this.blocksPosition = [
-                    [1, 1, 1, 0],
-                    [0, 1, 0, 0]
+                    [0, 1, 0, 0],
+                    [1, 1, 1, 0]
 
                 ];
                 break;
             case 2:
                 this.blocksPosition = [
-                    [1, 1, 1, 0],
-                    [1, 0, 0, 0]
+                    [0, 0, 1, 0],
+                    [1, 1, 1, 0]
 
                 ];
                 break;
             case 3:
                 this.blocksPosition = [
-                    [1, 1, 1, 0],
-                    [0, 0, 1, 0]
+                    [1, 0, 0, 0],
+                    [1, 1, 1, 0]
 
                 ];
                 break;
@@ -116,24 +116,23 @@ class Tetramino {
     }
     tetraminoCollision(callback) {
         let collision = false
-        for (let i = window.liveBoard.length - 1; i > 0; i--) {
-            for (let j = 0; j < window.liveBoard[i].length; j++) {
-                const element = window.liveBoard[i][j];
+        for (let i = 0; i < this.blocksPosition.length; i++) {
+            for (let j = 0; j < this.blocksPosition[i].length; j++) {
+                const element = this.blocksPosition[i][j];
                 //console.log(element)
-                if (element != -1) {
-                    if (window.board[i][j] != -1) {
+                if (element != 0) {
+                    if (window.board[this.y + i][this.x + j] != -1) {
                         collision = true
                     }
                 }
             }
-
         }
         if (collision) {
             callback(false)
-            console.log(false)
+            //console.log(false)
         } else {
             callback(true)
-            console.log(true)
+            //console.log(true)
         }
     }
 
@@ -177,7 +176,7 @@ class Tetramino {
                 }
 
             case "bottom":
-                if (this.y + this.calculateBorderBottom() >= 19) {
+                if (this.y + this.calculateBorderBottom() >= 20) {
                     return false
                 } else {
                     return true
@@ -189,42 +188,188 @@ class Tetramino {
 
     }
 
-    tetraminoRotationCollision(dir){
+    tetraminoRotationCollision(dir) {
+        let translationArray
+        let blockRotation
         switch (dir) {
             case "left":
-                if (this.x + this.calculateBorderLeft() <= 0) {
-                    return false
+                if (this.blockNum == 0) {
+                    translationArray = [
+                        [[0, 0], [0, 1],[0, 2], [-1, 0], [2, 0], [-1, 2], [2, -1]],
+                        [[0, 0], [0, 1],[0, 2],[2, 0], [-1, 0], [2, 1], [-1, -2]],
+                        [[0, 0], [0, 1],[0, 2],[1, 0], [-2, 0], [1, -2], [-2, 1]],
+                        [[0, 0], [0, 1],[0, 2],[-2, 0], [1, 0], [-2, -1], [1, 2]]
+                    ]
                 } else {
-                    return true
+                    translationArray = [
+                        [[0, 0], [0, 1],[1, 0], [1, 1], [0, -2], [1, -2]], //0>>3
+                        [[0, 0], [0, 1],[1, 0], [1, -1], [0, 2], [1, 2]], //1>>0
+                        [[0, 0], [0, 1],[-1, 0], [-1, 1], [0, -2], [-1, -2]], //2>>1
+                        [[0, 0], [0, 1],[-1, 0], [-1, -1], [0, 2], [-1, 2]]//3>>2
+                    ]
                 }
+                blockRotation = this.blockRotation
+                if (this.blockNum == 7) {
+                    this.blockRotation = 0
+                } else {
 
+                    this.blockRotation--
+                    if (this.blockRotation == -1) {
+                        this.blockRotation = 3
+                    }
+
+                }
+                break
             case "right":
-                if (this.x + this.calculateBorderRight() >= 9) {
-                    return false
-
+                if (this.blockNum == 0) {
+                    translationArray = [
+                        [[0, 0], [0, 1],[0, 2],[-2, 0], [1, 0], [-2, -1], [1, 2]],
+                        [[0, 0], [0, 1],[0, 2],[-1, 0], [2, 0], [-1, 2], [2, -1]],
+                        [[0, 0], [0, 1],[0, 2],[2, 0], [-1, 0], [2, 1], [-1, -2]],
+                        [[0, 0], [0, 1],[0, 2],[1, 0], [-2, 0], [1, -2], [-2, 1]]
+                    ]
                 } else {
-                    return true
+                    translationArray = [
+                        [[0, 0], [0, 1],[-1, 0], [-1, 1], [0, -2], [-1, -2]], //0>>1
+                        [[0, 0], [0, 1],[1, 0], [1, -1], [0, 2], [1, 2]], //1>>2
+                        [[0, 0], [0, 1],[1, 0], [1, 1], [0, -2], [1, -2]], //2>>3
+                        [[0, 0], [0, 1],[-1, 0], [-1, -1], [0, 2], [-1, 2]], //3>>0
+                    ]
                 }
+
+                blockRotation = this.blockRotation
+                if (this.blockNum == 7) {
+                    this.blockRotation = 0
+                } else {
+                    this.blockRotation++
+                    if (this.blockRotation == 4) {
+                        this.blockRotation = 0
+                    }
+
+                }
+                break
+        }
+
+
+        let collision = false
+        let offsetX
+        let offsetY
+
+        this.updateArray()
+
+        for (let translation = 0; translation < 5; translation++) {
+            collision = false
+            offsetX = translationArray[blockRotation][translation][0]
+            offsetY = translationArray[blockRotation][translation][1]
+
+            console.log('offsety: ' + offsetX + " " + offsetY)
+
+
+
+            for (let i = 0; i < this.blocksPosition.length; i++) {
+                for (let j = 0; j < this.blocksPosition[i].length; j++) {
+                    const element = this.blocksPosition[i][j];
+                    if (element != 0) {
+
+                        console.log('sprawdzam dla x:' + (this.x + j + offsetX) + " y: " + (this.y + i - offsetY))
+                        if (this.x + j + offsetX >= 0 && this.x + j + offsetX <= 10) {
+                            if (window.board[this.y + i - offsetY][this.x + j + offsetX] != -1) {
+                                collision = true
+                                console.log('kolizja w x:' + (this.x + j + offsetX) + " y: " + (this.y - i - offsetY))
+                            }
+                        } else {
+                            collision = true
+                        }
+                    }
+                }
+
+            }
+            if (!collision) {
+                this.x += offsetX
+                this.y -= offsetY
+                break
+            }
 
         }
+        this.blockRotation = blockRotation
+        return !collision
+
     }
 
+    rotateRight() {
+        console.log(this.blockRotation);
 
-    rotateLeft() {
-        if (this.blockNum == 7) {
-            this.blockRotation = 0
-        } else {
+        if (this.tetraminoRotationCollision('right')) {
+            if (this.blockNum == 7) {
+                this.blockRotation = 0
+            } else {
+                this.blockRotation++
+                if (this.blockRotation == 4) {
+                    this.blockRotation = 0
+                }
 
-            this.blockRotation--
-            if (this.blockRotation == -1) {
-                this.blockRotation = 3
             }
+        } else {
+            console.log('collision');
 
         }
 
         this.updateArray()
+        //     if (this.blockNum == 7) {
+        //         this.blockRotation = 0
+        //     } else {
+
+        //         this.blockRotation--
+        //         if (this.blockRotation == -1) {
+        //             this.blockRotation = 3
+        //         }
+
+        //     }
+
+        //     this.updateArray()
+        // }
+
+        console.log(this.blockRotation);
+        game.clearLiveBoard()
+        this.addTetramino()
+        new Render(false)
     }
-    
+
+    rotateLeft() {
+        if (this.tetraminoRotationCollision('left')) {
+            if (this.blockNum == 7) {
+                this.blockRotation = 0
+            } else {
+
+                this.blockRotation--
+                if (this.blockRotation == -1) {
+                    this.blockRotation = 3
+                }
+
+            }
+        } else {
+            console.log('collision');
+
+        }
+        this.updateArray()
+        // 
+        //     if (this.blockNum == 7) {
+        //         this.blockRotation = 0
+        //     } else {
+        //         this.blockRotation++
+        //         if (this.blockRotation == 4) {
+        //             this.blockRotation = 0
+        //         }
+
+        //     }
+
+        //     this.updateArray()
+        // }
+        game.clearLiveBoard()
+        this.addTetramino()
+        new Render(false)
+    }
+
     move(dir) {
         let didAction
         switch (dir) {
@@ -277,19 +422,6 @@ class Tetramino {
             }
         })
     }
-    rotateRight() {
-
-        if (this.blockNum == 7) {
-            this.blockRotation = 0
-        } else {
-            this.blockRotation++
-            if (this.blockRotation == 4) {
-                this.blockRotation = 0
-            }
-
-        }
-        this.updateArray()
-    }
 
     addTetramino() {
         for (let i = 0; i < this.blocksPosition.length; i++) {
@@ -306,6 +438,9 @@ class Tetramino {
     }
 
     place() {
+
+
+
         for (let i = 0; i < window.liveBoard.length; i++) {
             for (let j = 0; j < window.liveBoard[i].length; j++) {
                 if (window.liveBoard[i][j] != -1) {
@@ -314,12 +449,30 @@ class Tetramino {
 
             }
         }
+
+
         game.clearLiveBoard()
         game.clearStaticBoard3D()
         this.hekForLines()
+
+        game.newTetramino()
         new Render(false)
         new Render(true)
-        game.newTetramino()
+
+    }
+
+
+    hardDrop() {
+        console.log(window.ghost.hardDrop)
+
+        this.y = window.ghost.hardDrop
+        game.clearLiveBoard()
+        this.addTetramino()
+        this.place()
+
+
+
+
     }
 
     updateArray() {
@@ -365,29 +518,29 @@ class Tetramino {
                 switch (this.blockRotation) {
                     case 0:
                         this.blocksPosition = [
-                            [0, 0, 0],
-                            [1, 1, 1],
-                            [0, 1, 0]
-                        ];
-                        break;
-                    case 1:
-                        this.blocksPosition = [
-                            [0, 1, 0],
-                            [1, 1, 0],
-                            [0, 1, 0]
-                        ];
-                        break;
-                    case 2:
-                        this.blocksPosition = [
                             [0, 1, 0],
                             [1, 1, 1],
                             [0, 0, 0]
                         ];
                         break;
-                    case 3:
+                    case 1:
                         this.blocksPosition = [
                             [0, 1, 0],
                             [0, 1, 1],
+                            [0, 1, 0]
+                        ];
+                        break;
+                    case 2:
+                        this.blocksPosition = [
+                            [0, 0, 0],
+                            [1, 1, 1],
+                            [0, 1, 0]
+                        ];
+                        break;
+                    case 3:
+                        this.blocksPosition = [
+                            [0, 1, 0],
+                            [1, 1, 0],
                             [0, 1, 0]
                         ];
                         break;
@@ -532,8 +685,5 @@ class Tetramino {
                 break;
         }
         //console.log(this.blockRotation)
-        game.clearLiveBoard()
-        this.addTetramino()
-        new Render(false)
     }
 }

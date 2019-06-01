@@ -129,6 +129,8 @@
         } else if (e.keyCode == '88') {
             window.tetramino.rotateRight()
         } else if (e.keyCode == '32') {
+            window.tetramino.hardDrop()
+        } else if (e.keyCode == '16') {
             window.tetramino.place()
         }
 

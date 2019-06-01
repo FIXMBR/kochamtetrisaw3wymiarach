@@ -1,7 +1,14 @@
 class Piece extends THREE.Object3D{
     constructor(color){
         super()
+
         var length = 8, width = 8, depth = 10
+        if (color == 'ghost') {
+            length = 7.95
+            width = 7.95
+            depth = 9.95
+        }
+        
 
         var shape = new THREE.Shape();
         shape.moveTo( 0,0 );
@@ -25,7 +32,7 @@ class Piece extends THREE.Object3D{
         var material = window.getMaterialTetra(color)
         var mesh = new THREE.Mesh( geometry, material ) ;
         this.add( mesh );
-        var axes = new THREE.AxesHelper(200) // osie konieczne do kontroli kierunku ruchu
+        //var axes = new THREE.AxesHelper(200) // osie konieczne do kontroli kierunku ruchu
        //this.add(axes)
         
     }
