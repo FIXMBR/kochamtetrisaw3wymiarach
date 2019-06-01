@@ -85,16 +85,34 @@
     scene.add(light);
 
     var lastUpdate = Date.now()
+    let dropTimer
 
     new Render(true)
     window.cameraNum = 1
 
     function render() {
-        // var now = Date.now();
-        // var dt = (now - lastUpdate) * 0.01;
-        // lastUpdate = now;
+        var now = Date.now();
+        var dt = (now - lastUpdate);
+        lastUpdate = now;
 
-        
+        if (tetramino.touching) {
+            tetramino.localLock -= dt
+            tetramino.totalLock -= dt
+            if (tetramino.localLock <= 0 || tetramino.totalLock <= 0) {
+                game.clearLiveBoard()
+                tetramino.addTetramino()
+                tetramino.place()
+            }
+
+        }
+
+        if (game.gravity >= dropTimer){
+            dropTimer++
+        }else{
+            dropTimer = 0
+            if(!tetramino.touching)
+            window.tetramino.move(0)
+        }
 
         requestAnimationFrame(render);
         if (window.cameraNum == 1) {

@@ -6,7 +6,7 @@ class Tetramino {
         this.x = 3
         this.y = 0
         this.localLock = 500
-        this.totalLock = 2000
+        this.totalLock = 4000
         this.touching = false
         switch (this.blockNum) {
             case 0:
@@ -474,6 +474,7 @@ class Tetramino {
         //window.liveBoard
         //this.hekForLines()
         this.checkTouch()
+        this.localLock = 500
     }
 
     place() {

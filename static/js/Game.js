@@ -75,6 +75,7 @@ class Game {
         window.newTetraminos = []
         window.fallyBoisArray=[]
         window.ghostyBoisArray=[]
+        this.gravity = 60
     }
     clearLiveBoard() {
         window.liveBoard.forEach(i => {
