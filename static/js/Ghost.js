@@ -8,7 +8,7 @@ class Ghost {
         this.y = tetramino.y
         this.blocksPosition = tetramino.blocksPosition
 
-        let climax
+        let climax = 21 
         let loops = true
 
         let done = false
@@ -25,27 +25,33 @@ class Ghost {
             }
 
         }
-        //console.log(border)
         for (let h = tetramino.y; h < 22; h++) {
-            if (loops) {
+            //if (loops) {
                 for (let i = 0; i < tetramino.blocksPosition.length; i++) {
                     for (let j = 0; j < tetramino.blocksPosition[i].length; j++) {
                         if (tetramino.blocksPosition[i][j] == 1) {
                             if (h + i < window.board.length) {
                                 if (window.board[h + i][tetramino.x + j] != -1) {
-
+                                   if(climax > h - 1)
                                     climax = h - 1
                                     loops = false
                                     break
 
+                                }else{
+                                    if(climax >  21 - tetramino.blocksPosition.length + border)
+                                    climax = 21 - tetramino.blocksPosition.length + border
+                                    
                                 }
                             } else {
-                                climax = 21 - tetramino.blocksPosition.length + border
+                                if(climax >  21 - tetramino.blocksPosition.length + border)
+                                    climax = 21 - tetramino.blocksPosition.length + border
+                                
+                                
                             }
                         }
                     }
                 }
-            }
+            //}
         }
 
         this.hardDrop = climax

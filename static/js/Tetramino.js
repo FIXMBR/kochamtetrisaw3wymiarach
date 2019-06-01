@@ -150,7 +150,7 @@ class Tetramino {
             }
             if (lineFull) linesTab.push(i)
         }
-        console.log(linesTab)
+        //console.log(linesTab)
         linesTab.forEach(line => {
             window.board.splice(line, 1)
             let nl = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
@@ -262,7 +262,7 @@ class Tetramino {
             offsetX = translationArray[blockRotation][translation][0]
             offsetY = translationArray[blockRotation][translation][1]
 
-            console.log('offsety: ' + offsetX + " " + offsetY)
+            //console.log('offsety: ' + offsetX + " " + offsetY)
 
 
 
@@ -271,11 +271,11 @@ class Tetramino {
                     const element = this.blocksPosition[i][j];
                     if (element != 0) {
 
-                        console.log('sprawdzam dla x:' + (this.x + j + offsetX) + " y: " + (this.y + i - offsetY))
+                        //console.log('sprawdzam dla x:' + (this.x + j + offsetX) + " y: " + (this.y + i - offsetY))
                         if (this.x + j + offsetX >= 0 && this.x + j + offsetX <= 10) {
                             if (window.board[this.y + i - offsetY][this.x + j + offsetX] != -1) {
                                 collision = true
-                                console.log('kolizja w x:' + (this.x + j + offsetX) + " y: " + (this.y - i - offsetY))
+                                //console.log('kolizja w x:' + (this.x + j + offsetX) + " y: " + (this.y - i - offsetY))
                             }
                         } else {
                             collision = true
@@ -297,7 +297,7 @@ class Tetramino {
     }
 
     rotateRight() {
-        console.log(this.blockRotation);
+       // console.log(this.blockRotation);
 
         if (this.tetraminoRotationCollision('right')) {
             if (this.blockNum == 7) {
@@ -310,7 +310,7 @@ class Tetramino {
 
             }
         } else {
-            console.log('collision');
+            //console.log('collision');
 
         }
 
@@ -329,7 +329,7 @@ class Tetramino {
         //     this.updateArray()
         // }
 
-        console.log(this.blockRotation);
+        //console.log(this.blockRotation);
         game.clearLiveBoard()
         this.addTetramino()
         new Render(false)
@@ -348,7 +348,7 @@ class Tetramino {
 
             }
         } else {
-            console.log('collision');
+            //console.log('collision');
 
         }
         this.updateArray()
@@ -463,7 +463,7 @@ class Tetramino {
 
 
     hardDrop() {
-        console.log(window.ghost.hardDrop)
+      //  console.log(window.ghost.hardDrop)
 
         this.y = window.ghost.hardDrop
         game.clearLiveBoard()
