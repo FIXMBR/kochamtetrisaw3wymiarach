@@ -94,6 +94,8 @@
         // var dt = (now - lastUpdate) * 0.01;
         // lastUpdate = now;
 
+        
+
         requestAnimationFrame(render);
         if (window.cameraNum == 1) {
             renderer.render(window.scene, window.camera);

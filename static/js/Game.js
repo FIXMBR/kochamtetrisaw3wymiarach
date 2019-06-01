@@ -101,7 +101,7 @@ class Game {
         
     }
     clearStaticBoard3D(){
-        console.log(window.staticBoisArray)
+        //console.log(window.staticBoisArray)
         window.staticBoisArray.forEach(element => {
             window.scene.remove(element)
         });
