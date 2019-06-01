@@ -281,8 +281,12 @@ class Tetramino {
                     if (element != 0) {
 
                         if (this.y + i - offsetY < window.board.length) {
+                            if(this.y + i - offsetY<0)offsetY--
+                            if(this.y + i - offsetY<0)offsetY--
                             //console.log('sprawdzam dla x:' + (this.x + j + offsetX) + " y: " + (this.y + i - offsetY))
                             if (this.x + j + offsetX >= 0 && this.x + j + offsetX <= 10) {
+                                //console.log(this.y + i - offsetY);
+                                
                                 if (window.board[this.y + i - offsetY][this.x + j + offsetX] != -1) {
                                     collision = true
                                     //console.log('kolizja w x:' + (this.x + j + offsetX) + " y: " + (this.y - i - offsetY))
