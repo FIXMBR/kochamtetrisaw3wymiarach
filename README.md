@@ -1,2 +1,2 @@
 # kochamtetrisaw3wymiarach
-co się dzieje
+To jest bardzo profesjonalny tetris, kompletnie nie naruszający copyrightów
