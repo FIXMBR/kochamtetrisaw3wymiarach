@@ -1,19 +1,19 @@
 class Render {
     constructor(bol) {
-        //window.fallyBoisArray = [];
+        //game.fallyBoisArray = [];
         if (bol) {
-            // console.log(window.board)
-            // console.log(window.oldBoard)
-            for (let i = 0; i < window.board.length; i++) {
-                for (let j = 0; j < window.board[i].length; j++) {
-                    const element = window.board[i][j];
-                    // console.log(element,window.oldBoard[i][j] );
+            // console.log(game.board)
+            // console.log(game.oldBoard)
+            for (let i = 0; i < game.board.length; i++) {
+                for (let j = 0; j < game.board[i].length; j++) {
+                    const element = game.board[i][j];
+                    // console.log(element,game.oldBoard[i][j] );
                     
-                    if (element != window.oldBoard[i][j]) {
+                    if (element != game.oldBoard[i][j]) {
                         
                         if (element != -1) {
-                            if(window.oldBoard[i][j]!=-1){
-                                window.scene.remove(window.board3d[i][j])
+                            if(game.oldBoard[i][j]!=-1){
+                                window.scene.remove(game.board3d[i][j])
                             }
                             let piece = new Piece(element)
                             piece.name = "staticBoy"
@@ -21,41 +21,41 @@ class Render {
                             piece.position.x = 10 * j
                             window.scene.add(piece)
                             // window.staticBoisArray.push(piece)
-                            window.board3d[i][j] = piece
-                            // console.log(window.board3d[i][j])
+                            game.board3d[i][j] = piece
+                            // console.log(game.board3d[i][j])
                         } else {
-                            window.scene.remove(window.board3d[i][j])
+                            window.scene.remove(game.board3d[i][j])
 
                         }
-                        window.oldBoard[i][j]=element
+                        game.oldBoard[i][j]=element
                     }
 
                 }
             }
 
-            // window.fallyBoisArray.forEach(element => {
+            // game.fallyBoisArray.forEach(element => {
             //     window.scene.remove(element)
             // });
-            // window.oldBoard = window.board.slice()
+            // game.oldBoard = game.board.slice()
         } else {
 
 
-            for (let i = 0; i < window.liveBoard.length; i++) {
-                for (let j = 0; j < window.liveBoard[i].length; j++) {
-                    const element = window.liveBoard[i][j];
+            for (let i = 0; i < game.liveBoard.length; i++) {
+                for (let j = 0; j < game.liveBoard[i].length; j++) {
+                    const element = game.liveBoard[i][j];
                     if (element != -1) {
                         let piece = new Piece(element)
                         piece.name = "fallyBoy"
                         piece.position.y = 210 - 10 * i
                         piece.position.x = 10 * j
                         window.scene.add(piece)
-                        window.fallyBoisArray.push(piece)
+                        game.fallyBoisArray.push(piece)
                     }
                 }
             }
 
             window.ghost = new Ghost()
         }
-        return window.board
+        return game.board
     }
 }

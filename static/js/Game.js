@@ -1,6 +1,6 @@
 class Game {
     constructor() {
-        window.board = [
+        this.board = [
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -24,7 +24,7 @@ class Game {
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
         ];
-        window.liveBoard = [
+        this.liveBoard = [
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -48,7 +48,7 @@ class Game {
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
         ];
-        window.oldBoard = [
+        this.oldBoard = [
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -72,7 +72,7 @@ class Game {
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
         ];
-        window.board3d = [
+        this.board3d = [
             [null, null, null, null, null, null, null, null, null, null],
             [null, null, null, null, null, null, null, null, null, null],
             [null, null, null, null, null, null, null, null, null, null],
@@ -96,34 +96,33 @@ class Game {
             [null, null, null, null, null, null, null, null, null, null],
             [null, null, null, null, null, null, null, null, null, null]
         ];
-        window.oldTetraminos = []
-        window.newTetraminos = []
-        window.fallyBoisArray=[]
-        window.ghostyBoisArray=[]
-        window.newBoysArray=[]
+        this.newTetraminos = []
+        this.fallyBoisArray=[]
+        this.ghostyBoisArray=[]
+        this.newBoysArray=[]
         this.gravity = 60
     }
     clearLiveBoard() {
-        window.liveBoard.forEach(i => {
+        this.liveBoard.forEach(i => {
             i.forEach(j => {
                 j = -1;
             });
         });
 
-        for (let i = 0; i < window.liveBoard.length; i++) {
-            for (let j = 0; j < window.liveBoard[i].length; j++) {
-                window.liveBoard[i][j] = -1;
+        for (let i = 0; i < this.liveBoard.length; i++) {
+            for (let j = 0; j < this.liveBoard[i].length; j++) {
+                this.liveBoard[i][j] = -1;
             }
         }
 
-        window.fallyBoisArray.forEach(element => {
+        this.fallyBoisArray.forEach(element => {
             window.scene.remove(element)
         });
         
-        window.fallyBoisArray = [];
+        this.fallyBoisArray = [];
         window.client.emit("boards", {
-            board: window.board,
-            liveBoard: window.liveBoard
+            board: this.board,
+            liveBoard: this.liveBoard
         })
         
     }

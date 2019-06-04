@@ -125,8 +125,8 @@
     render();
 
     // window.client.on("boards", function (data) {
-    //     window.board = data.board
-    //     window.liveBoard = data.liveBoard
+    //     game.board = data.board
+    //     game.liveBoard = data.liveBoard
     //     new Render(true)
     //     new Render(false)
     // })

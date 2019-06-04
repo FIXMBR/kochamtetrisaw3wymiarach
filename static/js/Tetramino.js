@@ -124,7 +124,7 @@ class Tetramino {
                 const element = this.blocksPosition[i][j];
                 //console.log(element)
                 if (element != 0) {
-                    if (window.board[this.y + i][this.x + j] != -1) {
+                    if (game.board[this.y + i][this.x + j] != -1) {
                         collision = true
                     }
                 }
@@ -141,23 +141,23 @@ class Tetramino {
 
     hekForLines() {
         let linesTab = []
-        for (let i = 0; i < window.board.length; i++) {
+        for (let i = 0; i < game.board.length; i++) {
             let lineFull = true;
-            for (let j = 0; j < window.board[i].length; j++) {
-                if (window.board[i][j] == -1) {
+            for (let j = 0; j < game.board[i].length; j++) {
+                if (game.board[i][j] == -1) {
                     lineFull = false;
                     //console.log(i,j)
                 }
-                //const element = window.board[i][j];
-                //console.log(window.board[i][j])
+                //const element = game.board[i][j];
+                //console.log(game.board[i][j])
             }
             if (lineFull) linesTab.push(i)
         }
         //console.log(linesTab)
         linesTab.forEach(line => {
-            window.board.splice(line, 1)
+            game.board.splice(line, 1)
             let nl = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
-            window.board.unshift(nl)
+            game.board.unshift(nl)
         });
     }
 
@@ -280,14 +280,14 @@ class Tetramino {
                     const element = this.blocksPosition[i][j];
                     if (element != 0) {
 
-                        if (this.y + i - offsetY < window.board.length) {
+                        if (this.y + i - offsetY < game.board.length) {
                             if(this.y + i - offsetY<0)offsetY--
                             if(this.y + i - offsetY<0)offsetY--
                             //console.log('sprawdzam dla x:' + (this.x + j + offsetX) + " y: " + (this.y + i - offsetY))
                             if (this.x + j + offsetX >= 0 && this.x + j + offsetX <= 10) {
                                 //console.log(this.y + i - offsetY);
                                 
-                                if (window.board[this.y + i - offsetY][this.x + j + offsetX] != -1) {
+                                if (game.board[this.y + i - offsetY][this.x + j + offsetX] != -1) {
                                     collision = true
                                     //console.log('kolizja w x:' + (this.x + j + offsetX) + " y: " + (this.y - i - offsetY))
                                 }
@@ -448,10 +448,10 @@ class Tetramino {
                 const element = this.blocksPosition[i][j];
                 //console.log(element)
                 if (element != 0) {
-                    if (this.y + i + 1 < window.board.length) {
+                    if (this.y + i + 1 < game.board.length) {
                         // console.log(this.y + i + 1);
 
-                        if (window.board[this.y + i + 1][this.x + j] != -1) {
+                        if (game.board[this.y + i + 1][this.x + j] != -1) {
                             this.touching = true
                         }
                     } else {
@@ -466,12 +466,12 @@ class Tetramino {
             for (let j = 0; j < this.blocksPosition[i].length; j++) {
                 const element = this.blocksPosition[i][j];
                 if (element != 0) {
-                    window.liveBoard[this.y + i][this.x + j] = this.blockNum
+                    game.liveBoard[this.y + i][this.x + j] = this.blockNum
                 }
             }
 
         }
-        //window.liveBoard
+        //game.liveBoard
         //this.hekForLines()
         this.checkTouch()
         this.localLock = 500
@@ -479,18 +479,18 @@ class Tetramino {
 
     place() {
 
-        for (let i = 0; i < window.liveBoard.length; i++) {
-            for (let j = 0; j < window.liveBoard[i].length; j++) {
-                if (window.liveBoard[i][j] != -1) {
-                    window.board[i][j] = this.blockNum
+        for (let i = 0; i < game.liveBoard.length; i++) {
+            for (let j = 0; j < game.liveBoard[i].length; j++) {
+                if (game.liveBoard[i][j] != -1) {
+                    game.board[i][j] = this.blockNum
                 }
             }
         }
 
         
 
-        // console.log('owo '+window.board)
-        // console.log('uwu ' + window.oldBoard)
+        // console.log('owo '+game.board)
+        // console.log('uwu ' + game.oldBoard)
 
 
         game.clearLiveBoard()

@@ -1,6 +1,6 @@
 class Ghost {
     constructor() {
-        window.ghostyBoisArray.forEach(element => {
+        game.ghostyBoisArray.forEach(element => {
             window.scene.remove(element)
         });
 
@@ -30,8 +30,8 @@ class Ghost {
                 for (let i = 0; i < tetramino.blocksPosition.length; i++) {
                     for (let j = 0; j < tetramino.blocksPosition[i].length; j++) {
                         if (tetramino.blocksPosition[i][j] == 1) {
-                            if (h + i < window.board.length) {
-                                if (window.board[h + i][tetramino.x + j] != -1) {
+                            if (h + i < game.board.length) {
+                                if (game.board[h + i][tetramino.x + j] != -1) {
                                    if(climax > h - 1)
                                     climax = h - 1
                                     loops = false
@@ -67,7 +67,7 @@ class Ghost {
                     piece.position.y = 210 - 10 * i - 10 * (climax)
                     piece.position.x = 10 * j + 10 * this.x
                     window.scene.add(piece)
-                    window.ghostyBoisArray.push(piece)
+                    game.ghostyBoisArray.push(piece)
                 }
             }
         }
