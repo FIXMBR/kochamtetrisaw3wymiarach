@@ -163,8 +163,8 @@ class Tetramino {
     }
 
     clearLines(callback) {
-        
-        let spriteMap = new THREE.TextureLoader().load( "images/glow.png" );
+
+        let spriteMap = new THREE.TextureLoader().load("images/glow.png");
 
         game.lines.forEach(line => {
             game.board.splice(line, 1)
@@ -175,15 +175,42 @@ class Tetramino {
                 const piece = game.board3d[line][i];
                 //console.log(piece)
                 piece.material.color.setHex(0xffffff)
-                
+
                 let spriteMaterial = new THREE.SpriteMaterial(
                     {
-                        map: spriteMap,transparent:true, opacity:0.3,
+                        map: spriteMap, transparent: true, opacity: 0.5,
                         color: 0xffffff, blending: THREE.AdditiveBlending
                     });
                 let sprite = new THREE.Sprite(spriteMaterial);
                 sprite.scale.set(30, 30, 1.0);
                 piece.add(sprite); // this centers the glow at the mesh
+
+                let animation = {
+                    data: { sprite: sprite, piece: piece, id: i, time: 0 },
+                    animate: function (data,dt) {
+
+                        // if (data.frames < 8) {
+                        //     data.sprite.opacity += 0.1
+                        // } else {
+                        //     data.sprite.opacity += 0.05
+                        // }
+
+                        piece.translateX((4.5-data.id)*dt/30)
+
+                        if (data.time > 300) {
+                            for (let j = 0; j < game.animations.length; j++) {
+                                const element = game.animations[j];
+                                if (element.data.piece == data.piece) {
+                                    game.animations.splice(j, 1)
+                                    break;
+                                }
+                            }
+
+                        }
+                        data.time+=dt
+                    }
+                }
+                game.animations.push(animation)
 
                 piece.add(sprite); // this centers the glow at the mesh
                 game.oldBoard[line][i] = 8

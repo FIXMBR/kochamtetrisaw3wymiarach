@@ -102,6 +102,7 @@ class Game {
         this.newBoysArray=[]
         this.gravity = 60
         this.lock = false
+        this.animations = []
     }
     clearLiveBoard() {
         this.liveBoard.forEach(i => {
