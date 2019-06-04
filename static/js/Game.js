@@ -101,6 +101,7 @@ class Game {
         this.ghostyBoisArray=[]
         this.newBoysArray=[]
         this.gravity = 60
+        this.lock = false
     }
     clearLiveBoard() {
         this.liveBoard.forEach(i => {

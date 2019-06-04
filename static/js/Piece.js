@@ -29,8 +29,8 @@ class Piece extends THREE.Object3D{
         
         var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
         geometry.translate(-length/2,-width/2,-depth/2)
-        var material = window.getMaterialTetra(color)
-        var mesh = new THREE.Mesh( geometry, material ) ;
+        this.material = window.getMaterialTetra(color)
+        var mesh = new THREE.Mesh( geometry, this.material ) ;
         this.add( mesh );
         //var axes = new THREE.AxesHelper(200) // osie konieczne do kontroli kierunku ruchu
        //this.add(axes)

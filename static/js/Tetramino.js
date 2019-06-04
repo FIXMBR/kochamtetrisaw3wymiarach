@@ -154,11 +154,38 @@ class Tetramino {
             if (lineFull) linesTab.push(i)
         }
         //console.log(linesTab)
-        linesTab.forEach(line => {
+
+        console.log(linesTab)
+
+        game.lines = [...linesTab]
+
+
+    }
+
+    clearLines(callback) {
+        game.lines.forEach(line => {
             game.board.splice(line, 1)
             let nl = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
             game.board.unshift(nl)
+
+            for (let i = 0; i < game.board3d[line].length; i++) {
+                const piece = game.board3d[line][i];
+                console.log(piece)
+                piece.material.color.setHex(0xffffff)
+                game.oldBoard[line][i] = 8
+            }
         });
+        if (game.lines.length != 0) {
+            game.lock=true
+            game.ghost=new Ghost
+            setTimeout(function () {
+
+                callback()
+            }, 300)
+        } else {
+            callback()
+        }
+        game.lines = []
     }
 
     boxCollisions(direction) {
@@ -258,10 +285,10 @@ class Tetramino {
         let offsetX
         let offsetY
 
-        
-        if (this.blockNum == 0 && this.blocksPosition.length == 2){
+
+        if (this.blockNum == 0 && this.blocksPosition.length == 2) {
             this.y -= 1
-            
+
         }
 
         this.updateArray()
@@ -281,12 +308,12 @@ class Tetramino {
                     if (element != 0) {
 
                         if (this.y + i - offsetY < game.board.length) {
-                            if(this.y + i - offsetY<0)offsetY--
-                            if(this.y + i - offsetY<0)offsetY--
+                            if (this.y + i - offsetY < 0) offsetY--
+                            if (this.y + i - offsetY < 0) offsetY--
                             //console.log('sprawdzam dla x:' + (this.x + j + offsetX) + " y: " + (this.y + i - offsetY))
                             if (this.x + j + offsetX >= 0 && this.x + j + offsetX <= 10) {
                                 //console.log(this.y + i - offsetY);
-                                
+
                                 if (game.board[this.y + i - offsetY][this.x + j + offsetX] != -1) {
                                     collision = true
                                     //console.log('kolizja w x:' + (this.x + j + offsetX) + " y: " + (this.y - i - offsetY))
@@ -308,7 +335,7 @@ class Tetramino {
             }
 
         }
-        
+
         this.blockRotation = blockRotation
         return !collision
 
@@ -487,7 +514,7 @@ class Tetramino {
             }
         }
 
-        
+
 
         // console.log('owo '+game.board)
         // console.log('uwu ' + game.oldBoard)
@@ -497,10 +524,15 @@ class Tetramino {
         game.clearStaticBoard3D()
         this.hekForLines()
 
-        game.newTetramino()
         new Render(false)
         new Render(true)
 
+        this.clearLines(function () {
+            game.newTetramino()
+            game.lock = false
+            new Render(false)
+            new Render(true)
+        })
     }
 
 

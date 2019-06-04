@@ -11,8 +11,8 @@ app.get('/', function (req, res) {
 
 //sram ASDASDAs
 
-http.listen(4000, function () {
-    console.log('listening on 4k');
+http.listen(3000, function () {
+    console.log('listening on 3k');
 });
 
 socketio.on("connection", function (client) {    
