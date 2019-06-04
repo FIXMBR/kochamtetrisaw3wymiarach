@@ -155,7 +155,7 @@ class Tetramino {
         }
         //console.log(linesTab)
 
-        console.log(linesTab)
+        //console.log(linesTab)
 
         game.lines = [...linesTab]
 
@@ -163,6 +163,9 @@ class Tetramino {
     }
 
     clearLines(callback) {
+        
+        let spriteMap = new THREE.TextureLoader().load( "images/glow.png" );
+
         game.lines.forEach(line => {
             game.board.splice(line, 1)
             let nl = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
@@ -170,14 +173,25 @@ class Tetramino {
 
             for (let i = 0; i < game.board3d[line].length; i++) {
                 const piece = game.board3d[line][i];
-                console.log(piece)
+                //console.log(piece)
                 piece.material.color.setHex(0xffffff)
+                
+                let spriteMaterial = new THREE.SpriteMaterial(
+                    {
+                        map: spriteMap,transparent:true, opacity:0.3,
+                        color: 0xffffff, blending: THREE.AdditiveBlending
+                    });
+                let sprite = new THREE.Sprite(spriteMaterial);
+                sprite.scale.set(30, 30, 1.0);
+                piece.add(sprite); // this centers the glow at the mesh
+
+                piece.add(sprite); // this centers the glow at the mesh
                 game.oldBoard[line][i] = 8
             }
         });
         if (game.lines.length != 0) {
-            game.lock=true
-            game.ghost=new Ghost
+            game.lock = true
+            game.ghost = new Ghost
             setTimeout(function () {
 
                 callback()
