@@ -1,0 +1,6 @@
+class Multi {
+    constructor() {
+      
+    }
+
+}

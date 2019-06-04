@@ -18,7 +18,7 @@ class Render {
                             let piece = new Piece(element)
                             piece.name = "staticBoy"
                             piece.position.y = 210 - 10 * i
-                            piece.position.x = 10 * j
+                            piece.position.x = 10 * j +200 *window.xOffset
                             window.scene.add(piece)
                             // window.staticBoisArray.push(piece)
                             game.board3d[i][j] = piece
@@ -47,7 +47,7 @@ class Render {
                         let piece = new Piece(element)
                         piece.name = "fallyBoy"
                         piece.position.y = 210 - 10 * i
-                        piece.position.x = 10 * j
+                        piece.position.x = 10 * j +200 *window.xOffset
                         window.scene.add(piece)
                         game.fallyBoisArray.push(piece)
                     }

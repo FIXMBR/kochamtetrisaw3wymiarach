@@ -65,7 +65,7 @@ class Ghost {
                         let piece = new Piece('ghost')
                         piece.name = "ghostyBoy"
                         piece.position.y = 210 - 10 * i - 10 * (climax)
-                        piece.position.x = 10 * j + 10 * this.x
+                        piece.position.x = 10 * j + 10 * this.x +200 * window.xOffset
                         window.scene.add(piece)
                         game.ghostyBoisArray.push(piece)
                     }

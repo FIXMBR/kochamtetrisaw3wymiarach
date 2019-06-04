@@ -1,10 +1,33 @@
 ﻿$(document).ready(function () {
+    window.xOffset =0
     window.client = io();
     window.client.on("onconnect", function (data) {
-        alert(data.clientName)
+       // alert(data.id)
+        xOffset = data.id
+        data.players.forEach(id => {
+                let frame = new Frame
+                frame.position.x = 200 * (id ) +45;
+                scene.add(frame)
+                frameArray.push(frame)
+        })
+        window.camera.position.x = 40 + 100*(data.players.length-1)
+        controls.target.set( 40 + 100*(data.players.length-1), 100, 500 );
     })
+    window.client.on("playerNumber", function (data) {
+        data.players.forEach(id => {
+                frameArray.forEach(frame => {
+                    scene.remove(frame)
+                });
+                let frame = new Frame
+                frame.position.x = 200 * (id ) +45;
+                scene.add(frame)
+        })
+        
+        window.camera.position.x = 40 + 100*(data.players.length-1)
+        controls.target.set( 40 + 100*(data.players.length-1), 100, 500 );
 
-
+    })
+    var frameArray = []
     window.staticBoisArray = [];
     let width = window.innerWidth;
     let height = window.innerHeight;
@@ -64,9 +87,9 @@
     //window.scene.add(grid.getGrid())
 
     game = new Game
-    frame = new Frame
-    scene.add(frame)
-    frame.position.x = 45;
+    //frame = new Frame
+    //scene.add(frame)
+    //frame.position.x = 45 + 200 *(window.xOffset);
 
     rng = new RNG()
 
@@ -93,7 +116,7 @@
 
     function animate(dt) {
         game.animations.forEach(animation => {
-            animation.animate(animation.data,dt)
+            animation.animate(animation.data, dt)
         });
     }
 
