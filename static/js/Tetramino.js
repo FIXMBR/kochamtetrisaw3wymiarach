@@ -479,16 +479,18 @@ class Tetramino {
 
     place() {
 
-
-
         for (let i = 0; i < window.liveBoard.length; i++) {
             for (let j = 0; j < window.liveBoard[i].length; j++) {
                 if (window.liveBoard[i][j] != -1) {
                     window.board[i][j] = this.blockNum
                 }
-
             }
         }
+
+        
+
+        // console.log('owo '+window.board)
+        // console.log('uwu ' + window.oldBoard)
 
 
         game.clearLiveBoard()

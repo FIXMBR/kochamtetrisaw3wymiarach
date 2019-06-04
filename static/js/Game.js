@@ -22,7 +22,7 @@ class Game {
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-            [2, 1, 3, 4, 5, 0, 1, 4, -1, 5],
+            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
         ];
         window.liveBoard = [
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -46,9 +46,9 @@ class Game {
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
         ];
-        window.testBoard = [
+        window.oldBoard = [
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -70,6 +70,31 @@ class Game {
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
             [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+        ];
+        window.board3d = [
+            [null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null],
+            [null, null, null, null, null, null, null, null, null, null]
         ];
         window.oldTetraminos = []
         window.newTetraminos = []
@@ -104,10 +129,10 @@ class Game {
     }
     clearStaticBoard3D(){
         //console.log(window.staticBoisArray)
-        window.staticBoisArray.forEach(element => {
-            window.scene.remove(element)
-        });
-        window.staticBoisArray = []
+        // window.staticBoisArray.forEach(element => {
+        //     window.scene.remove(element)
+        // });
+        // window.staticBoisArray = []
     }
     newTetramino(){
         //window.oldTetraminos.pull()
