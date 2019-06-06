@@ -1,0 +1,26 @@
+{
+  "name": "kochamtetrisaw3wymiarach",
+  "version": "1.0.0",
+  "description": "To jest bardzo profesjonalny tetris, kompletnie nie naruszający copyrightów",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongodb": "^3.2.7",
+    "socket.io": "^2.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mocpl/kochamtetrisaw3wymiarach.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mocpl/kochamtetrisaw3wymiarach/issues"
+  },
+  "homepage": "https://github.com/mocpl/kochamtetrisaw3wymiarach#readme"
+}
