@@ -8,6 +8,7 @@ class Tetramino {
         this.localLock = 500
         this.totalLock = 4000
         this.touching = false
+        window.score = new Score()
         switch (this.blockNum) {
             case 0:
 
@@ -158,8 +159,22 @@ class Tetramino {
         //console.log(linesTab)
 
         game.lines = [...linesTab]
-
-
+        //console.log(game.lines.length)
+        switch (game.lines.length) {
+            case 1:
+                window.score.singleAdd()
+                break;
+            case 2:
+                window.score.doubleAdd()
+                break;
+            case 3:
+                window.score.tripleAdd()
+                break;
+            case 4:
+                window.score.tetrisAdd()
+                break
+        }
+        console.log(window.score.getScore())
     }
 
     clearLines(callback) {
@@ -176,18 +191,25 @@ class Tetramino {
                 //console.log(piece)
                 piece.material.color.setHex(0xffffff)
 
-                let spriteMaterial = new THREE.SpriteMaterial(
-                    {
-                        map: spriteMap, transparent: true, opacity: 0.5,
-                        color: 0xffffff, blending: THREE.AdditiveBlending
-                    });
+                let spriteMaterial = new THREE.SpriteMaterial({
+                    map: spriteMap,
+                    transparent: true,
+                    opacity: 0.5,
+                    color: 0xffffff,
+                    blending: THREE.AdditiveBlending
+                });
                 let sprite = new THREE.Sprite(spriteMaterial);
                 sprite.scale.set(30, 30, 1.0);
                 piece.add(sprite); // this centers the glow at the mesh
 
                 let animation = {
-                    data: { sprite: sprite, piece: piece, id: i, time: 0 },
-                    animate: function (data,dt) {
+                    data: {
+                        sprite: sprite,
+                        piece: piece,
+                        id: i,
+                        time: 0
+                    },
+                    animate: function (data, dt) {
 
                         // if (data.frames < 8) {
                         //     data.sprite.opacity += 0.1
@@ -195,7 +217,7 @@ class Tetramino {
                         //     data.sprite.opacity += 0.05
                         // }
 
-                        piece.translateX((4.5-data.id)*dt/30)
+                        piece.translateX((4.5 - data.id) * dt / 30)
 
                         if (data.time > 300) {
                             for (let j = 0; j < game.animations.length; j++) {
@@ -207,7 +229,7 @@ class Tetramino {
                             }
 
                         }
-                        data.time+=dt
+                        data.time += dt
                     }
                 }
                 game.animations.push(animation)
@@ -238,21 +260,21 @@ class Tetramino {
                     return true
                 }
 
-            case "right":
-                if (this.x + this.calculateBorderRight() >= 9) {
-                    return false
+                case "right":
+                    if (this.x + this.calculateBorderRight() >= 9) {
+                        return false
 
-                } else {
-                    return true
-                }
+                    } else {
+                        return true
+                    }
 
-            case "bottom":
-                if (this.y + this.calculateBorderBottom() >= 20) {
-                    return false
-                } else {
-                    return true
+                    case "bottom":
+                        if (this.y + this.calculateBorderBottom() >= 20) {
+                            return false
+                        } else {
+                            return true
 
-                }
+                        }
 
         }
 
@@ -266,17 +288,77 @@ class Tetramino {
             case "left":
                 if (this.blockNum == 0) {
                     translationArray = [
-                        [[0, 0], [0, 1], [0, 2], [-1, 0], [2, 0], [-1, 2], [2, -1]],
-                        [[0, 0], [0, 1], [0, 2], [2, 0], [-1, 0], [2, 1], [-1, -2]],
-                        [[0, 0], [0, 1], [0, 2], [1, 0], [-2, 0], [1, -2], [-2, 1]],
-                        [[0, 0], [0, 1], [0, 2], [-2, 0], [1, 0], [-2, -1], [1, 2]]
+                        [
+                            [0, 0],
+                            [0, 1],
+                            [0, 2],
+                            [-1, 0],
+                            [2, 0],
+                            [-1, 2],
+                            [2, -1]
+                        ],
+                        [
+                            [0, 0],
+                            [0, 1],
+                            [0, 2],
+                            [2, 0],
+                            [-1, 0],
+                            [2, 1],
+                            [-1, -2]
+                        ],
+                        [
+                            [0, 0],
+                            [0, 1],
+                            [0, 2],
+                            [1, 0],
+                            [-2, 0],
+                            [1, -2],
+                            [-2, 1]
+                        ],
+                        [
+                            [0, 0],
+                            [0, 1],
+                            [0, 2],
+                            [-2, 0],
+                            [1, 0],
+                            [-2, -1],
+                            [1, 2]
+                        ]
                     ]
                 } else {
                     translationArray = [
-                        [[0, 0], [0, 1], [1, 0], [1, 1], [0, -2], [1, -2]], //0>>3
-                        [[0, 0], [0, 1], [1, 0], [1, -1], [0, 2], [1, 2]], //1>>0
-                        [[0, 0], [0, 1], [-1, 0], [-1, 1], [0, -2], [-1, -2]], //2>>1
-                        [[0, 0], [0, 1], [-1, 0], [-1, -1], [0, 2], [-1, 2]]//3>>2
+                        [
+                            [0, 0],
+                            [0, 1],
+                            [1, 0],
+                            [1, 1],
+                            [0, -2],
+                            [1, -2]
+                        ], //0>>3
+                        [
+                            [0, 0],
+                            [0, 1],
+                            [1, 0],
+                            [1, -1],
+                            [0, 2],
+                            [1, 2]
+                        ], //1>>0
+                        [
+                            [0, 0],
+                            [0, 1],
+                            [-1, 0],
+                            [-1, 1],
+                            [0, -2],
+                            [-1, -2]
+                        ], //2>>1
+                        [
+                            [0, 0],
+                            [0, 1],
+                            [-1, 0],
+                            [-1, -1],
+                            [0, 2],
+                            [-1, 2]
+                        ] //3>>2
                     ]
                 }
                 blockRotation = this.blockRotation
@@ -294,17 +376,77 @@ class Tetramino {
             case "right":
                 if (this.blockNum == 0) {
                     translationArray = [
-                        [[0, 0], [0, 1], [0, 2], [-2, 0], [1, 0], [-2, -1], [1, 2]],
-                        [[0, 0], [0, 1], [0, 2], [-1, 0], [2, 0], [-1, 2], [2, -1]],
-                        [[0, 0], [0, 1], [0, 2], [2, 0], [-1, 0], [2, 1], [-1, -2]],
-                        [[0, 0], [0, 1], [0, 2], [1, 0], [-2, 0], [1, -2], [-2, 1]]
+                        [
+                            [0, 0],
+                            [0, 1],
+                            [0, 2],
+                            [-2, 0],
+                            [1, 0],
+                            [-2, -1],
+                            [1, 2]
+                        ],
+                        [
+                            [0, 0],
+                            [0, 1],
+                            [0, 2],
+                            [-1, 0],
+                            [2, 0],
+                            [-1, 2],
+                            [2, -1]
+                        ],
+                        [
+                            [0, 0],
+                            [0, 1],
+                            [0, 2],
+                            [2, 0],
+                            [-1, 0],
+                            [2, 1],
+                            [-1, -2]
+                        ],
+                        [
+                            [0, 0],
+                            [0, 1],
+                            [0, 2],
+                            [1, 0],
+                            [-2, 0],
+                            [1, -2],
+                            [-2, 1]
+                        ]
                     ]
                 } else {
                     translationArray = [
-                        [[0, 0], [0, 1], [-1, 0], [-1, 1], [0, -2], [-1, -2]], //0>>1
-                        [[0, 0], [0, 1], [1, 0], [1, -1], [0, 2], [1, 2]], //1>>2
-                        [[0, 0], [0, 1], [1, 0], [1, 1], [0, -2], [1, -2]], //2>>3
-                        [[0, 0], [0, 1], [-1, 0], [-1, -1], [0, 2], [-1, 2]], //3>>0
+                        [
+                            [0, 0],
+                            [0, 1],
+                            [-1, 0],
+                            [-1, 1],
+                            [0, -2],
+                            [-1, -2]
+                        ], //0>>1
+                        [
+                            [0, 0],
+                            [0, 1],
+                            [1, 0],
+                            [1, -1],
+                            [0, 2],
+                            [1, 2]
+                        ], //1>>2
+                        [
+                            [0, 0],
+                            [0, 1],
+                            [1, 0],
+                            [1, 1],
+                            [0, -2],
+                            [1, -2]
+                        ], //2>>3
+                        [
+                            [0, 0],
+                            [0, 1],
+                            [-1, 0],
+                            [-1, -1],
+                            [0, 2],
+                            [-1, 2]
+                        ], //3>>0
                     ]
                 }
 
