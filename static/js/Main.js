@@ -187,6 +187,9 @@
             } else if (e.keyCode == '16') {
                 window.tetramino.place()
             }
+             else if (e.keyCode == '67') {
+                window.tetramino.hold()
+            }
         }
     }
 

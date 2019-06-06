@@ -103,6 +103,8 @@ class Game {
         this.gravity = 60
         this.lock = false
         this.animations = []
+        this.heldpiecie
+        this.heldNow = false
     }
     clearLiveBoard() {
         this.liveBoard.forEach(i => {
@@ -135,14 +137,20 @@ class Game {
         // });
         // window.staticBoisArray = []
     }
-    newTetramino(){
+    newTetramino(holdnum){
         //window.oldTetraminos.pull()
         //window.oldTetraminos.push()
-        
+        if(holdnum==null){
         window.tetramino = new Tetramino(rng.gen())
         window.tetramino.addTetramino()
         
         new Render(false)
+        }else{
+            window.tetramino = new Tetramino(holdnum)
+            window.tetramino.addTetramino()
+            
+            new Render(false) 
+        }
     }
     smartRandom(){
 

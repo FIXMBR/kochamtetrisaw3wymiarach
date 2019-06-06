@@ -174,7 +174,7 @@ class Tetramino {
                 window.score.tetrisAdd()
                 break
         }
-       // console.log(window.score.getScore())
+        // console.log(window.score.getScore())
     }
 
     clearLines(callback) {
@@ -217,7 +217,7 @@ class Tetramino {
                         //     data.sprite.opacity += 0.05
                         // }
 
-                        piece.translateX((4.5-data.id)*dt/20)
+                        piece.translateX((4.5 - data.id) * dt / 20)
 
                         if (data.time > 200) {
                             for (let j = 0; j < game.animations.length; j++) {
@@ -260,21 +260,21 @@ class Tetramino {
                     return true
                 }
 
-                case "right":
-                    if (this.x + this.calculateBorderRight() >= 9) {
-                        return false
+            case "right":
+                if (this.x + this.calculateBorderRight() >= 9) {
+                    return false
 
-                    } else {
-                        return true
-                    }
+                } else {
+                    return true
+                }
 
-                    case "bottom":
-                        if (this.y + this.calculateBorderBottom() >= 20) {
-                            return false
-                        } else {
-                            return true
+            case "bottom":
+                if (this.y + this.calculateBorderBottom() >= 20) {
+                    return false
+                } else {
+                    return true
 
-                        }
+                }
 
         }
 
@@ -597,7 +597,22 @@ class Tetramino {
         this.addTetramino()
         new Render(false)
     }
-
+    hold() {
+        if (!game.heldNow) {
+            game.heldNow=true
+            if (game.heldNow != null) {
+                let curr = this.blockNum
+                let held = game.heldpiecie
+                game.heldpiecie = curr
+                game.clearLiveBoard()
+                game.newTetramino(held)
+            } else {
+                game.heldpiecie = this.blockNum
+                game.clearLiveBoard()
+                game.newTetramino()
+            }
+        }
+    }
     move(dir) {
         let didAction
         switch (dir) {
@@ -715,7 +730,9 @@ class Tetramino {
             game.lock = false
             new Render(false)
             new Render(true)
+            //game.heldNow=false
         })
+        game.heldNow=false
     }
 
 
