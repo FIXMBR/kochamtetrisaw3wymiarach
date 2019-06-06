@@ -174,7 +174,7 @@ class Tetramino {
                 window.score.tetrisAdd()
                 break
         }
-        console.log(window.score.getScore())
+       // console.log(window.score.getScore())
     }
 
     clearLines(callback) {

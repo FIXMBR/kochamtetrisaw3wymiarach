@@ -3,6 +3,7 @@ var app = express()
 var http = require('http').createServer(app);
 var socketio = require('socket.io')(http);
 
+
 var players = []
 var max = 0
 //var playersNumber = 0
@@ -13,21 +14,25 @@ var serverOperations = require("./modules/serverOpers.js")
 
 
 app.use(express.static('static'))
+app.use(bodyParser.json())
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/static/index.html');
 
 });
 
+app.post('')
+//BAZA DANYCH MONGO DB
+
 serverOperations.loginToSrv("**login**", "**hasło**", "**host**", "**login**" , function(data) {
     if (!data) {
         console.log("niezalogowano")
     } else {
         console.log("zalogowano")
-        console.log(data)
+       // console.log(data)
     }
-   
 })
+
 //sram ASDASDAs
 
 http.listen(3000, function () {

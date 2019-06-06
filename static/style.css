@@ -15,72 +15,7 @@ html{
     width:100%;
     height: 100%;
 }
-#UI{
-   position: absolute;
+#btns {
+    position: absolute;
+    top: 0px;
 }
-#render{
-    width:100%;
-    height: 100%;
-    
-   position: absolute;
- }
-#status{
-    width: 100%;
-    height: 50px;
-    position: absolute;
-}
-
-#wincontainer{
-    width:100%;
-    height: 100%; 
-    position: absolute;
- }
-
- #window{
-     position: absolute;
-     border: 1px solid blue;
-     width: 300px;
-     height: 200px;
-     top: calc(50% - 100px);
-     left: calc(50% - 150px);
-     
-    background-color: rgba(200, 200, 200, 0.7)
- }
- #text{
-    width: 95px;
-    margin:0 auto;
-    padding-top: 20px;
- }
- #input{
-    width: 150px;
-    margin:0 auto;
-    padding-top: 30px;
- }
- #input input{
-     width: 150px;
- }
- #buttons{
-    width: 70px;
-    margin:0 auto;
-    padding-top: 30px;
- }
- #buttons button{
-     width:70px;
-     float: left;
- }
- .statusmessage{
-     background-color: cyan;
-     width: 100%;
-     height: 50px;
-     text-align: center;
- }
-
- #waiting{
-    width:100%;
-    height: 100%;
-    position: absolute;
-    text-align: center;
-vertical-align: middle;
-padding-top: 50px;
-background-color: rgba(100, 100, 100, 0.3)
- }
