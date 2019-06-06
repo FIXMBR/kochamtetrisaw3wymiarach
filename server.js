@@ -14,7 +14,7 @@ var serverOperations = require("./modules/serverOpers.js")
 
 
 app.use(express.static('static'))
-app.use(bodyParser.json())
+//app.use(bodyParser.json())
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/static/index.html');

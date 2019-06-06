@@ -19,3 +19,21 @@ html{
     position: absolute;
     top: 0px;
 }
+#scoreDiv {
+    display: none;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color:#30303680
+}
+
+
+/* 
+Color palette: 
+    jet: #303036;
+    ogre odor: #fc5130;
+    Rich Black: #050401;
+    picton Blue: #30bced;
+    Misty Rose: #f5e3e0; 
+    
+*/
