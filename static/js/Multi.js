@@ -2,5 +2,7 @@ class Multi {
     constructor() {
       
     }
-
+    sendChanges(){
+        
+    }
 }

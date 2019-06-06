@@ -195,9 +195,9 @@ class Tetramino {
                         //     data.sprite.opacity += 0.05
                         // }
 
-                        piece.translateX((4.5-data.id)*dt/30)
+                        piece.translateX((4.5-data.id)*dt/20)
 
-                        if (data.time > 300) {
+                        if (data.time > 200) {
                             for (let j = 0; j < game.animations.length; j++) {
                                 const element = game.animations[j];
                                 if (element.data.piece == data.piece) {
@@ -222,7 +222,7 @@ class Tetramino {
             setTimeout(function () {
 
                 callback()
-            }, 300)
+            }, 200)
         } else {
             callback()
         }
