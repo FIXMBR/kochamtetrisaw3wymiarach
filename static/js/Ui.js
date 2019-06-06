@@ -1,17 +1,22 @@
 class Ui {
-    showScore() {
+    constructor() {
         this.net = new Net
-        GetScoreClickListenerAdd()
-        SendScoreClickListenerAdd()
+        this.GetScoreClickListenerAdd()
+        this.SendScoreClickListenerAdd()
     }
-    GetScoreClickListenerAdd() {
-        $('#btnSendScore').on("click", () => {
 
+    GetScoreClickListenerAdd() {
+
+        $('#btnGetScore').on("click", () => {
+            $('#scoreDiv').show('slow');
+            console.log("getScoreClick")
         })
     }
-    SendScoreClickListenerAdd() {
-        $('#btnSendScore').on("click", () => {
 
+    SendScoreClickListenerAdd() {
+
+        $('#btnSendScore').on("click", () => {
+            console.log("sendScoreClick")
         })
     }
 }

@@ -64,7 +64,7 @@
     var renderer = new THREE.WebGLRenderer({
         antialias: true
     });
-    renderer.setClearColor(0x112d59); //kolor tła sceny
+    renderer.setClearColor(0x303036); //kolor tła sceny
     renderer.setSize(width, height); //rozmiary renderowanego okna
     $("#render").append(renderer.domElement);
 
@@ -194,6 +194,6 @@
 
 
     // UI LISTENERS 
-    
+    ui = new Ui()
 
 })
