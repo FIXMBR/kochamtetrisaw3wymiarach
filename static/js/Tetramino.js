@@ -8,6 +8,7 @@ class Tetramino {
         this.localLock = 500
         this.totalLock = 4000
         this.touching = false
+        this.adding = true;
         window.score = new Score()
         switch (this.blockNum) {
             case 0:
@@ -709,6 +710,7 @@ class Tetramino {
         this.checkTouch()
         this.localLock = 500
     }
+
     addNewTetramino() {
         let collision = false
         for (let i = 0; i < this.blocksPosition.length; i++) {
@@ -725,29 +727,43 @@ class Tetramino {
 
         }
 
-        if (collision) {
-            alert('you lost')
-            game.playing = false
-            game.lock = true
-            game.ghostyBoisArray.forEach(element => {
-                window.scene.remove(element)
-            });
-        } else {
-            for (let i = 0; i < this.blocksPosition.length; i++) {
-                for (let j = 0; j < this.blocksPosition[i].length; j++) {
-                    const element = this.blocksPosition[i][j];
-                    if (element != 0) {
-                        game.liveBoard[this.y + i][this.x + j] = this.blockNum
-
+        if (this.adding) {
+            if (collision) {
+                alert('you lost')
+                game.playing = false
+                game.lock = true
+                game.ghostyBoisArray.forEach(element => {
+                    window.scene.remove(element)
+                });
+                this.adding = false;
+                if (window.score.getScore() == 0) {
+                    alert('Zera nie wysyłamy bo po co, naucz się grać gościu')
+                   // break;
+                } else {
+                    var epicGamerName = prompt("Twój wynik to:" + window.score.getScore() + " Wpisz swoje imię", "Shanita Faber");
+                    if (epicGamerName) {
+                        var net = new Net
+                        net.sendScoreToSrv(epicGamerName, window.score.getScore())
                     }
+                    //break;
                 }
+            } else {
+                //this.adding po to żeby komunikat wyświetlał się tylko raz 
 
+                for (let i = 0; i < this.blocksPosition.length; i++) {
+                    for (let j = 0; j < this.blocksPosition[i].length; j++) {
+                        const element = this.blocksPosition[i][j];
+                        if (element != 0) {
+                            if (game.board[this.y + i][this.x + j] == -1) {
+                                game.liveBoard[this.y + i][this.x + j] = this.blockNum
+                            }
+                            this.localLock = 500
+                        }
+                    }
+
+                }
             }
-
-           // this.checkTouch()
-            this.localLock = 500
         }
-
         //game.liveBoard
         //this.hekForLines()
     }
@@ -871,6 +887,7 @@ class Tetramino {
         this.localLock = 500
         this.totalLock = 4000
         this.touching = false
+        
         switch (this.blockNum) {
             case 0:
 

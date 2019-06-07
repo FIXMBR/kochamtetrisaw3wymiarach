@@ -3,6 +3,8 @@ class Net {
         this.ui = new Ui
     }
     sendScoreToSrv(name, score) {
+        var that = this
+        console.log(name, score)
         $.ajax({
             data: {
                 "name":name,
@@ -10,9 +12,13 @@ class Net {
             },
             url: "/sendScore",
             type: "POST",
-            success: function (data) {
-            
+            success: function (added) {
+                console.log(added)
+                if (added) {
 
+                    that.getScoreFromSrv()
+                    that.ui.showScore()
+                }
             },
             error: function (xhr, status, error) {
                 console.log(xhr);

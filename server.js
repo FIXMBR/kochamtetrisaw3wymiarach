@@ -23,7 +23,7 @@ app.get('/', function (req, res) {
 });
 
 app.post('/getScore', function (req, res) {
-    serverOperations.getScoresFromSrv(serverObject.currentDatabase, function(data) {
+    serverOperations.getScoresCollectionFromSrv(serverObject.currentDatabase, function(data) {
         //console.log(data)
         operations.SelectAll(data, function (data) {
             //console.log(data)
@@ -31,13 +31,24 @@ app.post('/getScore', function (req, res) {
         })
     })
 })
+
+app.post('/sendScore', function (req, res) {
+    serverOperations.getScoresCollectionFromSrv(serverObject.currentDatabase, function(collection) {
+        //console.log(data)
+        operations.Insert(collection, req.body , function() {
+            console.log("dodano rekord")
+            res.send(true)
+        })
+    })
+})
+
 //BAZA DANYCH MONGO DB
 
 serverOperations.loginToSrv("**login**", "**hasło**", "**host**", "**login**" , function(data) {
     if (!data) {
-        console.log("niezalogowano")
+        console.log("niezalogowano do bazy")
     } else {
-        console.log("zalogowano")
+        console.log("zalogowano do bazy")
         serverObject = data;
        // console.log(data)
     }

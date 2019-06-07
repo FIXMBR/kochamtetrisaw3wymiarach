@@ -3,7 +3,7 @@ module.exports = {
     //insert
 
     Insert: function (collection, data, callback) {
-        collection.insert(data, function (err, result) {
+        collection.insertOne(data, function (err, result) {
             //console.log(result)
             if (err) console.log(err)
             else callback(result)
