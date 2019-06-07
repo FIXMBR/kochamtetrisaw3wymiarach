@@ -1,24 +1,24 @@
 ﻿$(document).ready(function () {
-    window.xOffset =0
+    window.xOffset = 0
     window.client = io();
     window.client.on("onconnect", function (data) {
-       // alert(data.id)
+        // alert(data.id)
         xOffset = data.id
         data.players.forEach(id => {
-                let frame = new Frame
-                frame.position.x = 200 * (id ) +45;
-                scene.add(frame)
-                frameArray.push(frame)
-                // let background = new Background
-                // background.position.x = 200 * (id ) //+45;
-                // scene.add(background)
-                // bgArray.push(background)
+            let frame = new Frame
+            frame.position.x = 200 * (id) + 45;
+            scene.add(frame)
+            frameArray.push(frame)
+            // let background = new Background
+            // background.position.x = 200 * (id ) //+45;
+            // scene.add(background)
+            // bgArray.push(background)
 
-                // console.log(id)
-                
+            // console.log(id)
+
         })
-        window.camera.position.x = 40 + 100*(data.players.length-1)
-        controls.target.set( 40 + 100*(data.players.length-1), 100, 500 );
+        window.camera.position.x = 40 + 100 * (data.players.length - 1)
+        controls.target.set(40 + 100 * (data.players.length - 1), 100, 500);
         render(false)
     })
     window.client.on("playerNumber", function (data) {
@@ -26,27 +26,27 @@
             scene.remove(frame)
         });
         data.players.forEach(id => {
-                
-                let frame = new Frame
-                frame.position.x = 200 * (id ) +45;
-                scene.add(frame)
-                frameArray.push(frame)
 
-                
-                // let background = new Background
-                // background.position.x = 200 * (id )// +45;
-                // //bgArray.push(background)
-                // scene.add(background)
-            
+            let frame = new Frame
+            frame.position.x = 200 * (id) + 45;
+            scene.add(frame)
+            frameArray.push(frame)
+
+
+            // let background = new Background
+            // background.position.x = 200 * (id )// +45;
+            // //bgArray.push(background)
+            // scene.add(background)
+
         })
         render(false)
-        
-        window.camera.position.x = 40 + 100*(data.players.length-1)
-        controls.target.set( 40 + 100*(data.players.length-1), 100, 500 );
+
+        window.camera.position.x = 40 + 100 * (data.players.length - 1)
+        controls.target.set(40 + 100 * (data.players.length - 1), 100, 500);
 
     })
     var frameArray = []
-    var bgArray=[]
+    var bgArray = []
     window.staticBoisArray = [];
     let width = window.innerWidth;
     let height = window.innerHeight;
@@ -112,6 +112,7 @@
 
     rng = new RNG()
     window.tetramino = new Tetramino()
+    window.ghost = new Ghost()
 
     game.newTetramino()
 
@@ -188,32 +189,35 @@
     document.onkeydown = checkKey;
 
     function checkKey(e) {
-        if (!game.lock) {
-            e = e || window.event;
-            if (e.keyCode == '38') {
-                window.tetramino.move(1)
-            } else if (e.keyCode == '40') {
-                window.tetramino.move(0)
-            } else if (e.keyCode == '37') {
-                window.tetramino.move(3)
-            } else if (e.keyCode == '39') {
-                window.tetramino.move(2)
-            } else if (e.keyCode == '90') {
-                window.tetramino.rotateLeft()
-            } else if (e.keyCode == '88') {
-                window.tetramino.rotateRight()
-            } else if (e.keyCode == '32') {
-                window.tetramino.hardDrop()
-            } else if (e.keyCode == '16') {
-                window.tetramino.place()
-            }
-             else if (e.keyCode == '67') {
-                window.tetramino.hold()
+       // console.log(game.lock);
+        if (game.playing) {
+            if (!game.lock) {
+                e = e || window.event;
+                if (e.keyCode == '38') {
+                    window.tetramino.move(1)
+                } else if (e.keyCode == '40') {
+                    window.tetramino.move(0)
+                } else if (e.keyCode == '37') {
+                    window.tetramino.move(3)
+                } else if (e.keyCode == '39') {
+                    window.tetramino.move(2)
+                } else if (e.keyCode == '90') {
+                    window.tetramino.rotateLeft()
+                } else if (e.keyCode == '88') {
+                    window.tetramino.rotateRight()
+                } else if (e.keyCode == '32') {
+                    window.tetramino.hardDrop()
+                } else if (e.keyCode == '16') {
+                    window.tetramino.place()
+                }
+                else if (e.keyCode == '67') {
+                    window.tetramino.hold()
+                }
             }
         }
     }
 
-    
+
 
 
     // UI LISTENERS 

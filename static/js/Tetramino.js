@@ -248,7 +248,7 @@ class Tetramino {
         });
         if (game.lines.length != 0) {
             game.lock = true
-            game.ghost = new Ghost
+            window.ghost.newGhost()
             setTimeout(function () {
 
                 callback()
@@ -710,23 +710,46 @@ class Tetramino {
         this.localLock = 500
     }
     addNewTetramino() {
+        let collision = false
         for (let i = 0; i < this.blocksPosition.length; i++) {
             for (let j = 0; j < this.blocksPosition[i].length; j++) {
                 const element = this.blocksPosition[i][j];
                 if (element != 0) {
-                    if (game.board[this.y + i][this.x + j]==-1){
-                    game.liveBoard[this.y + i][this.x + j] = this.blockNum
-                    }else{
-                        alert('you lost')
+                    if (game.board[this.y + i][this.x + j] == -1 && game.liveBoard[this.y + i][this.x + j] == -1) {
+                        //game.liveBoard[this.y + i][this.x + j] = this.blockNum
+                    } else {
+                        collision = true
                     }
                 }
             }
 
         }
+
+        if (collision) {
+            alert('you lost')
+            game.playing = false
+            game.lock = true
+            game.ghostyBoisArray.forEach(element => {
+                window.scene.remove(element)
+            });
+        } else {
+            for (let i = 0; i < this.blocksPosition.length; i++) {
+                for (let j = 0; j < this.blocksPosition[i].length; j++) {
+                    const element = this.blocksPosition[i][j];
+                    if (element != 0) {
+                        game.liveBoard[this.y + i][this.x + j] = this.blockNum
+
+                    }
+                }
+
+            }
+
+           // this.checkTouch()
+            this.localLock = 500
+        }
+
         //game.liveBoard
         //this.hekForLines()
-        this.checkTouch()
-        this.localLock = 500
     }
     place() {
 
@@ -784,31 +807,31 @@ class Tetramino {
                 const element = this.blocksPosition[i][j];
                 if (element == 1) {
                     let sprite = spriteOG.clone()
-                    sprite.position.y = 210 - 10 * i - 10 * this.y + Math.random()+10
+                    sprite.position.y = 210 - 10 * i - 10 * this.y + Math.random() + 10
                     sprite.position.x = 10 * j + 10 * this.x + 200 * window.xOffset + Math.random()
-                    sprite.position.z = 7+ Math.random()
+                    sprite.position.z = 7 + Math.random()
                     window.scene.add(sprite)
                     let animation = {
                         data: {
                             sprite: sprite,
                             id: i,
-                            y:this.y,
-                            oldY:oldY,
+                            y: this.y,
+                            oldY: oldY,
                             time: 0
                         },
                         animate: function (data, dt) {
 
                             if (data.time < 75) {
-                                data.sprite.material.opacity += 0.1 *dt/10
+                                data.sprite.material.opacity += 0.1 * dt / 10
                             } else {
-                                if(data.sprite.material.opacity>1){
-                                    data.sprite.material.opacity=1
+                                if (data.sprite.material.opacity > 1) {
+                                    data.sprite.material.opacity = 1
                                 }
-                                data.sprite.material.opacity -= 0.015 *dt/10
+                                data.sprite.material.opacity -= 0.015 * dt / 10
                             }
                             //console.log(data.sprite.material.opacity)
-                            sprite.scale.set(33, (data.y-data.oldY)*4, 1.0)
-                            sprite.translateY( (dt /30)*(data.y-data.oldY))
+                            sprite.scale.set(33, (data.y - data.oldY) * 4, 1.0)
+                            sprite.translateY((dt / 30) * (data.y - data.oldY))
 
                             if (data.time > 200) {
                                 for (let j = 0; j < game.animations.length; j++) {
@@ -840,7 +863,7 @@ class Tetramino {
 
 
     }
-    resetTetramino(num){
+    resetTetramino(num) {
         this.blockNum = num
         this.blockRotation = 0;
         this.x = 3

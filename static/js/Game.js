@@ -105,6 +105,7 @@ class Game {
         this.animations = []
         this.heldpiecie
         this.heldNow = false
+        this.playing=true
     }
     clearLiveBoard() {
         this.liveBoard.forEach(i => {
@@ -140,16 +141,18 @@ class Game {
     newTetramino(holdnum) {
         //window.oldTetraminos.pull()
         //window.oldTetraminos.push()
-        if (holdnum == null) {
-            window.tetramino.resetTetramino(rng.gen())
-            window.tetramino.addNewTetramino()
+        if (this.playing) {
+            if (holdnum == null) {
+                window.tetramino.resetTetramino(rng.gen())
+                window.tetramino.addNewTetramino()
 
-            new Render(false)
-        } else {
-            window.tetramino.resetTetramino(holdnum)
-            window.tetramino.addTetramino()
+                new Render(false)
+            } else {
+                window.tetramino.resetTetramino(holdnum)
+                window.tetramino.addNewTetramino()
 
-            new Render(false)
+                new Render(false)
+            }
         }
     }
     smartRandom() {

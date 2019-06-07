@@ -7,9 +7,9 @@ class Hold {
             for (let j = 0; j < holdArr[i].length; j++) {
                 const element = holdArr[i][j];
                 // console.log(element,game.oldBoard[i][j] );
-if(element!=-1){}
-                    window.scene.remove(game.board3d[i][j])
-                
+                if (element != -1) { }
+                window.scene.remove(game.board3d[i][j])
+
                 let piece = new Piece(element)
                 piece.name = "staticBoy"
                 piece.position.y = 210 - 10 * i

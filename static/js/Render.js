@@ -54,7 +54,7 @@ class Render {
                 }
             }
 
-            window.ghost = new Ghost()
+            window.ghost.newGhost()
         }
         return game.board
     }
