@@ -187,9 +187,17 @@ class Tetramino {
             game.board.unshift(nl)
 
             for (let i = 0; i < game.board3d[line].length; i++) {
-                const piece = game.board3d[line][i];
+                
+                window.scene.remove(game.board3d[line][i])
                 //console.log(piece)
-                piece.material.color.setHex(0xffffff)
+                game.board3d[line][i] = new THREE.Mesh( settings.pieceGeometry, settings.clearMaterial)
+                //piece.material = settings.clearMaterial
+                
+                game.board3d[line][i].name = "staticBoy"
+                game.board3d[line][i].position.y = 210 - 10 * line
+                game.board3d[line][i].position.x = 10 * i +200 *window.xOffset
+                const piece = game.board3d[line][i];
+                window.scene.add(game.board3d[line][i])
 
                 let spriteMaterial = new THREE.SpriteMaterial({
                     map: spriteMap,
