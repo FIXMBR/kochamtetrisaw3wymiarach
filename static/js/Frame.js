@@ -23,7 +23,30 @@ class Frame extends THREE.Object3D{
         frameRight.position.y = 98;
         this.add(frameRight)
         
-        
+        var material = new THREE.MeshLambertMaterial({
+            color: 0x30bced,
+            transparent: true,
+            opacity: 0.05
+        })
+
+        var mesh = new THREE.Mesh(settings.ghostGeometry, material)
+
+        for (let i = 1; i < game.board.length; i++) {
+            for (let j = 0; j < game.board[i].length; j++) {
+
+                let piece = mesh.clone()
+                piece.name = "bgBoy"
+                piece.position.y = 210 - 10 * i
+                piece.position.x = 10 * j -45// + 200 * window.xOffset
+                piece.position.z = -10
+                this.add(piece)
+                // window.staticBoisArray.push(piece)
+                // console.log(game.board3d[i][j])
+
+
+
+            }
+        }
         
     }
 }

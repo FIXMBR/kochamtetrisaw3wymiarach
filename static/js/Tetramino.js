@@ -187,15 +187,15 @@ class Tetramino {
             game.board.unshift(nl)
 
             for (let i = 0; i < game.board3d[line].length; i++) {
-                
+
                 window.scene.remove(game.board3d[line][i])
                 //console.log(piece)
-                game.board3d[line][i] = new THREE.Mesh( settings.pieceGeometry, settings.clearMaterial)
+                game.board3d[line][i] = new THREE.Mesh(settings.pieceGeometry, settings.clearMaterial)
                 //piece.material = settings.clearMaterial
-                
+
                 game.board3d[line][i].name = "staticBoy"
                 game.board3d[line][i].position.y = 210 - 10 * line
-                game.board3d[line][i].position.x = 10 * i +200 *window.xOffset
+                game.board3d[line][i].position.x = 10 * i + 200 * window.xOffset
                 const piece = game.board3d[line][i];
                 window.scene.add(game.board3d[line][i])
 
@@ -607,7 +607,7 @@ class Tetramino {
     }
     hold() {
         if (!game.heldNow) {
-            game.heldNow=true
+            game.heldNow = true
             if (game.heldNow != null) {
                 let curr = this.blockNum
                 let held = game.heldpiecie
@@ -709,7 +709,25 @@ class Tetramino {
         this.checkTouch()
         this.localLock = 500
     }
+    addNewTetramino() {
+        for (let i = 0; i < this.blocksPosition.length; i++) {
+            for (let j = 0; j < this.blocksPosition[i].length; j++) {
+                const element = this.blocksPosition[i][j];
+                if (element != 0) {
+                    if (game.board[this.y + i][this.x + j]==-1){
+                    game.liveBoard[this.y + i][this.x + j] = this.blockNum
+                    }else{
+                        alert('you lost')
+                    }
+                }
+            }
 
+        }
+        //game.liveBoard
+        //this.hekForLines()
+        this.checkTouch()
+        this.localLock = 500
+    }
     place() {
 
         for (let i = 0; i < game.liveBoard.length; i++) {
@@ -740,14 +758,80 @@ class Tetramino {
             new Render(true)
             //game.heldNow=false
         })
-        game.heldNow=false
+        game.heldNow = false
     }
 
 
     hardDrop() {
+        let spriteMap = settings.hardD1
         //  console.log(window.ghost.hardDrop)
 
+        let oldY = this.y
         this.y = window.ghost.hardDrop
+
+        let spriteMaterial = new THREE.SpriteMaterial({
+            map: spriteMap,
+            transparent: true,
+            opacity: 0.1,
+            color: 0xffffff,
+            blending: THREE.AdditiveBlending
+        });
+        let spriteOG = new THREE.Sprite(spriteMaterial);
+        spriteOG.scale.set(33, 50, 1.0);
+
+        for (let i = 0; i < this.blocksPosition.length; i++) {
+            for (let j = 0; j < this.blocksPosition[i].length; j++) {
+                const element = this.blocksPosition[i][j];
+                if (element == 1) {
+                    let sprite = spriteOG.clone()
+                    sprite.position.y = 210 - 10 * i - 10 * this.y + Math.random()+10
+                    sprite.position.x = 10 * j + 10 * this.x + 200 * window.xOffset + Math.random()
+                    sprite.position.z = 7+ Math.random()
+                    window.scene.add(sprite)
+                    let animation = {
+                        data: {
+                            sprite: sprite,
+                            id: i,
+                            y:this.y,
+                            oldY:oldY,
+                            time: 0
+                        },
+                        animate: function (data, dt) {
+
+                            if (data.time < 75) {
+                                data.sprite.material.opacity += 0.1 *dt/10
+                            } else {
+                                if(data.sprite.material.opacity>1){
+                                    data.sprite.material.opacity=1
+                                }
+                                data.sprite.material.opacity -= 0.015 *dt/10
+                            }
+                            //console.log(data.sprite.material.opacity)
+                            sprite.scale.set(33, (data.y-data.oldY)*4, 1.0)
+                            sprite.translateY( (dt /30)*(data.y-data.oldY))
+
+                            if (data.time > 200) {
+                                for (let j = 0; j < game.animations.length; j++) {
+                                    const element = game.animations[j];
+                                    if (element.data.sprite == data.sprite) {
+                                        game.animations.splice(j, 1)
+                                        scene.remove(sprite)
+                                        break;
+                                    }
+                                }
+
+                            }
+                            data.time += dt
+                        }
+                    }
+                    game.animations.push(animation)
+
+                }
+            }
+        }
+
+
+
         game.clearLiveBoard()
         this.addTetramino()
         this.place()
@@ -756,7 +840,67 @@ class Tetramino {
 
 
     }
+    resetTetramino(num){
+        this.blockNum = num
+        this.blockRotation = 0;
+        this.x = 3
+        this.y = 0
+        this.localLock = 500
+        this.totalLock = 4000
+        this.touching = false
+        switch (this.blockNum) {
+            case 0:
 
+                this.blocksPosition = [
+                    [1, 1, 1, 1],
+                    [0, 0, 0, 0]
+                ];
+                break;
+
+            case 1:
+                this.blocksPosition = [
+                    [0, 1, 0, 0],
+                    [1, 1, 1, 0]
+
+                ];
+                break;
+            case 2:
+                this.blocksPosition = [
+                    [0, 0, 1, 0],
+                    [1, 1, 1, 0]
+
+                ];
+                break;
+            case 3:
+                this.blocksPosition = [
+                    [1, 0, 0, 0],
+                    [1, 1, 1, 0]
+
+                ];
+                break;
+            case 4:
+                this.blocksPosition = [
+                    [0, 1, 1, 0],
+                    [1, 1, 0, 0]
+
+                ];
+                break;
+            case 5:
+                this.blocksPosition = [
+                    [1, 1, 0, 0],
+                    [0, 1, 1, 0]
+
+                ];
+                break;
+            case 6:
+                this.blocksPosition = [
+                    [0, 1, 1, 0],
+                    [0, 1, 1, 0]
+
+                ]
+                break;
+        }
+    }
     updateArray() {
         switch (this.blockNum) {
             case 0:

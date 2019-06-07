@@ -9,25 +9,44 @@
                 frame.position.x = 200 * (id ) +45;
                 scene.add(frame)
                 frameArray.push(frame)
+                // let background = new Background
+                // background.position.x = 200 * (id ) //+45;
+                // scene.add(background)
+                // bgArray.push(background)
+
+                // console.log(id)
+                
         })
         window.camera.position.x = 40 + 100*(data.players.length-1)
         controls.target.set( 40 + 100*(data.players.length-1), 100, 500 );
+        render(false)
     })
     window.client.on("playerNumber", function (data) {
+        frameArray.forEach(frame => {
+            scene.remove(frame)
+        });
         data.players.forEach(id => {
-                frameArray.forEach(frame => {
-                    scene.remove(frame)
-                });
+                
                 let frame = new Frame
                 frame.position.x = 200 * (id ) +45;
                 scene.add(frame)
+                frameArray.push(frame)
+
+                
+                // let background = new Background
+                // background.position.x = 200 * (id )// +45;
+                // //bgArray.push(background)
+                // scene.add(background)
+            
         })
+        render(false)
         
         window.camera.position.x = 40 + 100*(data.players.length-1)
         controls.target.set( 40 + 100*(data.players.length-1), 100, 500 );
 
     })
     var frameArray = []
+    var bgArray=[]
     window.staticBoisArray = [];
     let width = window.innerWidth;
     let height = window.innerHeight;
@@ -92,6 +111,7 @@
     //frame.position.x = 45 + 200 *(window.xOffset);
 
     rng = new RNG()
+    window.tetramino = new Tetramino()
 
     game.newTetramino()
 

@@ -97,9 +97,9 @@ class Game {
             [null, null, null, null, null, null, null, null, null, null]
         ];
         this.newTetraminos = []
-        this.fallyBoisArray=[]
-        this.ghostyBoisArray=[]
-        this.newBoysArray=[]
+        this.fallyBoisArray = []
+        this.ghostyBoisArray = []
+        this.newBoysArray = []
         this.gravity = 60
         this.lock = false
         this.animations = []
@@ -122,37 +122,37 @@ class Game {
         this.fallyBoisArray.forEach(element => {
             window.scene.remove(element)
         });
-        
+
         this.fallyBoisArray = [];
         window.client.emit("boards", {
             board: this.board,
             liveBoard: this.liveBoard
         })
-        
+
     }
-    clearStaticBoard3D(){
+    clearStaticBoard3D() {
         //console.log(window.staticBoisArray)
         // window.staticBoisArray.forEach(element => {
         //     window.scene.remove(element)
         // });
         // window.staticBoisArray = []
     }
-    newTetramino(holdnum){
+    newTetramino(holdnum) {
         //window.oldTetraminos.pull()
         //window.oldTetraminos.push()
-        if(holdnum==null){
-        window.tetramino = new Tetramino(rng.gen())
-        window.tetramino.addTetramino()
-        
-        new Render(false)
-        }else{
-            window.tetramino = new Tetramino(holdnum)
+        if (holdnum == null) {
+            window.tetramino.resetTetramino(rng.gen())
+            window.tetramino.addNewTetramino()
+
+            new Render(false)
+        } else {
+            window.tetramino.resetTetramino(holdnum)
             window.tetramino.addTetramino()
-            
-            new Render(false) 
+
+            new Render(false)
         }
     }
-    smartRandom(){
+    smartRandom() {
 
     }
 }
