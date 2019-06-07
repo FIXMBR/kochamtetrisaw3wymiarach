@@ -1,4 +1,5 @@
 module.exports = {
+    operations: require("../modules/Operations.js"),
     mongoClient: require('mongodb').MongoClient,
     loginToSrv: function (username, password, host, database, callback) {
         if (username != "" && password != "") {
@@ -20,5 +21,12 @@ module.exports = {
         } else {
             console.log("daj hasło ziomek bo nie chce mi się implementować localhosta XD")
         }
+    },
+    getScoresFromSrv: function(db, callback) {
+        db.createCollection("scores", function (err, coll) {
+            console.log("kolekcja powstała, sprawdź w konsoli mango")
+            collection = coll;
+            callback(collection)
+          })
     }
 }

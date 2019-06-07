@@ -2,15 +2,16 @@ var express = require('express');
 var app = express()
 var http = require('http').createServer(app);
 var socketio = require('socket.io')(http);
-
+var bodyParser = require("body-parser")
+app.use(bodyParser.urlencoded({ extended: true })); 
 
 var players = []
 var max = 0
 //var playersNumber = 0
 
-var operations = require("./modules/Operations.js")
-var serverOperations = require("./modules/serverOpers.js")
-
+var operations = require("./modules/Operations.js");
+var serverOperations = require("./modules/serverOpers.js");
+var serverObject;
 
 
 app.use(express.static('static'))
@@ -21,7 +22,15 @@ app.get('/', function (req, res) {
 
 });
 
-app.post('')
+app.post('/getScore', function (req, res) {
+    serverOperations.getScoresFromSrv(serverObject.currentDatabase, function(data) {
+        //console.log(data)
+        operations.SelectAll(data, function (data) {
+            //console.log(data)
+            res.send(data)
+        })
+    })
+})
 //BAZA DANYCH MONGO DB
 
 serverOperations.loginToSrv("**login**", "**hasło**", "**host**", "**login**" , function(data) {
@@ -29,9 +38,14 @@ serverOperations.loginToSrv("**login**", "**hasło**", "**host**", "**login**" ,
         console.log("niezalogowano")
     } else {
         console.log("zalogowano")
+        serverObject = data;
        // console.log(data)
     }
 })
+
+
+
+
 
 //sram ASDASDAs
 
