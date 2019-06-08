@@ -718,10 +718,14 @@ class Tetramino {
             for (let j = 0; j < this.blocksPosition[i].length; j++) {
                 const element = this.blocksPosition[i][j];
                 if (element != 0) {
-                    if (game.board[this.y + i][this.x + j] == -1 && game.liveBoard[this.y + i][this.x + j] == -1) {
-                        //game.liveBoard[this.y + i][this.x + j] = this.blockNum
-                    } else {
-                        collision = true
+                    if (this.y + i <= 21) {
+                        if (game.board[this.y + i][this.x + j] == -1 && game.liveBoard[this.y + i][this.x + j] == -1) {
+                            //game.liveBoard[this.y + i][this.x + j] = this.blockNum
+                        } else {
+                            collision = true
+                        }
+                    }else{
+                        collision=true
                     }
                 }
             }
@@ -730,24 +734,7 @@ class Tetramino {
 
         if (this.adding) {
             if (collision) {
-                alert('you lost')
-                game.playing = false
-                game.lock = true
-                game.ghostyBoisArray.forEach(element => {
-                    window.scene.remove(element)
-                });
-                this.adding = false;
-                if (window.score.getScore() == 0) {
-                    alert('Zera nie wysyłamy bo po co, naucz się grać gościu')
-                   // break;
-                } else {
-                    var epicGamerName = prompt("Twój wynik to:" + window.score.getScore() + " Wpisz swoje imię", "Shanita Faber");
-                    if (epicGamerName) {
-                        var net = new Net
-                        net.sendScoreToSrv(epicGamerName, window.score.getScore())
-                    }
-                    //break;
-                }
+                this.loss()
             } else {
                 //this.adding po to żeby komunikat wyświetlał się tylko raz 
 
@@ -767,6 +754,25 @@ class Tetramino {
         }
         //game.liveBoard
         //this.hekForLines()
+    }
+    loss() {
+        game.playing = false
+        game.lock = true
+        game.ghostyBoisArray.forEach(element => {
+            window.scene.remove(element)
+        });
+        this.adding = false;
+        if (window.score.getScore() == 0) {
+            alert('Zera nie wysyłamy bo po co, naucz się grać gościu')
+            // break;
+        } else {
+            var epicGamerName = prompt("Twój wynik to:" + window.score.getScore() + " Wpisz swoje imię", "Shanita Faber");
+            if (epicGamerName) {
+                var net = new Net
+                net.sendScoreToSrv(epicGamerName, window.score.getScore())
+            }
+            //break;
+        }
     }
     place() {
 
@@ -888,7 +894,7 @@ class Tetramino {
         this.localLock = 500
         this.totalLock = 4000
         this.touching = false
-        
+
         switch (this.blockNum) {
             case 0:
 
