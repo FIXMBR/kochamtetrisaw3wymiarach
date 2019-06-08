@@ -1,32 +1,35 @@
-class Frame extends THREE.Object3D{
-    constructor(){
+class Frame extends THREE.Object3D {
+    constructor() {
         super()
-        let frameUDgeometry = new THREE.BoxGeometry(110, 5, 13 );
+        let frameUDgeometry = new THREE.BoxGeometry(110, 5, 13);
 
-        let frameDown = new THREE.Mesh( frameUDgeometry, settings.normalMaterial );
+        let frameDown = new THREE.Mesh(frameUDgeometry, settings.normalMaterial);
         frameDown.position.y = -7.5;
         this.add(frameDown)
 
-        let frameUp = new THREE.Mesh( frameUDgeometry, settings.normalMaterial);
+        let frameUp = new THREE.Mesh(frameUDgeometry, settings.normalMaterial);
         frameUp.position.y = 201;
         this.add(frameUp)
 
-        let frameLRgeometry = new THREE.BoxGeometry(5,208,13)
+        let frameLRgeometry = new THREE.BoxGeometry(5, 208, 13)
 
-        let frameLeft = new THREE.Mesh( frameLRgeometry, settings.normalMaterial);
+        let frameLeft = new THREE.Mesh(frameLRgeometry, settings.normalMaterial);
         frameLeft.position.x = -52.5;
         frameLeft.position.y = 98;
         this.add(frameLeft)
-        
-        let frameRight = new THREE.Mesh( frameLRgeometry, settings.normalMaterial);
+
+        let frameRight = new THREE.Mesh(frameLRgeometry, settings.normalMaterial);
         frameRight.position.x = 52.5;
         frameRight.position.y = 98;
         this.add(frameRight)
-        
+
         var material = new THREE.MeshLambertMaterial({
             color: 0x30bced,
             transparent: true,
-            opacity: 0.05
+            opacity: 0.05,
+
+            clippingPlanes: [window.localPlane],
+            clipShadows: true
         })
 
         var mesh = new THREE.Mesh(settings.ghostGeometry, material)
@@ -37,7 +40,7 @@ class Frame extends THREE.Object3D{
                 let piece = mesh.clone()
                 piece.name = "bgBoy"
                 piece.position.y = 210 - 10 * i
-                piece.position.x = 10 * j -45// + 200 * window.xOffset
+                piece.position.x = 10 * j - 45// + 200 * window.xOffset
                 piece.position.z = -10
                 this.add(piece)
                 // window.staticBoisArray.push(piece)
@@ -47,6 +50,6 @@ class Frame extends THREE.Object3D{
 
             }
         }
-        
+
     }
 }
