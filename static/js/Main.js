@@ -198,5 +198,5 @@
 
     // UI LISTENERS 
     ui = new Ui()
-
+    ui.init()
 })

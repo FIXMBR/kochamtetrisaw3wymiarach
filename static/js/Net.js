@@ -1,4 +1,7 @@
 class Net {
+    constructor() {
+        this.ui = new Ui
+    }
     sendScoreToSrv(name, score) {
         $.ajax({
             data: {
@@ -8,7 +11,7 @@ class Net {
             url: "/sendScore",
             type: "POST",
             success: function (data) {
-              
+            
 
             },
             error: function (xhr, status, error) {
@@ -18,13 +21,18 @@ class Net {
         })
     }
     getScoreFromSrv() {
+        //console.log("getScoreNet")
+        var that = this
         $.ajax({
             data: {
                 action: "getScore"
             },
+            url: "/getScore",
             type: "POST",
             success: function (data) {
-              
+                
+                //console.log(data)
+                that.ui.makeTable(data)
 
             },
             error: function (xhr, status, error) {
