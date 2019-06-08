@@ -14,8 +14,8 @@ class Tetramino {
             case 0:
 
                 this.blocksPosition = [
-                    [1, 1, 1, 1],
-                    [0, 0, 0, 0]
+                    [0, 0, 0, 0],
+                    [1, 1, 1, 1]
                 ];
                 break;
 
@@ -612,6 +612,7 @@ class Tetramino {
             if (game.heldNow != null) {
                 let curr = this.blockNum
                 let held = game.heldpiecie
+                hold.changePiece(curr)
                 game.heldpiecie = curr
                 game.clearLiveBoard()
                 game.newTetramino(held)
@@ -892,8 +893,8 @@ class Tetramino {
             case 0:
 
                 this.blocksPosition = [
-                    [1, 1, 1, 1],
-                    [0, 0, 0, 0]
+                    [0, 0, 0, 0],
+                    [1, 1, 1, 1]
                 ];
                 break;
 

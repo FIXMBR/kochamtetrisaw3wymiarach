@@ -4,11 +4,13 @@ var settings = {
     }),
     colors: [0xdd4613, 0x75c9e5, 0xf99e1d, 0x106ae8, 0xef0bc5, 0x02d325, 0xcdd10a],
     normalMaterial: new THREE.MeshNormalMaterial(),
-    hardD1:  new THREE.TextureLoader().load("images/hardD1.png"),
-    hardD2:  new THREE.TextureLoader().load("images/hardD2.png"),
+    hardD1: new THREE.TextureLoader().load("images/hardD1.png"),
+    hardD2: new THREE.TextureLoader().load("images/hardD2.png"),
 
 
 }
+window.localPlane = new THREE.Plane( new THREE.Vector3( 0, - 1, 0 ), 200 );
+
 settings.ghostMaterial = new THREE.MeshLambertMaterial({
     color: 0xffffff,
     transparent: true,
@@ -17,11 +19,22 @@ settings.ghostMaterial = new THREE.MeshLambertMaterial({
 settings.clearMaterial = new THREE.MeshLambertMaterial({
     color: 0xffffff,
 })
-settings.materials=[]
+settings.materials = []
 for (let i = 0; i < settings.colors.length; i++) {
     const element = settings.colors[i];
     settings.materials.push(new THREE.MeshLambertMaterial({
         color: element,
+
+        clippingPlanes: [window.localPlane],
+        clipShadows: true
+    }))
+}
+settings.noClipMaterials = []
+for (let i = 0; i < settings.colors.length; i++) {
+    const element = settings.colors[i];
+    settings.noClipMaterials.push(new THREE.MeshLambertMaterial({
+        color: element,
+
     }))
 }
 window.getMaterialTetra = function (color) {
@@ -34,7 +47,7 @@ window.getMaterialTetra = function (color) {
 
         return settings.ghostMaterial
     } {
-        
+
 
         return settings.materials[color]
     }
@@ -84,5 +97,5 @@ var extrudeSettings2 = {
 settings.ghostGeometry = new THREE.ExtrudeGeometry(shape2, extrudeSettings2);
 settings.pieceGeometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
 
-settings.ghostGeometry.translate(-length/2,-width/2,-depth/2)
-settings.pieceGeometry.translate(-length/2,-width/2,-depth/2)
+settings.ghostGeometry.translate(-length / 2, -width / 2, -depth / 2)
+settings.pieceGeometry.translate(-length / 2, -width / 2, -depth / 2)

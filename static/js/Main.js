@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿javascript: (function () { var script = document.createElement('script'); script.onload = function () { var stats = new Stats(); document.body.appendChild(stats.dom); requestAnimationFrame(function loop() { stats.update(); requestAnimationFrame(loop) }); }; script.src = '//mrdoob.github.io/stats.js/build/stats.min.js'; document.head.appendChild(script); })()
+$(document).ready(function () {
     window.xOffset = 0
     window.client = io();
     window.client.on("onconnect", function (data) {
@@ -67,9 +68,13 @@
     cameraBoy = new CameraBoy()
 
     $(window).resize(function () {
-        window.camera.aspect = window.innerWidth / window.innerHeight;
-        window.camera.updateProjectionMatrix();
+        
         renderer.setSize(window.innerWidth, window.innerHeight);
+        window.camera.left=window.innerWidth / -4
+        window.camera.right= window.innerWidth / 4
+        window.camera.top=window.innerHeight / 4
+        window.camera.bottom=window.innerHeight / -4
+        window.camera.updateProjectionMatrix();
     });
 
 
@@ -86,6 +91,8 @@
     renderer.setClearColor(0x303036); //kolor tła sceny
     renderer.setSize(width, height); //rozmiary renderowanego okna
     $("#render").append(renderer.domElement);
+
+    renderer.localClippingEnabled = true;
 
     //zmienne do kamery
 
@@ -111,6 +118,7 @@
     //frame.position.x = 45 + 200 *(window.xOffset);
 
     rng = new RNG()
+    hold = new Hold
     window.tetramino = new Tetramino()
     window.ghost = new Ghost()
 
@@ -129,18 +137,16 @@
     scene.add(light);
 
     var lastUpdate = Date.now()
-    let dropTimer
+    
 
     new Render(true)
     window.cameraNum = 1
-
-
+    //window.localPlane.position.y = 100
     function animate(dt) {
         game.animations.forEach(animation => {
             animation.animate(animation.data, dt)
         });
     }
-
 
 
     function render() {
@@ -160,10 +166,10 @@
 
         }
 
-        if (game.gravity >= dropTimer) {
-            dropTimer++
+        if (game.gravity >= game.dropTimer) {
+            game.dropTimer++
         } else {
-            dropTimer = 0
+            game.dropTimer = 0
             if (!tetramino.touching)
                 window.tetramino.move(0)
         }
@@ -189,7 +195,7 @@
     document.onkeydown = checkKey;
 
     function checkKey(e) {
-       // console.log(game.lock);
+        // console.log(game.lock);
         if (game.playing) {
             if (!game.lock) {
                 e = e || window.event;

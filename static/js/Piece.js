@@ -1,5 +1,5 @@
 class Piece extends THREE.Object3D{
-    constructor(color){
+    constructor(color,noclip){
         super()
 
         // var length = 8, width = 8, depth = 10
@@ -29,8 +29,12 @@ class Piece extends THREE.Object3D{
         
         // var geometry = new THREE.ExtrudeGeometry( shape, extrudeSettings );
         // geometry.translate(-length/2,-width/2,-depth/2)
+        if(noclip==true){
+            this.material = settings.noClipMaterials[color]
+        }else{
+            this.material = window.getMaterialTetra(color)
 
-        this.material = window.getMaterialTetra(color)
+        }
         if(color == 'ghost'){
             var mesh = new THREE.Mesh( settings.ghostGeometry, this.material ) ;
         }else{

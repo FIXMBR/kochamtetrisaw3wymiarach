@@ -106,6 +106,7 @@ class Game {
         this.heldpiecie
         this.heldNow = false
         this.playing=true
+        this.dropTimer
     }
     clearLiveBoard() {
         this.liveBoard.forEach(i => {
@@ -142,6 +143,7 @@ class Game {
         //window.oldTetraminos.pull()
         //window.oldTetraminos.push()
         if (this.playing) {
+            this.dropTimer = 0
             if (holdnum == null) {
                 window.tetramino.resetTetramino(rng.gen())
                 window.tetramino.addNewTetramino()
