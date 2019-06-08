@@ -7,6 +7,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 var players = []
 var max = 0
+var playersId = []
 //var playersNumber = 0
 
 var operations = require("./modules/Operations.js");
@@ -34,12 +35,17 @@ app.post('/getScore', function (req, res) {
 
 app.post('/sendScore', function (req, res) {
     serverOperations.getScoresCollectionFromSrv(serverObject.currentDatabase, function(collection) {
-        //console.log(data)
         operations.Insert(collection, req.body , function() {
             console.log("dodano rekord")
             res.send(true)
         })
     })
+})
+
+app.post('/getPlayers', function (req, res) {
+    //console.log(playersId)
+    res.send(playersId)
+
 })
 
 //BAZA DANYCH MONGO DB
@@ -84,7 +90,7 @@ socketio.on("connection", function (client) {
     }
 
     players.push(id)
-
+    playersId.push(client.id)
 
 
     client.on("boards", function (data) {
@@ -106,6 +112,7 @@ socketio.on("connection", function (client) {
             
             if (element == id) {
                 players.splice(j, 1)
+                playersId.splice(j,1)
                 break
             }
         }

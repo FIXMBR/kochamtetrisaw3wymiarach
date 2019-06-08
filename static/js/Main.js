@@ -19,7 +19,11 @@ $(document).ready(function () {
 
         })
         window.camera.position.x = 40 + 100 * (data.players.length - 1)
+<<<<<<< HEAD
         //controls.target.set(40 + 100 * (data.players.length - 1), 100, 500);
+=======
+      //  controls.target.set(40 + 100 * (data.players.length - 1), 100, 500);
+>>>>>>> b67ac3aa87d7a4c93079ea8d17cba524eac77b58
         render(false)
     })
     window.client.on("playerNumber", function (data) {
@@ -43,7 +47,7 @@ $(document).ready(function () {
         render(false)
 
         window.camera.position.x = 40 + 100 * (data.players.length - 1)
-        controls.target.set(40 + 100 * (data.players.length - 1), 100, 500);
+       // controls.target.set(40 + 100 * (data.players.length - 1), 100, 500);
 
     })
     var frameArray = []

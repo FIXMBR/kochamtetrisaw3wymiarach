@@ -33,6 +33,7 @@ html{
     color: white;
     font-weight: bolder;
     overflow-y: scroll;
+    scrollbar-width: none;
 }
 #scoreHtml {
     width: 100%;
@@ -56,6 +57,7 @@ td {
 
 }
 #waitDiv{
+    text-align: center;
     width: 70vw;
     height: 70vh;
     display: none;
@@ -76,6 +78,13 @@ td {
 #waitDivHtml  * {
     padding: 10px;
 }
+
+#connectedPlayersTable {
+    height: 30vh;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
 
 #waitDivHtml input[type="submit"] {
     color: black;
