@@ -8,6 +8,7 @@ class Tetramino {
         this.localLock = 500
         this.totalLock = 4000
         this.touching = false
+        this.adding = true;
         window.score = new Score()
         switch (this.blockNum) {
             case 0:
@@ -709,20 +710,37 @@ class Tetramino {
         this.checkTouch()
         this.localLock = 500
     }
+    
     addNewTetramino() {
-        for (let i = 0; i < this.blocksPosition.length; i++) {
-            for (let j = 0; j < this.blocksPosition[i].length; j++) {
-                const element = this.blocksPosition[i][j];
-                if (element != 0) {
-                    if (game.board[this.y + i][this.x + j]==-1){
-                    game.liveBoard[this.y + i][this.x + j] = this.blockNum
-                    }else{
-                        alert('you lost')
+        //this.adding po to żeby komunikat wyświetlał się tylko raz 
+        if (this.adding) {
+            for (let i = 0; i < this.blocksPosition.length; i++) {
+                for (let j = 0; j < this.blocksPosition[i].length; j++) {
+                    const element = this.blocksPosition[i][j];
+                    if (element != 0) {
+                        if (game.board[this.y + i][this.x + j]==-1){
+                        game.liveBoard[this.y + i][this.x + j] = this.blockNum
+                        }else{
+                            //alert('you lost')
+                            this.adding = false;
+                            if (window.score.getScore() == 0) {
+                                alert('Zera nie wysyłamy bo po co, naucz się grać gościu')
+                                break;
+                            } else {
+                                var epicGamerName = prompt("Twój wynik to:" + window.score.getScore() + " Wpisz swoje imię", "Shanita Faber");
+                                if (epicGamerName) { 
+                                    var net = new Net
+                                    net.sendScoreToSrv(epicGamerName, window.score.getScore())
+                                }
+                                break;
+                            }
+                        }
                     }
                 }
+    
             }
-
         }
+        
         //game.liveBoard
         //this.hekForLines()
         this.checkTouch()

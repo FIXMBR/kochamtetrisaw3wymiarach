@@ -22,9 +22,9 @@ module.exports = {
             console.log("daj hasło ziomek bo nie chce mi się implementować localhosta XD")
         }
     },
-    getScoresFromSrv: function(db, callback) {
+    getScoresCollectionFromSrv: function(db, callback) {
         db.createCollection("scores", function (err, coll) {
-            console.log("kolekcja powstała, sprawdź w konsoli mango")
+            //console.log("kolekcja powstała, sprawdź w konsoli mango")
             collection = coll;
             callback(collection)
           })

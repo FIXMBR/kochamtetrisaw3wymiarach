@@ -2,24 +2,19 @@ class Ui {
     init() {
         this.net = new Net
         this.GetScoreClickListenerAdd()
-        this.SendScoreClickListenerAdd()
         this.closeScoreClick()
     }
 
     GetScoreClickListenerAdd() {
 
         $('#btnGetScore').on("click", () => {
-            $('#scoreDiv').show('slow');
+            this.showScore()
             console.log("getScoreClick")
             this.net.getScoreFromSrv()
         })
     }
-
-    SendScoreClickListenerAdd() {
-
-        $('#btnSendScore').on("click", () => {
-            console.log("sendScoreClick")
-        })
+    showScore() {
+        $('#scoreDiv').show('slow');
     }
 
     closeScoreClick() {
@@ -40,7 +35,7 @@ class Ui {
         
         byScore.forEach((element, index) => {
             var color = this.getRandomColor()
-            table += `<tr style="color:${color}" > <td> ${index + 1} </td>  <td> ${element.score} </td> <td> ${element.name} </td> </tr>`
+            table += `<tr style="color:${color}" > <td> ${index + 1}. </td>  <td> ${element.score} </td> <td> ${element.name} </td> </tr>`
             //console.log(element.name + "  " + element.score + " " + index)
         });
         table += "</table>"
