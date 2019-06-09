@@ -100,13 +100,15 @@ class Game {
         this.fallyBoisArray = []
         this.ghostyBoisArray = []
         this.newBoysArray = []
-        this.gravity = 60
+        this.gravity = 706 
         this.lock = false
         this.animations = []
         this.heldpiecie
         this.heldNow = false
         this.playing=true
         this.dropTimer
+        this.incomingTetraminos = []
+        this.gameStarted = false
     }
     clearLiveBoard() {
         this.liveBoard.forEach(i => {
@@ -126,10 +128,6 @@ class Game {
         });
 
         this.fallyBoisArray = [];
-        window.client.emit("boards", {
-            board: this.board,
-            liveBoard: this.liveBoard
-        })
 
     }
     clearStaticBoard3D() {
@@ -145,19 +143,55 @@ class Game {
         if (this.playing) {
             this.dropTimer = 0
             if (holdnum == null) {
-                window.tetramino.resetTetramino(rng.gen())
+                let type = rng.genv2()
+                //console.log(type)
+                window.tetramino.resetTetramino(parseInt( type))
                 window.tetramino.addNewTetramino()
 
-                new Render(false)
+                window.Renderr.render(false)
             } else {
                 window.tetramino.resetTetramino(holdnum)
                 window.tetramino.addNewTetramino()
 
-                new Render(false)
+                window.Renderr.render(false)
             }
         }
     }
-    smartRandom() {
-
+    reset(){
+        this.board = [
+            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+            [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+        ];
+        this.newTetraminos = []
+        this.newBoysArray = []
+        this.gravity = 706 
+        this.lock = false
+        this.animations = []
+        this.heldpiecie
+        this.heldNow = false
+        this.playing=true
+        this.dropTimer
+        this.incomingTetraminos = []
+        this.gameStarted = false
     }
 }

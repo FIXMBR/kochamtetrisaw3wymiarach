@@ -9,12 +9,15 @@ var settings = {
 
 
 }
-window.localPlane = new THREE.Plane( new THREE.Vector3( 0, - 1, 0 ), 200 );
+window.localPlane = new THREE.Plane(new THREE.Vector3(0, - 1, 0), 200);
 
 settings.ghostMaterial = new THREE.MeshLambertMaterial({
     color: 0xffffff,
     transparent: true,
-    opacity: 0.5
+    opacity: 0.5,
+
+    clippingPlanes: [window.localPlane],
+    clipShadows: true
 })
 settings.clearMaterial = new THREE.MeshLambertMaterial({
     color: 0xffffff,
@@ -33,10 +36,30 @@ settings.noClipMaterials = []
 for (let i = 0; i < settings.colors.length; i++) {
     const element = settings.colors[i];
     settings.noClipMaterials.push(new THREE.MeshLambertMaterial({
-        color: element,
+        color: element
 
     }))
 }
+settings.spriteMaterial = new THREE.SpriteMaterial({
+    map: settings.hardD1,
+    transparent: true,
+    opacity: 0.5,
+    color: 0xffffff,
+    blending: THREE.AdditiveBlending
+});
+settings.clearSprite = new THREE.Sprite(settings.spriteMaterial);
+
+let spriteMaterial = new THREE.SpriteMaterial({
+    map: settings.hardD1,
+    transparent: true,
+    opacity: 0.1,
+    color: 0xffffff,
+    blending: THREE.AdditiveBlending
+});
+settings.spriteOG = new THREE.Sprite(spriteMaterial);
+
+settings.spriteOG.scale.set(33, 50, 1.0);
+
 window.getMaterialTetra = function (color) {
     if (color == 'ghost') {
         // let materialTetra = new THREE.MeshLambertMaterial({
@@ -99,3 +122,20 @@ settings.pieceGeometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
 
 settings.ghostGeometry.translate(-length / 2, -width / 2, -depth / 2)
 settings.pieceGeometry.translate(-length / 2, -width / 2, -depth / 2)
+
+
+
+
+var pieces = []
+var noclipPieces = []
+var ghostPiece = new THREE.Mesh(settings.ghostGeometry, settings.ghostMaterial)
+
+
+
+for (let i = 0; i < settings.materials.length; i++) {
+    pieces.push(new THREE.Mesh(settings.pieceGeometry, settings.materials[i]))
+}
+
+for (let i = 0; i < settings.noClipMaterials.length; i++) {
+    noclipPieces.push(new THREE.Mesh(settings.pieceGeometry, settings.noClipMaterials[i]))
+}

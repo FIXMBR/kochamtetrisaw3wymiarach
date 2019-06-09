@@ -67,10 +67,10 @@ class Hold {
                     // console.log(element,game.oldBoard[i][j] );
 
 
-                    let piece = new Piece(num,true)
+                    let piece = noclipPieces[num].clone()
                     piece.name = "holdBoy"
                     piece.position.y = 225 - 10 * i
-                    piece.position.x = 10 * j + 200 * window.xOffset
+                    piece.position.x = 10 * j + window.offsetAmount * window.xOffset
                     window.scene.add(piece)
                     this.holdyBoysArray.push(piece)
                     // window.staticBoisArray.push(piece)

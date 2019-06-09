@@ -67,10 +67,10 @@ class Ghost {
                     for (let j = 0; j < this.blocksPosition[i].length; j++) {
                         const element = this.blocksPosition[i][j];
                         if (element != 0) {
-                            let piece = new Piece('ghost')
+                            let piece = ghostPiece.clone()
                             piece.name = "ghostyBoy"
                             piece.position.y = 210 - 10 * i - 10 * (climax)
-                            piece.position.x = 10 * j + 10 * this.x + 200 * window.xOffset
+                            piece.position.x = 10 * j + 10 * this.x + window.offsetAmount * window.xOffset
                             window.scene.add(piece)
                             game.ghostyBoisArray.push(piece)
                         }

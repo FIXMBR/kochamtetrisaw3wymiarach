@@ -180,9 +180,18 @@ class Tetramino {
 
     clearLines(callback) {
 
-        let spriteMap = new THREE.TextureLoader().load("images/glow.png");
 
         game.lines.forEach(line => {
+            window.client.emit("animation", {
+                line:line,
+                animation:"clear"
+            })
+            window.client.emit("playerMovement", {
+                blockNum:this.blockNum,
+                blocksPosition: [],
+                x:this.x,
+                y:this.y
+            })
             game.board.splice(line, 1)
             let nl = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
             game.board.unshift(nl)
@@ -196,19 +205,12 @@ class Tetramino {
 
                 game.board3d[line][i].name = "staticBoy"
                 game.board3d[line][i].position.y = 210 - 10 * line
-                game.board3d[line][i].position.x = 10 * i + 200 * window.xOffset
+                game.board3d[line][i].position.x = 10 * i + window.offsetAmount * window.xOffset
                 const piece = game.board3d[line][i];
                 window.scene.add(game.board3d[line][i])
 
-                let spriteMaterial = new THREE.SpriteMaterial({
-                    map: spriteMap,
-                    transparent: true,
-                    opacity: 0.5,
-                    color: 0xffffff,
-                    blending: THREE.AdditiveBlending
-                });
-                let sprite = new THREE.Sprite(spriteMaterial);
-                sprite.scale.set(30, 30, 1.0);
+                let sprite = settings.clearSprite.clone()
+                sprite.scale.set(50, 50, 1.0);
                 piece.add(sprite); // this centers the glow at the mesh
 
                 let animation = {
@@ -233,7 +235,11 @@ class Tetramino {
                                 const element = game.animations[j];
                                 if (element.data.piece == data.piece) {
                                     game.animations.splice(j, 1)
+                                    window.client.emit("boardUpdate", {
+                                        board:game.board,
+                                    })
                                     break;
+                                    
                                 }
                             }
 
@@ -243,8 +249,11 @@ class Tetramino {
                 }
                 game.animations.push(animation)
 
-                piece.add(sprite); // this centers the glow at the mesh
+               // piece.add(sprite); // this centers the glow at the mesh
                 game.oldBoard[line][i] = 8
+                // window.client.emit("boardUpdate", {
+                //     board:game.board,
+                // })
             }
         });
         if (game.lines.length != 0) {
@@ -569,7 +578,7 @@ class Tetramino {
         //console.log(this.blockRotation);
         game.clearLiveBoard()
         this.addTetramino()
-        new Render(false)
+        window.Renderr.render(false)
     }
 
     rotateLeft() {
@@ -604,7 +613,7 @@ class Tetramino {
         // }
         game.clearLiveBoard()
         this.addTetramino()
-        new Render(false)
+        window.Renderr.render(false)
     }
     hold() {
         if (!game.heldNow) {
@@ -653,7 +662,7 @@ class Tetramino {
         let _this = this
         this.tetraminoCollision(function (result) {
             if (result) {
-                new Render(false)
+                window.Renderr.render(false)
             } else {
                 switch (didAction) {
                     case (0):
@@ -672,7 +681,7 @@ class Tetramino {
                 }
                 game.clearLiveBoard()
                 _this.addTetramino()
-                new Render(false)
+                window.Renderr.render(false)
             }
         })
     }
@@ -697,6 +706,12 @@ class Tetramino {
         }
     }
     addTetramino() {
+        window.client.emit("playerMovement", {
+            blockNum:this.blockNum,
+            blocksPosition: this.blocksPosition,
+            x:this.x,
+            y:this.y
+        })
         for (let i = 0; i < this.blocksPosition.length; i++) {
             for (let j = 0; j < this.blocksPosition[i].length; j++) {
                 const element = this.blocksPosition[i][j];
@@ -724,8 +739,8 @@ class Tetramino {
                         } else {
                             collision = true
                         }
-                    }else{
-                        collision=true
+                    } else {
+                        collision = true
                     }
                 }
             }
@@ -752,26 +767,35 @@ class Tetramino {
                 }
             }
         }
+        window.client.emit("playerMovement", {
+            blockNum:this.blockNum,
+            blocksPosition: this.blocksPosition,
+            x:this.x,
+            y:this.y
+        })
         //game.liveBoard
         //this.hekForLines()
     }
     loss() {
-        game.playing = false
-        game.lock = true
-        game.ghostyBoisArray.forEach(element => {
-            window.scene.remove(element)
-        });
-        this.adding = false;
-        if (window.score.getScore() == 0) {
-            alert('Zera nie wysyłamy bo po co, naucz się grać gościu')
-            // break;
-        } else {
-            var epicGamerName = prompt("Twój wynik to:" + window.score.getScore() + " Wpisz swoje imię", "Shanita Faber");
-            if (epicGamerName) {
-                var net = new Net
-                net.sendScoreToSrv(epicGamerName, window.score.getScore())
+        if (game.gameStarted) {
+            game.playing = false
+            game.lock = true
+            game.ghostyBoisArray.forEach(element => {
+                window.scene.remove(element)
+            });
+            this.adding = false;
+            if (window.score.getScore() == 0) {
+                //alert('Zera nie wysyłamy bo po co, naucz się grać gościu')
+                // break;
+            } else {
+                //var epicGamerName = prompt("Twój wynik to:" + window.score.getScore() + " Wpisz swoje imię", "Shanita Faber");
+                let epicGamerName = settings.name
+                if (epicGamerName) {
+                    var net = new Net
+                    net.sendScoreToSrv(epicGamerName, window.score.getScore())
+                }
+                //break;
             }
-            //break;
         }
     }
     place() {
@@ -794,14 +818,14 @@ class Tetramino {
         game.clearStaticBoard3D()
         this.hekForLines()
 
-        new Render(false)
-        new Render(true)
+        window.Renderr.render(false)
+        window.Renderr.render(true)
 
         this.clearLines(function () {
             game.newTetramino()
             game.lock = false
-            new Render(false)
-            new Render(true)
+            window.Renderr.render(false)
+            window.Renderr.render(true)
             //game.heldNow=false
         })
         game.heldNow = false
@@ -809,29 +833,26 @@ class Tetramino {
 
 
     hardDrop() {
-        let spriteMap = settings.hardD1
+        
         //  console.log(window.ghost.hardDrop)
 
         let oldY = this.y
         this.y = window.ghost.hardDrop
 
-        let spriteMaterial = new THREE.SpriteMaterial({
-            map: spriteMap,
-            transparent: true,
-            opacity: 0.1,
-            color: 0xffffff,
-            blending: THREE.AdditiveBlending
-        });
-        let spriteOG = new THREE.Sprite(spriteMaterial);
-        spriteOG.scale.set(33, 50, 1.0);
+        window.client.emit("hardDrop", {
+            oldY:oldY,
+            y:this.y,
+            x:this.x,
+            blocksPosition:this.blocksPosition
+        })
 
         for (let i = 0; i < this.blocksPosition.length; i++) {
             for (let j = 0; j < this.blocksPosition[i].length; j++) {
                 const element = this.blocksPosition[i][j];
                 if (element == 1) {
-                    let sprite = spriteOG.clone()
+                    let sprite = settings.spriteOG.clone()
                     sprite.position.y = 210 - 10 * i - 10 * this.y + Math.random() + 10
-                    sprite.position.x = 10 * j + 10 * this.x + 200 * window.xOffset + Math.random()
+                    sprite.position.x = 10 * j + 10 * this.x + window.offsetAmount * window.xOffset + Math.random()
                     sprite.position.z = 7 + Math.random()
                     window.scene.add(sprite)
                     let animation = {

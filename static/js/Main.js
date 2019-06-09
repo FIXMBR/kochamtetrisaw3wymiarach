@@ -1,17 +1,18 @@
 ﻿javascript: (function () { var script = document.createElement('script'); script.onload = function () { var stats = new Stats(); document.body.appendChild(stats.dom); requestAnimationFrame(function loop() { stats.update(); requestAnimationFrame(loop) }); }; script.src = '//mrdoob.github.io/stats.js/build/stats.min.js'; document.head.appendChild(script); })()
 $(document).ready(function () {
     window.xOffset = 0
+    window.offsetAmount = 200
     window.client = io();
     window.client.on("onconnect", function (data) {
         // alert(data.id)
         xOffset = data.id
         data.players.forEach(id => {
             let frame = new Frame
-            frame.position.x = 200 * (id) + 45;
+            frame.position.x = window.offsetAmount * (id) + 45;
             scene.add(frame)
             frameArray.push(frame)
             // let background = new Background
-            // background.position.x = 200 * (id ) //+45;
+            // background.position.x = window.offsetAmount * (id ) //+45;
             // scene.add(background)
             // bgArray.push(background)
 
@@ -19,8 +20,9 @@ $(document).ready(function () {
 
         })
         window.camera.position.x = 40 + 100 * (data.players.length - 1)
-      //  controls.target.set(40 + 100 * (data.players.length - 1), 100, 500);
-        render(false)
+        //  controls.target.set(40 + 100 * (data.players.length - 1), 100, 500);
+
+        window.Renderr.render(false)
     })
     window.client.on("playerNumber", function (data) {
         frameArray.forEach(frame => {
@@ -29,23 +31,44 @@ $(document).ready(function () {
         data.players.forEach(id => {
 
             let frame = new Frame
-            frame.position.x = 200 * (id) + 45;
+            frame.position.x = window.offsetAmount * (id) + 45;
             scene.add(frame)
             frameArray.push(frame)
 
 
             // let background = new Background
-            // background.position.x = 200 * (id )// +45;
+            // background.position.x = window.offsetAmount * (id )// +45;
             // //bgArray.push(background)
             // scene.add(background)
 
         })
-        render(false)
+
+        window.Renderr.render(false)
 
         window.camera.position.x = 40 + 100 * (data.players.length - 1)
-       // controls.target.set(40 + 100 * (data.players.length - 1), 100, 500);
+        // controls.target.set(40 + 100 * (data.players.length - 1), 100, 500);
 
     })
+
+
+    window.client.on("startGame", function (data) {
+        console.log('startGame')
+        hold.holdyBoysArray.forEach(boy => {
+            window.scene.remove(boy)
+
+        });
+        game.clearLiveBoard()
+        game.reset()
+
+        game.gameStarted = true
+        
+        window.Renderr.render(false)
+        window.Renderr.render(true)
+        $("#waitDiv").hide("slow");
+        rng = new RNG(start)
+    })
+
+
     var frameArray = []
     var bgArray = []
     window.staticBoisArray = [];
@@ -59,7 +82,7 @@ $(document).ready(function () {
         0.1,
         10000
     );
-    window.camera = new THREE.OrthographicCamera(width / -4, width / 4, height / 4, height / -4, 1, 1000);
+    window.camera = new THREE.OrthographicCamera(width / -4, width / 4, height / 4, height / -4, 50, 150);
     scene.add(window.camera);
     scene.add(camera2);
     //var controls = new THREE.OrbitControls(window.camera);
@@ -68,12 +91,12 @@ $(document).ready(function () {
     cameraBoy = new CameraBoy()
 
     $(window).resize(function () {
-        
+
         renderer.setSize(window.innerWidth, window.innerHeight);
-        window.camera.left=window.innerWidth / -4
-        window.camera.right= window.innerWidth / 4
-        window.camera.top=window.innerHeight / 4
-        window.camera.bottom=window.innerHeight / -4
+        window.camera.left = window.innerWidth / -4
+        window.camera.right = window.innerWidth / 4
+        window.camera.top = window.innerHeight / 4
+        window.camera.bottom = window.innerHeight / -4
         window.camera.updateProjectionMatrix();
     });
 
@@ -86,7 +109,7 @@ $(document).ready(function () {
     //var scene = new THREE.Scene();
 
     var renderer = new THREE.WebGLRenderer({
-        antialias: true
+        //antialias: true
     });
     renderer.setClearColor(0x303036); //kolor tła sceny
     renderer.setSize(width, height); //rozmiary renderowanego okna
@@ -98,7 +121,7 @@ $(document).ready(function () {
 
     window.camera.position.x = 40;
     window.camera.position.y = 100;
-    window.camera.position.z = 500;
+    window.camera.position.z = 100;
     // camera.lookAt(window.scene.position);
     // 
     window.camera.lookAt(40, 100, 0);
@@ -115,15 +138,23 @@ $(document).ready(function () {
     game = new Game
     //frame = new Frame
     //scene.add(frame)
-    //frame.position.x = 45 + 200 *(window.xOffset);
+    //frame.position.x = 45 + window.offsetAmount *(window.xOffset);
 
-    rng = new RNG()
+    function start() {
+
+        window.tetramino = new Tetramino()
+        window.ghost = new Ghost()
+
+        game.newTetramino()
+
+        render();
+        console.log('asdf')
+    }
+
+    rng = new RNG(start)
     hold = new Hold
-    window.tetramino = new Tetramino()
-    window.ghost = new Ghost()
-
-    game.newTetramino()
-
+    var multi = new Multi()
+    window.preview = new Preview()
     //  var orbitControl = new THREE.OrbitControls(camera, renderer.domElement);
     //  orbitControl.addEventListener('change', function () {
     //       renderer.render(window.scene, camera)
@@ -137,9 +168,10 @@ $(document).ready(function () {
     scene.add(light);
 
     var lastUpdate = Date.now()
-    
 
-    new Render(true)
+
+    window.Renderr = new Render
+    window.Renderr.render(true)
     window.cameraNum = 1
     //window.localPlane.position.y = 100
     function animate(dt) {
@@ -155,23 +187,24 @@ $(document).ready(function () {
         lastUpdate = now;
 
         animate(dt)
-        if (tetramino.touching) {
-            tetramino.localLock -= dt
-            tetramino.totalLock -= dt
-            if (tetramino.localLock <= 0 || tetramino.totalLock <= 0) {
+        if (window.tetramino.touching) {
+            window.tetramino.localLock -= dt
+            window.tetramino.totalLock -= dt
+            if (window.tetramino.localLock <= 0 || window.tetramino.totalLock <= 0) {
                 game.clearLiveBoard()
-                tetramino.addTetramino()
-                tetramino.place()
+                window.tetramino.addTetramino()
+                window.tetramino.place()
             }
 
         }
-
         if (game.gravity >= game.dropTimer) {
-            game.dropTimer++
+            game.dropTimer += dt
         } else {
-            game.dropTimer = 0
-            if (!tetramino.touching)
-                window.tetramino.move(0)
+            while (game.gravity < game.dropTimer) {
+                game.dropTimer -= game.gravity
+                if (!window.tetramino.touching)
+                    window.tetramino.move(0)
+            }
         }
 
         requestAnimationFrame(render);
@@ -182,13 +215,12 @@ $(document).ready(function () {
         }
 
     }
-    render();
 
     // window.client.on("boards", function (data) {
     //     game.board = data.board
     //     game.liveBoard = data.liveBoard
-    //     new Render(true)
-    //     new Render(false)
+    //     window.Renderr.render(true)
+    //     window.Renderr.render(false)
     // })
 
 

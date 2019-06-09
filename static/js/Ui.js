@@ -57,6 +57,7 @@ class Ui {
       var that = this
     $("#logujSubmit").on("click", () => {
       console.log("logujSubmit");
+      settings.name = $('#loginInput').val()
       $("#loginDiv").hide("slow");
       $("#waitDiv").show("slow");
       
@@ -71,7 +72,7 @@ class Ui {
       console.log("startGame");
       clearInterval(this.interval)
       $("#waitDiv").hide("slow");
-
+      this.net.start()
     });
   }
 }
