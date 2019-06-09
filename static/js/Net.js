@@ -26,6 +26,7 @@ class Net {
 
         })
     }
+
     getScoreFromSrv() {
         //console.log("getScoreNet")
         var that = this
@@ -46,5 +47,8 @@ class Net {
             }
 
         })
+    }
+    getPlayersList() {
+        
     }
 }

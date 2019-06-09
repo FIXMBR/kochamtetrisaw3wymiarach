@@ -62,8 +62,8 @@ $(document).ready(function () {
     window.camera = new THREE.OrthographicCamera(width / -4, width / 4, height / 4, height / -4, 1, 1000);
     scene.add(window.camera);
     scene.add(camera2);
-    var controls = new THREE.OrbitControls(window.camera);
-    var controls = new THREE.OrbitControls(window.camera2);
+    //var controls = new THREE.OrbitControls(window.camera);
+    //var controls = new THREE.OrbitControls(window.camera2);
 
     cameraBoy = new CameraBoy()
 

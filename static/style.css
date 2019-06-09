@@ -10,6 +10,9 @@ body {
     width:100%;
    height: 100%;
    overflow: hidden;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
 }
 html{
     width:100%;
@@ -18,6 +21,7 @@ html{
 #btns {
     position: absolute;
     top: 0px;
+    left: 80px;
 }
 #scoreDiv {
     display: none;
@@ -28,6 +32,7 @@ html{
     background-color:#050401AE;
     color: white;
     font-weight: bolder;
+    overflow-y: scroll;
 }
 #scoreHtml {
     width: 100%;
@@ -38,11 +43,78 @@ html{
     flex-direction: column;
     font-size: 2.5em;
 }
+#btnGetScore {
+    color: black;
+    border-radius: 10px;
+    background-color: #f5e3e0;
+    border: 2px solid #fc5130;
+    padding: 10px;
+}
 
 td {
     padding: 20px;
 
 }
+#waitDiv{
+    width: 70vw;
+    height: 70vh;
+    display: none;
+    position: absolute;
+    background-color:#050401AE;
+    color: white;
+    border: 2px solid #fc5130;
+    border-radius: 10px;
+}
+#waitDivHtml {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 40px;
+}
+#waitDivHtml  * {
+    padding: 10px;
+}
+
+#waitDivHtml input[type="submit"] {
+    color: black;
+    border-radius: 10px;
+    background-color: #f5e3e0;
+    border: 2px solid #fc5130;
+    padding: 10px;
+}
+
+#loginDiv {
+    border: 2px solid #fc5130;
+    border-radius: 10px;
+    text-align: center;
+    position: absolute;
+    width: 70vw;
+    height: 70vh;
+    background-color:#050401AE;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+}
+
+#loginDivHtml * {
+    padding: 5px;
+    margin: 20px;
+}
+
+#loginDivHtml h2 {
+    color: white;
+}
+#loginDivHtml input[type="submit"] {
+    color: black;
+    border-radius: 10px;
+    background-color: #f5e3e0;
+    border: 2px solid #fc5130;
+    padding: 10px;
+}
+
 /* 
 Color palette: 
     jet: #303036;

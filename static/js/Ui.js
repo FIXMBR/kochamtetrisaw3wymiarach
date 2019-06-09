@@ -3,6 +3,8 @@ class Ui {
         this.net = new Net
         this.GetScoreClickListenerAdd()
         this.closeScoreClick()
+        this.closeLoginClick()
+        this.startGameClick()
     }
 
     GetScoreClickListenerAdd() {
@@ -49,4 +51,19 @@ class Ui {
         }
         return color;
     }
+    closeLoginClick() {
+        $('#logujSubmit').on("click", () => {
+            console.log("logujSubmit")
+            $('#loginDiv').hide("slow")
+            $('#waitDiv').show("slow")
+        })
+    }
+
+    startGameClick() {
+        $('#startGame').on("click", () => {
+            console.log("startGame")
+            $('#waitDiv').hide("slow")
+        })
+    }
+
 }
