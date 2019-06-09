@@ -19,7 +19,7 @@ $(document).ready(function () {
 
         })
         window.camera.position.x = 40 + 100 * (data.players.length - 1)
-        controls.target.set(40 + 100 * (data.players.length - 1), 100, 500);
+      //  controls.target.set(40 + 100 * (data.players.length - 1), 100, 500);
         render(false)
     })
     window.client.on("playerNumber", function (data) {
@@ -43,7 +43,7 @@ $(document).ready(function () {
         render(false)
 
         window.camera.position.x = 40 + 100 * (data.players.length - 1)
-        controls.target.set(40 + 100 * (data.players.length - 1), 100, 500);
+       // controls.target.set(40 + 100 * (data.players.length - 1), 100, 500);
 
     })
     var frameArray = []

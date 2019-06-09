@@ -48,7 +48,39 @@ class Net {
 
         })
     }
-    getPlayersList() {
-        
-    }
+     getPlayersList() {
+         var that = this
+         $.ajax({
+             data: {
+                 action: "getPlayers"
+             },
+             url: "/getPlayers",
+            type: "POST",
+         success: function (data) {
+                
+                //console.log(data)
+             console.log(data)
+                var table = "<table><tr>  <td></td> <td>PLAYER</td>  <td>ID</td> </tr>";
+                var red = 255
+                var blue = 150
+                var green = 255
+                 data.forEach((element, index) => {
+                    
+                     table += `<tr style="color:rgb(${red},${green},${blue});" > <td> ${index + 1}. </td>  <td> ${
+                        element
+                       } </td> <td> ${element} </td> </tr>`;
+                       red -= 40;
+                       blue += 20;
+                       green -= 5;
+                       
+             });
+                 table += "</table>";
+                 $("#connectedPlayersTable").html(table);
+            },
+         error: function (xhr, status, error) {
+                 console.log(xhr);
+             }
+
+         })
+     }
 }
