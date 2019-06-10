@@ -7,7 +7,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 var players = []
 var max = 0
-var playersId = []
 var rngArray = []
 var gameState = 'waiting'
 var attacks = []
@@ -104,7 +103,7 @@ app.post('/getData', function (req, res) {
 
 app.post('/getPlayers', function (req, res) {
     //console.log(playersId)
-    res.send(playersId)
+    res.send(players)
 
 })
 app.post('/startGame', function (req, res) {
@@ -181,8 +180,7 @@ socketio.on("connection", function (client) {
         }
     }
     attacks.push(0)
-    players.push({ id: id, attack: 0 })
-    playersId.push(client.id)
+    players.push({ id: id, attack: 0 , realId: client.id})
 
 
     // client.on("boards", function (data) {
@@ -204,7 +202,7 @@ socketio.on("connection", function (client) {
 
             if (element == id) {
                 players.splice(j, 1)
-                playersId.splice(j, 1)
+             
                 break
             }
         }
@@ -392,6 +390,10 @@ socketio.on("connection", function (client) {
         socketio.sockets.emit("updateAttacks", {
             attacks: players
         })
+    })
+
+    client.on("nameSend", function(data) {
+        players[id].name = data.name
     })
 
     client.emit("onconnect", {

@@ -9,7 +9,14 @@ var settings = {
     font: new THREE.FontLoader().load('fonts/Roboto_Light.json')
 
 }
+
 window.localPlane = new THREE.Plane(new THREE.Vector3(0, - 1, 0), 200);
+
+settings.frameMaterial = new THREE.MeshLambertMaterial({
+    color: 0xfc5130,
+   //clippingPlanes: [window.localPlane],
+    //clipShadows: true
+})
 
 settings.ghostMaterial = new THREE.MeshLambertMaterial({
     color: 0xffffff,
@@ -155,3 +162,6 @@ for (let i = 0; i < settings.materials.length; i++) {
 for (let i = 0; i < settings.noClipMaterials.length; i++) {
     noclipPieces.push(new THREE.Mesh(settings.pieceGeometry, settings.noClipMaterials[i]))
 }
+
+
+settings.scoresOpened = false;
