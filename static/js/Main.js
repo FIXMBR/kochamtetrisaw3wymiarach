@@ -10,7 +10,7 @@ $(document).ready(function () {
         window.playerNum = data.players.length
         data.players.forEach(id => {
             let frame = new Frame
-            frame.position.x = window.offsetAmount * (id) + 45;
+            frame.position.x = window.offsetAmount * (id.id) + 45;
             scene.add(frame)
             frameArray.push(frame)
             // let background = new Background
@@ -33,7 +33,7 @@ $(document).ready(function () {
         data.players.forEach(id => {
 
             let frame = new Frame
-            frame.position.x = window.offsetAmount * (id) + 45;
+            frame.position.x = window.offsetAmount * (id.id) + 45;
             scene.add(frame)
             frameArray.push(frame)
 

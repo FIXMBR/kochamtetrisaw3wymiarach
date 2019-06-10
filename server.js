@@ -70,21 +70,21 @@ app.post('/sendScore', function (req, res) {
     })
 })
 
-app.post('/getData', function(req, res) {
+app.post('/getData', function (req, res) {
     serverOperations.getHelpCollection(serverObject.currentDatabase, function (data) {
         //console.log(data)
-        operations.SelectAndLimitData(data, req.body, function(dataRec){
+        operations.SelectAndLimitData(data, req.body, function (dataRec) {
             console.log(dataRec)
             res.send(dataRec)
         })
         //operations.SelectAll(data, function (data) {
-            //console.log(data)
-          //  res.send(data)
-       // })
+        //console.log(data)
+        //  res.send(data)
+        // })
 
 
     })
-}) 
+})
 
 app.post('/getPlayers', function (req, res) {
     //console.log(playersId)
@@ -92,12 +92,13 @@ app.post('/getPlayers', function (req, res) {
 
 })
 app.post('/startGame', function (req, res) {
-    console.log('reee')
-    //res.send(playersId)
-    rngArray = []
-    gameState = 'playing'
-    socketio.sockets.emit("startGame", { /*posX: data.posX, posY:data.posY*/ });
-
+    if (req.body.confirm) {
+        console.log('reee')
+        //res.send(playersId)
+        rngArray = []
+        gameState = 'playing'
+        socketio.sockets.emit("startGame", { /*posX: data.posX, posY:data.posY*/ });
+    }
 })
 
 app.post('/getRNG', function (req, res) {
@@ -153,7 +154,7 @@ socketio.on("connection", function (client) {
     for (let i = 0; i < players.length + 1; i++) {
         let used = false
         for (let j = 0; j < players.length; j++) {
-            if (i == players[j]) {
+            if (i == players[j].id) {
                 used = true
             }
 
@@ -164,7 +165,7 @@ socketio.on("connection", function (client) {
         }
     }
     attacks.push(0)
-    players.push(id)
+    players.push({ id: id, attack: 0 })
     playersId.push(client.id)
 
 
@@ -183,7 +184,7 @@ socketio.on("connection", function (client) {
         console.log("id: " + id + ' disconnected');
 
         for (let j = 0; j < players.length; j++) {
-            const element = players[j];
+            const element = players[j].id;
 
             if (element == id) {
                 players.splice(j, 1)
@@ -191,8 +192,8 @@ socketio.on("connection", function (client) {
                 break
             }
         }
-        console.log('players left: ' + players);
-        attacks.unshift()
+        console.log('players left: ' + JSON.stringify(players))
+        //attacks.unshift()
     })
 
     client.on("playerMovement", function (data) {
@@ -223,32 +224,44 @@ socketio.on("connection", function (client) {
     //TODO fix this shit man (attacks)
     client.on("attack", function (data) {
         if (gameState == 'playing') {
-            console.log(attacks)
-            if (attacks[id] > 0) {
-                let rmamount = attacks[id]
-                if (attacks[id] - (data.lines - 1) < 0) {
-                    for (let i = 0; i < attacks.length; i++) {
+            // console.log(attacks)
+            console.log(players)
+
+            if (players[id].attack > 0) {
+                console.log('DEFEND! currAttack: ' + players[id].attack)
+                let rmamount = players[id].attack
+                console.log(players[id].attack - (data.lines.length - 1))
+                if (players[id].attack - (data.lines.length - 1) < 0) {
+                    for (let i = 0; i < players.length; i++) {
                         //const element = attacks[i];
-                        attacks[i] += (data.lines.length - 1) - rmamount
+                        players[i].attack += (data.lines.length - 1) - rmamount
                     }
-                    attacks[id] = 0
+                    players[id].attack = 0
+                } else {
+                    players[id].attack -= (data.lines.length - 1)
                 }
+                console.log('DEFEND! final attack: ' + players[id].attack)
 
                 socketio.sockets.emit("defend", {
                     id: id,
                     lines: data.lines,
-                    attacks: attacks
+                    attacks: players
                 })
             } else {
-                for (let i = 0; i < attacks.length; i++) {
+                for (let i = 0; i < players.length; i++) {
                     //const element = attacks[i];
                     if (i != id)
-                        attacks[i] += (data.lines.length - 1) - attacks[id]
+                        if (data.lines.length == 4) {
+                            players[i].attack += (data.lines.length) - players[id].attack
+                        } else {
+                            players[i].attack += (data.lines.length - 1) - players[id].attack
+                        }
                 }
 
                 socketio.sockets.emit("attack", {
                     id: id,
                     lines: data.lines,
+                    attacks: players
                 })
             }
         }
@@ -266,19 +279,25 @@ socketio.on("connection", function (client) {
 
     client.on("place", function (data) {
         if (gameState == 'playing') {
-            if (attacks[id]>0) {
-                client.emit("trash", {
-                    id: id,
-                    trash:attacks[id]
-                })
+            if (players[id] != undefined) {
+                
+                if (players[id].attack > 0) {
+                    client.emit("trash", {
+                        id: id,
+                        trash: players[id].attack
+                    })
+                }
             }
         }
     })
 
     client.on("trashed", function (data) {
         if (gameState == 'playing') {
-            attacks[id] -= data.trash
+            players[id].attack -= data.trash
         }
+        socketio.sockets.emit("updateAttacks", {
+            attacks: players
+        })
     })
 
     client.emit("onconnect", {

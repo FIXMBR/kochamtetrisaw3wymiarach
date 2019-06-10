@@ -100,7 +100,7 @@ class Game {
         this.fallyBoisArray = []
         this.ghostyBoisArray = []
         this.newBoysArray = []
-        this.gravity = 706 
+        this.gravity = 5000
         this.lock = false
         this.animations = []
         this.heldpiecie
@@ -110,6 +110,7 @@ class Game {
         this.incomingTetraminos = []
         this.gameStarted = false
         this.attacks = 0
+        this.justAttacked=false
     }
     clearLiveBoard() {
         this.liveBoard.forEach(i => {
@@ -185,7 +186,7 @@ class Game {
         ];
         this.newTetraminos = []
         this.newBoysArray = []
-        this.gravity = 706 
+        this.gravity = 5000 
         this.lock = false
         this.animations = []
         this.heldpiecie
@@ -195,5 +196,6 @@ class Game {
         this.incomingTetraminos = []
         this.gameStarted = false
         this.attacks = 0
+        this.justAttacked=false
     }
 }

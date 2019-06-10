@@ -5,24 +5,27 @@ class Multi {
         this.oldBoards = []
         var _this = this
         window.client.on('trash', function (data) {
-            console.log(data.trash)
-            let rng = Math.floor(Math.random() * (10))
-            
-            for (let i = 0; i < data.trash; i++) {
-                game.board.splice(0, 1)
-                let newRng = Math.floor(Math.random() * (10))
-                if(newRng >=7){
-                    rng = Math.floor(Math.random() * (10))
+            if (game.justAttacked == false) {
+                console.log(data.trash)
+                let rng = Math.floor(Math.random() * (10))
+
+                for (let i = 0; i < data.trash; i++) {
+                    game.board.splice(0, 1)
+                    let newRng = Math.floor(Math.random() * (10))
+                    if (newRng >= 7) {
+                        rng = Math.floor(Math.random() * (10))
+                    }
+                    let nl = [7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
+                    nl[rng] = -1
+                    game.board.push(nl)
+                    //check if out of range
                 }
-                let nl = [7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
-                nl[rng] = -1
-                game.board.push(nl)
-                //check if out of range
+                window.Renderr.render(true)
+                window.client.emit('trashed', {
+                    trash: data.trash
+                })
+                window.ghost.newGhost()
             }
-            window.Renderr.render(true)
-            window.client.emit('trashed', {
-                trash: data.trash
-            })
         })
         window.client.on("playerMoved", function (data) {
             //console.log(data)

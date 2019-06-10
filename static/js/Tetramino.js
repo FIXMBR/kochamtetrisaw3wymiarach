@@ -179,10 +179,10 @@ class Tetramino {
     }
 
     clearLines(callback) {
-
-        if (game.lines.length > 0)
+        if (game.lines.length > 0) {
             window.attacks.attack(game.lines)
-
+            game.justAttacked = true
+        }
         game.lines.forEach(line => {
             window.client.emit("animation", {
                 line: line,
@@ -824,7 +824,8 @@ class Tetramino {
 
         window.Renderr.render(false)
         window.Renderr.render(true)
-
+        
+        game.justAttacked = false
         this.clearLines(function () {
             game.newTetramino()
             game.lock = false
