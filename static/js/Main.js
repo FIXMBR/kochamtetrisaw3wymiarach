@@ -259,10 +259,11 @@ $(document).ready(function () {
 
     var mixer;
     function render() {
+        //let delta = clock.getDelta();
         var now = Date.now();
         var dt = (now - lastUpdate);
         lastUpdate = now;
-        mixer.update(dt);
+        mixer.update(dt/100000);
         animate(dt)
         if (window.tetramino.touching) {
             window.tetramino.localLock -= dt
@@ -465,6 +466,7 @@ $(document).ready(function () {
           //  gltf.asset; // Object
 
             mixer = new THREE.AnimationMixer(model);
+            mixer.timeScale = 5;
             console.log(gltf.animations)
             mixer.clipAction(gltf.animations[0]).play();
    
