@@ -1,5 +1,6 @@
 ﻿javascript: (function () { var script = document.createElement('script'); script.onload = function () { var stats = new Stats(); document.body.appendChild(stats.dom); requestAnimationFrame(function loop() { stats.update(); requestAnimationFrame(loop) }); }; script.src = '//mrdoob.github.io/stats.js/build/stats.min.js'; document.head.appendChild(script); })()
 $(document).ready(function () {
+  
     window.xOffset = 0
     window.offsetAmount = 200
     window.playerNum = 1
@@ -262,6 +263,9 @@ $(document).ready(function () {
 
 
     // UI LISTENERS 
-    ui = new Ui()
-    ui.init()
+    //ui = new Ui()
+   // ui.init()
+    window.ui = new Ui()
+    window.ui.init()
+    window.net = new Net()
 })

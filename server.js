@@ -73,8 +73,13 @@ app.post('/sendScore', function (req, res) {
 app.post('/getData', function (req, res) {
     serverOperations.getHelpCollection(serverObject.currentDatabase, function (data) {
         //console.log(data)
+<<<<<<< HEAD
         operations.SelectAndLimitData(data, req.body, function (dataRec) {
             console.log(dataRec)
+=======
+        operations.SelectAndLimitData(data, req.body, function(dataRec){
+            //console.log(dataRec)
+>>>>>>> b82fcc10c305f8f06c32412bfa7b72c1ddc0b686
             res.send(dataRec)
         })
         //operations.SelectAll(data, function (data) {

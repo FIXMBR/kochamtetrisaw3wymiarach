@@ -794,8 +794,8 @@ class Tetramino {
                 //var epicGamerName = prompt("Twój wynik to:" + window.score.getScore() + " Wpisz swoje imię", "Shanita Faber");
                 let epicGamerName = settings.name
                 if (epicGamerName) {
-                    var net = new Net
-                    net.sendScoreToSrv(epicGamerName, window.score.getScore())
+                    //var net = new Net
+                    window.net.sendScoreToSrv(epicGamerName, window.score.getScore())
                 }
                 //break;
             }
