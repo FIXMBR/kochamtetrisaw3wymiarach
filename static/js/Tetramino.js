@@ -215,7 +215,7 @@ class Tetramino {
                 window.scene.add(game.board3d[line][i])
 
                 let sprite = settings.clearSprite.clone()
-                sprite.scale.set(50, 50, 1.0);
+                sprite.scale.set(30, 30, 1.0);
                 piece.add(sprite); // this centers the glow at the mesh
 
                 let animation = {
@@ -801,6 +801,7 @@ class Tetramino {
                 }
                 //break;
             }
+            window.client.emit("dead")
         }
     }
     place() {

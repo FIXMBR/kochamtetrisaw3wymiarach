@@ -97,6 +97,7 @@ class Ui {
       $("#waitDiv").hide("slow");
       $("#help").hide("slow");
       window.net.startGame()
+      //$("#startGame").remove()
     });
   }
 

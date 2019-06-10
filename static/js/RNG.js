@@ -32,7 +32,7 @@ class RNG {
             },
             type: "POST",
             success: function (added) {
-                console.log("no siema: " + _this.RNGnum)
+                //console.log("no siema: " + _this.RNGnum)
                 _this.RNGnum++
                 game.incomingTetraminos.push(added)
                 if (_this.startNum > 0) {

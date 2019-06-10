@@ -5,17 +5,21 @@ $(document).ready(function () {
     window.ui.init()
     window.net = new Net()
 
+    window.lastPlayers = []
+    window.labelsArray = []
     window.xOffset = 0
     window.offsetAmount = 200
     window.playerNum = 1
     window.client = io();
     window.client.on("onconnect", function (data) {
         // alert(data.id)
-        xOffset = data.id
+
         window.playerNum = data.players.length
+        window.lastPlayers = [...data.players]
+        let x = 0
         data.players.forEach(id => {
-            let frame = new Frame
-            frame.position.x = window.offsetAmount * (id.id) + 45;
+            let frame = new Frame(id)
+            frame.position.x = window.offsetAmount * x + 45;
             scene.add(frame)
             frameArray.push(frame)
             // let background = new Background
@@ -24,7 +28,11 @@ $(document).ready(function () {
             // bgArray.push(background)
 
             // console.log(id)
+            if (data.id == id.id) {
+                xOffset = x
+            }
 
+            x++
         })
         window.camera.position.x = 40 + 100 * (data.players.length - 1)
         //  controls.target.set(40 + 100 * (data.players.length - 1), 100, 500);
@@ -35,19 +43,24 @@ $(document).ready(function () {
         frameArray.forEach(frame => {
             scene.remove(frame)
         });
+        window.lastPlayers = [...data.players]
+        let x = 0
         data.players.forEach(id => {
 
-            let frame = new Frame
-            frame.position.x = window.offsetAmount * (id.id) + 45;
+            let frame = new Frame(id)
+            frame.position.x = window.offsetAmount * (x) + 45;
             scene.add(frame)
             frameArray.push(frame)
 
+            if (data.id == id.id) {
+                xOffset = x
+            }
 
             // let background = new Background
             // background.position.x = window.offsetAmount * (id )// +45;
             // //bgArray.push(background)
             // scene.add(background)
-
+            x++
         })
 
         window.Renderr.render(false)
@@ -56,7 +69,34 @@ $(document).ready(function () {
         // controls.target.set(40 + 100 * (data.players.length - 1), 100, 500);
         window.playerNum = data.players.length
     })
+    window.client.on("updateNames", function (data) {
+        window.lastPlayers = [...data.players]
+    })
+    function addLabels() {
+        window.labelsArray.forEach(label => {
+            window.scene.remove(label)
+        })
+        var loader = new THREE.FontLoader();
+        loader.load('fonts/Roboto_Light.json', function (font) {
+            window.lastPlayers.forEach(player => {
 
+
+                let textMesh = new THREE.TextGeometry(player.name, {
+                    font: font,
+                    size: 10,
+                    height: 1,
+                    curveSegments: 6
+                });
+                let playerText = new THREE.Mesh(textMesh, settings.frameMaterial);
+                playerText.position.y = 240
+                playerText.position.x = window.offsetAmount * player.id
+                window.scene.add(playerText)
+                window.labelsArray.push(playerText)
+            })
+        });
+
+
+    }
 
     window.client.on("startGame", function (data) {
         console.log('startGame')
@@ -64,18 +104,42 @@ $(document).ready(function () {
             window.scene.remove(boy)
 
         });
+        game.fallyBoisArray.forEach(element => {
+            window.scene.remove(element)
+        });
         game.clearLiveBoard()
         game.reset()
-
+        game.playing = true
         game.gameStarted = true
+
+        addLabels()
 
         window.Renderr.render(false)
         window.Renderr.render(true)
         $("#waitDiv").hide("slow");
+        $("#loginDiv").hide("slow")
+        window.ui.hideBckd();
         rng = new RNG(start)
     })
 
+    window.client.on("gameEnded", function (data) {
+        console.log('startGame')
+        hold.holdyBoysArray.forEach(boy => {
+            window.scene.remove(boy)
 
+        });
+        game.clearLiveBoard()
+        game.reset()
+        game.playing = false
+        game.gameStarted = false
+
+        window.Renderr.render(false)
+        window.Renderr.render(true)
+        $("#waitDiv").show("slow");
+       //$("#loginDiv").hide("slow")
+        window.ui.showBckd();
+        //rng = new RNG(start)
+    })
     var frameArray = []
     var bgArray = []
     window.staticBoisArray = [];
@@ -236,7 +300,10 @@ $(document).ready(function () {
 
     function checkKey(e) {
         // console.log(game.lock);
+
         if (game.playing) {
+
+            e.preventDefault()
             if (!game.lock) {
                 e = e || window.event;
                 if (e.keyCode == '38') {
@@ -259,19 +326,33 @@ $(document).ready(function () {
                 else if (e.keyCode == '67') {
                     window.tetramino.hold()
                 } else if (e.keyCode == '9') {
-                    e.preventDefault()
-                    console.log('pressed')
-                    console.log(settings.scoreOpened)
+
+                    // console.log('pressed')
+                    //console.log(settings.scoreOpened)
                     if (settings.scoreOpened) {
                         window.ui.closeScore()
-                        console.log('clScore')
+                        //console.log('clScore')
                     } else if (settings.scoreOpened == false) {
                         window.ui.showScore()
-                        console.log('opScore')
+                        // console.log('opScore')
                     }
                 }
             }
+        } else {
+            if (e.keyCode == '9') {
+                e.preventDefault()
+                //console.log('pressed')
+                //console.log(settings.scoreOpened)
+                if (settings.scoreOpened) {
+                    window.ui.closeScore()
+                    //console.log('clScore')
+                } else if (settings.scoreOpened == false) {
+                    window.ui.showScore()
+                    // console.log('opScore')
+                }
+            }
         }
+
     }
 
 
@@ -279,6 +360,6 @@ $(document).ready(function () {
 
     // UI LISTENERS 
     //ui = new Ui()
-   // ui.init()
- 
+    // ui.init()
+
 })

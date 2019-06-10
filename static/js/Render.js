@@ -1,6 +1,6 @@
 class Render {
     constructor(bol) {
-
+        //this.font = new THREE.FontLoader().load('fonts/Roboto_Light.json')
     }
     render(bol) {
         //game.fallyBoisArray = [];

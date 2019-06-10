@@ -1,5 +1,5 @@
 class Frame extends THREE.Object3D {
-    constructor() {
+    constructor(player) {
         super()
         let frameUDgeometry = new THREE.BoxGeometry(110, 5, 13);
 
@@ -23,10 +23,9 @@ class Frame extends THREE.Object3D {
         frameRight.position.y = 98;
         this.add(frameRight)
 
+        
 
-
-
-
+        
         
         var material = new THREE.MeshLambertMaterial({
             color: 0x30bced,

@@ -4,9 +4,10 @@ var settings = {
     }),
     colors: [0xdd4613, 0x75c9e5, 0xf99e1d, 0x106ae8, 0xef0bc5, 0x02d325, 0xcdd10a, 0xe0e0e0],
     normalMaterial: new THREE.MeshNormalMaterial(),
+    glow: new THREE.TextureLoader().load("images/glow.png"),
     hardD1: new THREE.TextureLoader().load("images/hardD1.png"),
     hardD2: new THREE.TextureLoader().load("images/hardD2.png"),
-    font: new THREE.FontLoader().load('fonts/Roboto_Light.json')
+    
 
 }
 
@@ -53,7 +54,7 @@ for (let i = 0; i < settings.colors.length; i++) {
     }))
 }
 settings.spriteMaterial = new THREE.SpriteMaterial({
-    map: settings.hardD1,
+    map: settings.glow,
     transparent: true,
     opacity: 0.5,
     color: 0xffffff,

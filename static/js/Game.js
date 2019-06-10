@@ -105,7 +105,7 @@ class Game {
         this.animations = []
         this.heldpiecie
         this.heldNow = false
-        this.playing=true
+        this.playing=false
         this.dropTimer
         this.incomingTetraminos = []
         this.gameStarted = false
@@ -190,14 +190,16 @@ class Game {
         this.newBoysArray = []
         this.gravity = 5000 
         this.lock = false
-        this.animations = []
+        //this.animations = []
         this.heldpiecie
         this.heldNow = false
-        this.playing=true
+        this.playing=false
         this.dropTimer
         this.incomingTetraminos = []
         this.gameStarted = false
         this.attacks = 0
         this.justAttacked=false
+        this.combo = -1
+        this.comboed = false
     }
 }

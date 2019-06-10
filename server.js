@@ -10,6 +10,7 @@ var max = 0
 var rngArray = []
 var gameState = 'waiting'
 var attacks = []
+var playingPlayers = []
 
 function shuffle(a) {
     var j, x, i;
@@ -37,18 +38,18 @@ function getRNG(num) {
 }
 //var playersNumber = 0
 
-function translateComboToAddLines(combo){
-    if(combo<2){
+function translateComboToAddLines(combo) {
+    if (combo < 2) {
         return 0
-    }else if(combo<4){
+    } else if (combo < 4) {
         return 1
-    }else if(combo<6){
+    } else if (combo < 6) {
         return 2
-    }else if(combo<8){
+    } else if (combo < 8) {
         return 3
-    }else if(combo<11){
+    } else if (combo < 11) {
         return 4
-    }else{
+    } else {
         return 5
     }
 }
@@ -108,11 +109,14 @@ app.post('/getPlayers', function (req, res) {
 })
 app.post('/startGame', function (req, res) {
     if (req.body.confirm) {
-        console.log('reee')
-        //res.send(playersId)
-        rngArray = []
-        gameState = 'playing'
-        socketio.sockets.emit("startGame", { /*posX: data.posX, posY:data.posY*/ });
+        if (gameState == 'waiting') {
+            console.log('reee')
+            //res.send(playersId)
+            rngArray = []
+            playingPlayers = [...players]
+            gameState = 'playing'
+            socketio.sockets.emit("startGame", { /*posX: data.posX, posY:data.posY*/ });
+        }
     }
 })
 
@@ -180,7 +184,7 @@ socketio.on("connection", function (client) {
         }
     }
     attacks.push(0)
-    players.push({ id: id, attack: 0 , realId: client.id})
+    players.push({ id: id, attack: 0, realId: client.id, name: 'Player ' + id, alive: true })
 
 
     // client.on("boards", function (data) {
@@ -192,9 +196,7 @@ socketio.on("connection", function (client) {
     console.log("klient się podłączył: " + client.id + "id: " + id)
 
     client.on("disconnect", function (data) {
-        client.broadcast.emit("playerNumber", {
-            players: players
-        })
+
         console.log("id: " + id + ' disconnected');
 
         for (let j = 0; j < players.length; j++) {
@@ -202,12 +204,28 @@ socketio.on("connection", function (client) {
 
             if (element == id) {
                 players.splice(j, 1)
-             
+
                 break
             }
         }
+        client.broadcast.emit("playerNumber", {
+            players: players
+        })
         console.log('players left: ' + JSON.stringify(players))
         //attacks.unshift()
+
+        playingPlayers.forEach(player => {
+            if (player.realId == client.id) {
+                socketio.sockets.emit("gameEnded")
+                gameState = 'waiting'
+                players.forEach(player => {
+                    player.attack=0
+                    player.alive=true
+                });
+            }
+        });
+
+
     })
 
     client.on("playerMovement", function (data) {
@@ -235,8 +253,8 @@ socketio.on("connection", function (client) {
                 line: data.line,
             })
     })
-    
-    client.on('combo',function(data){
+
+    client.on('combo', function (data) {
         if (gameState == 'playing') {
             // console.log(attacks)
             console.log(players)
@@ -247,24 +265,24 @@ socketio.on("connection", function (client) {
                 console.log('DEFEND! currAttack: ' + players[id].attack)
                 let rmamount = players[id].attack
                 console.log(players[id].attack - (comboAttack - 1))
-                
-                    if (players[id].attack - (comboAttack) < 0) {
-                        // for (let i = 0; i < players.length; i++) {
-                        //     //const element = attacks[i];
-                        //     players[i].attack += (comboAttack - 1) - rmamount
-                        // }
-                        players[id].attack = 0
-                        for (let i = 0; i < players.length; i++) {
-                            //const element = attacks[i];
-                            if (i != id)
-                                if (comboAttack == 4) {
-                                    players[i].attack += (comboAttack) - rmamount
-                                }
-                        }
-                    } else {
-                        players[id].attack -= (comboAttack)
+
+                if (players[id].attack - (comboAttack) < 0) {
+                    // for (let i = 0; i < players.length; i++) {
+                    //     //const element = attacks[i];
+                    //     players[i].attack += (comboAttack - 1) - rmamount
+                    // }
+                    players[id].attack = 0
+                    for (let i = 0; i < players.length; i++) {
+                        //const element = attacks[i];
+                        if (i != id)
+                            if (comboAttack == 4) {
+                                players[i].attack += (comboAttack) - rmamount
+                            }
                     }
-                
+                } else {
+                    players[id].attack -= (comboAttack)
+                }
+
                 console.log('DEFEND! final attack: ' + players[id].attack)
 
                 socketio.sockets.emit("defend", {
@@ -276,8 +294,8 @@ socketio.on("connection", function (client) {
                 for (let i = 0; i < players.length; i++) {
                     //const element = attacks[i];
                     if (i != id)
-                            players[i].attack += (comboAttack) - players[id].attack
-                        
+                        players[i].attack += (comboAttack) - players[id].attack
+
                 }
 
                 socketio.sockets.emit("attackCombo", {
@@ -392,8 +410,42 @@ socketio.on("connection", function (client) {
         })
     })
 
-    client.on("nameSend", function(data) {
-        players[id].name = data.name
+    client.on("nameSend", function (data) {
+        if (data.name != "") {
+            players[id].name = data.name
+            socketio.sockets.emit("updateNames", {
+                players: players
+            })
+        }
+    })
+
+    client.on("dead", function (data) {
+        console.log('dead')
+        players[id].alive = false
+        if (playingPlayers.length > 1) {
+            let aliveNum = 0
+            players.forEach(player => {
+                if (player.alive)
+                    aliveNum += 1
+            })
+            console.log(aliveNum)
+            if (aliveNum <= 1) {
+                socketio.sockets.emit("gameEnded")
+                gameState = 'waiting'
+                players.forEach(player => {
+                    player.attack=0
+                    player.alive=true
+                });
+            }
+        } else {
+            socketio.sockets.emit("gameEnded")
+            gameState = 'waiting'
+            players.forEach(player => {
+                player.attack=0
+                player.alive=true
+            });
+        }
+
     })
 
     client.emit("onconnect", {
