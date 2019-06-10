@@ -5,6 +5,11 @@ $(document).ready(function () {
     window.ui.init()
     window.net = new Net()
 
+    var l = false
+    var d = false
+    var r = false
+    var timers = { l: 0, d: 0, r: 0 }
+
     window.lastPlayers = []
     window.labelsArray = []
     window.xOffset = 0
@@ -136,7 +141,7 @@ $(document).ready(function () {
         window.Renderr.render(false)
         window.Renderr.render(true)
         $("#waitDiv").show("slow");
-       //$("#loginDiv").hide("slow")
+        //$("#loginDiv").hide("slow")
         window.ui.showBckd();
         //rng = new RNG(start)
     })
@@ -269,13 +274,62 @@ $(document).ready(function () {
             }
 
         }
-        if (game.gravity >= game.dropTimer) {
-            game.dropTimer += dt
-        } else {
-            while (game.gravity < game.dropTimer) {
-                game.dropTimer -= game.gravity
-                if (!window.tetramino.touching)
+
+        if (d) {
+            if (timers.d > 0) {
+                if (timers.d - 200 >= 30) {
+                    timers.d -= 30
                     window.tetramino.move(0)
+                }
+            } else {
+                window.tetramino.move(0)
+            }
+            timers.d += dt
+        } else {
+            timers.d = 0
+        }
+        if (l) {
+            if (timers.l > 0) {
+
+                
+                if (timers.l - 200 >= 100) {
+                    //console.log('asdasd')
+                    timers.l -= 100
+                    window.tetramino.move(3)
+                }
+            } else {
+                //console.log('sram')
+                window.tetramino.move(3)
+            }
+            timers.l += dt
+        } else {
+            timers.l = 0
+        }
+        if (r) {
+            if (timers.r > 0) {
+                if (timers.r - 200 >= 100) {
+                    timers.r -= 100
+                    window.tetramino.move(2)
+                }
+            } else {
+                window.tetramino.move(2)
+            }
+            timers.r += dt
+        } else {
+            timers.r = 0
+        }
+
+
+
+        if (!game.lock) {
+            if (game.gravity >= game.dropTimer) {
+                game.dropTimer += dt
+            } else {
+                while (game.gravity < game.dropTimer) {
+                    game.dropTimer -= game.gravity
+                    if (!window.tetramino.touching)
+                        window.tetramino.move(0)
+                }
             }
         }
 
@@ -285,6 +339,8 @@ $(document).ready(function () {
         } else {
             renderer.render(window.scene, window.camera2);
         }
+
+
 
     }
 
@@ -297,6 +353,37 @@ $(document).ready(function () {
 
 
     document.onkeydown = checkKey;
+    document.onkeyup = checkKeyUp
+
+
+    // if (e.keyCode == '38') {
+    //     window.tetramino.move(1)
+    // } else if (e.keyCode == '40') {
+    //     window.tetramino.move(0)
+    // } else if (e.keyCode == '37') {
+    //     window.tetramino.move(3)
+    // } else if (e.keyCode == '39') {
+    //     window.tetramino.move(2)
+    // } else if (e.keyCode == '90') {
+    function checkKeyUp(e) {
+        // console.log(game.lock);
+
+        if (game.playing) {
+
+            e.preventDefault()
+            if (!game.lock) {
+                e = e || window.event;
+                if (e.keyCode == '40') {
+                    d = false
+                } else if (e.keyCode == '37') {
+                    l = false
+                } else if (e.keyCode == '39') {
+                    r = false
+                }
+            }
+        }
+
+    }
 
     function checkKey(e) {
         // console.log(game.lock);
@@ -306,14 +393,12 @@ $(document).ready(function () {
             e.preventDefault()
             if (!game.lock) {
                 e = e || window.event;
-                if (e.keyCode == '38') {
-                    window.tetramino.move(1)
-                } else if (e.keyCode == '40') {
-                    window.tetramino.move(0)
+                if (e.keyCode == '40') {
+                    d = true
                 } else if (e.keyCode == '37') {
-                    window.tetramino.move(3)
+                    l = true
                 } else if (e.keyCode == '39') {
-                    window.tetramino.move(2)
+                    r = true
                 } else if (e.keyCode == '90') {
                     window.tetramino.rotateLeft()
                 } else if (e.keyCode == '88') {
