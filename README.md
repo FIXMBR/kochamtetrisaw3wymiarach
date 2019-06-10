@@ -5,7 +5,8 @@ Bardzo profesjonalny tetris, kompletnie nie naruszający copyrightów napisany n
 
 ## Instalacja
 
-1.Otwieramy folder projektu 
+1.Otwieramy folder projektu
+
 2.Wpisujemy komendy:
   ```
   npm install express
