@@ -9,6 +9,13 @@ class Ui {
     this.interval;
   }
 
+  showBckd() {
+    $("#background").show();
+  }
+  
+  hideBckd() {
+    $("#background").hide();
+  }
   GetScoreClickListenerAdd() {
     $("#btnGetScore").on("click", () => {
       this.showScore();
@@ -85,8 +92,10 @@ class Ui {
   startGameClick() {
     $("#startGame").on("click", () => {
       console.log("startGame");
+      this.hideBckd();
       clearInterval(this.interval)
       $("#waitDiv").hide("slow");
+      $("#help").hide("slow");
       window.net.start()
     });
   }
