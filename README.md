@@ -15,4 +15,5 @@ Bardzo profesjonalny tetris, kompletnie nie naruszający copyrightów napisany n
   
   ```
 3.Otwieramy plik server.js za pomocą node
+
 4.W przeglądarce wpisujemy adres serwera i host 3000
