@@ -36,13 +36,7 @@
       <!-- <button type="button" id="btnSendScore">sendScore</button> -->
       <button type="button" id="btnGetScore">getScore</button>
     </div>
-    <div id="scoreDiv">
-      <div id="scoreHtml">
-        <h1>High Scores</h1>
-        <div id="scoreTable"></div>
-        <button type="button" id="btnCloseScore">close</button>
-      </div>
-    </div>
+   
     <div id="waitDiv"> 
       <div id="waitDivHtml">
           <h1>Waiting for players</h1>
@@ -53,17 +47,39 @@
             </div>
           </div>
           <input type="submit" value="startGame" name="startGame" id="startGame">
+          <input type="submit" value="help" name="helpBtn" id="helpBtn">
       </div>
     </div>
 
     <div id="loginDiv">
       <div id="loginDivHtml">
-          <h2 id="title">Logowanie</h2>
+          <h1 id="title">Logowanie</h1>
                 <input type="text" value="" name="loginInput" id="loginInput">
                 <br>
                 <input type="submit" value="LOGUJ" name="logujInput" id="logujSubmit">
       </div>
     </div>
+    <div id="help">
+      <div id="helpDiv">
+        <h2 id="helpText"></h2>
+        <h3 id="helpText1"></h3>
+        <h3 id="helpText2"></h3>
+        <h3 id="helpText3"></h3>
+        <h3 id="helpText4"></h3>
+        <h3 id="helpText5"></h3>
+        <input type="submit" value="close" name="helpClBtn" id="helpClBtn">
+      </div>
+    </div>
+
+    <div id="scoreDiv">
+      <div id="scoreHtml">
+        <h1>High Scores</h1>
+        <div id="scoreTable"></div>
+        <!-- <button type="button" id="btnCloseScore">close</button> -->
+        <input type="submit" value="close" name="btnCloseScore" id="btnCloseScore">
+      </div>
+    </div>
+
     <div id="render"></div>
   </body>
 </html>

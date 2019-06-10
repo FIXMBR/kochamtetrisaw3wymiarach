@@ -22,6 +22,7 @@ html{
     position: absolute;
     top: 0px;
     left: 80px;
+    margin: 10px;
 }
 #scoreDiv {
     display: none;
@@ -56,18 +57,18 @@ td {
     padding: 20px;
 
 }
-#waitDiv{
+#waitDiv, #help{
     text-align: center;
     width: 70vw;
     height: 70vh;
     display: none;
     position: absolute;
-    background-color:#050401AE;
+    background-color:#050401CE;
     color: white;
     border: 2px solid #fc5130;
     border-radius: 10px;
 }
-#waitDivHtml {
+#waitDivHtml ,#helpDiv{
     width: 100%;
     height: 100%;
     display: flex;
@@ -75,23 +76,26 @@ td {
     flex-direction: column;
     padding: 40px;
 }
+
+#helpDiv h3 {
+    font-size: 1.5em;
+    padding: 10px;
+}
+#helpDiv h2 {
+    font-size: 2em;
+    padding: 10px;
+}
 #waitDivHtml  * {
     padding: 10px;
+}
+#waitDiv input {
+    margin: 10px;
 }
 
 #connectedPlayersTable {
     height: 30vh;
     overflow-y: scroll;
     scrollbar-width: none;
-}
-
-
-#waitDivHtml input[type="submit"] {
-    color: black;
-    border-radius: 10px;
-    background-color: #f5e3e0;
-    border: 2px solid #fc5130;
-    padding: 10px;
 }
 
 #loginDiv {
@@ -101,7 +105,7 @@ td {
     position: absolute;
     width: 70vw;
     height: 70vh;
-    background-color:#050401AE;
+    background-color:#050401CE;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -113,17 +117,25 @@ td {
     margin: 20px;
 }
 
-#loginDivHtml h2 {
+#loginDivHtml h1 {
     color: white;
 }
-#loginDivHtml input[type="submit"] {
+/* #loginDivHtml input[type="submit"] { */
+    /* color: black; */
+    /* border-radius: 10px; */
+    /* background-color: #f5e3e0; */
+    /* border: 2px solid #fc5130; */
+    /* padding: 10px; */
+/* } */
+
+
+input[type="submit"] {
     color: black;
     border-radius: 10px;
     background-color: #f5e3e0;
     border: 2px solid #fc5130;
     padding: 10px;
 }
-
 /* 
 Color palette: 
     jet: #303036;

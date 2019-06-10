@@ -1,10 +1,11 @@
 class Ui {
   init() {
-    this.net = new Net();
+    //this.net = new Net();
     this.GetScoreClickListenerAdd();
     this.closeScoreClick();
     this.closeLoginClick();
     this.startGameClick();
+    this.helpDivClick();
     this.interval;
   }
 
@@ -12,7 +13,7 @@ class Ui {
     $("#btnGetScore").on("click", () => {
       this.showScore();
       console.log("getScoreClick");
-      this.net.getScoreFromSrv();
+    window.net.getScoreFromSrv();
     });
   }
   showScore() {
@@ -55,6 +56,9 @@ class Ui {
   }
   closeLoginClick() {
       var that = this
+      $("#loginDiv h1").css('color', window.ui.getRandomColor);
+      $("#waitDiv h1").css('color', window.ui.getRandomColor);
+      $("#helpText").css('color', window.ui.getRandomColor);
     $("#logujSubmit").on("click", () => {
       console.log("logujSubmit");
       settings.name = $('#loginInput').val()
@@ -62,7 +66,7 @@ class Ui {
       $("#waitDiv").show("slow");
       
      this.interval = setInterval(() => {
-       this.net.getPlayersList()
+       window.net.getPlayersList()
       }, 500);
   })
   }
@@ -72,7 +76,25 @@ class Ui {
       console.log("startGame");
       clearInterval(this.interval)
       $("#waitDiv").hide("slow");
-      this.net.start()
+      window.net.start()
     });
+  }
+
+  helpDivClick() {
+    $("#helpBtn").on("click", () => {
+      $("#help").show("slow");
+      window.net.getHelpDataFromSrv("helpDiv", function (data ) {
+        console.log(data[0].text)
+        $('#helpText').html(data[0].text)
+        $('#helpText1').html(data[0].text1)
+        $('#helpText2').html(data[0].text2)
+        $('#helpText3').html(data[0].text3)
+        $('#helpText4').html(data[0].text4)
+        $('#helpText5').html(data[0].text5)
+    })
+    });
+    $("#helpClBtn").on("click", () => {
+      $("#help").hide("slow");
+    })
   }
 }

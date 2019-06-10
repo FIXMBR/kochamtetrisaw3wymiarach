@@ -1,10 +1,10 @@
 class Net {
     constructor() {
-        this.ui = new Ui
+       // this.ui = new Ui
         //console.log(this.getHelpDataFromSrv("anime"))
-        this.getHelpDataFromSrv("anime", function (data ) {
-            console.log(data)
-        })
+       // this.getHelpDataFromSrv("anime", function (data ) {
+      //      console.log(data)
+     //   })
     }
     sendScoreToSrv(name, score) {
         var that = this
@@ -21,7 +21,7 @@ class Net {
                 if (added) {
 
                     that.getScoreFromSrv()
-                    that.ui.showScore()
+                    window.ui.showScore()
                 }
             },
             error: function (xhr, status, error) {
@@ -43,7 +43,7 @@ class Net {
             success: function (data) {
 
                 //console.log(data)
-                that.ui.makeTable(data)
+              window.ui.makeTable(data)
 
             },
             error: function (xhr, status, error) {

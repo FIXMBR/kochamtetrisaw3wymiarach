@@ -73,7 +73,7 @@ app.post('/getData', function(req, res) {
     serverOperations.getHelpCollection(serverObject.currentDatabase, function (data) {
         //console.log(data)
         operations.SelectAndLimitData(data, req.body, function(dataRec){
-            console.log(dataRec)
+            //console.log(dataRec)
             res.send(dataRec)
         })
         //operations.SelectAll(data, function (data) {
