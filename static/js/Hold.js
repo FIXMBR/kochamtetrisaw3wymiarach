@@ -69,8 +69,10 @@ class Hold {
 
                     let piece = noclipPieces[num].clone()
                     piece.name = "holdBoy"
-                    piece.position.y = 225 - 10 * i
-                    piece.position.x = 10 * j + window.offsetAmount * window.xOffset
+                    piece.position.y = 190 - 9 * i
+                    piece.position.x = 9 * j + window.offsetAmount * window.xOffset - 45
+                    piece.scale.set(0.9, 0.9, 0.9)
+                    
                     window.scene.add(piece)
                     this.holdyBoysArray.push(piece)
                     // window.staticBoisArray.push(piece)

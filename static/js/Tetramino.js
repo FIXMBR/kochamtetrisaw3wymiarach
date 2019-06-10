@@ -180,18 +180,21 @@ class Tetramino {
 
     clearLines(callback) {
 
+        if (game.lines.length > 0)
+            window.attacks.attack(game.lines)
 
         game.lines.forEach(line => {
             window.client.emit("animation", {
-                line:line,
-                animation:"clear"
+                line: line,
+                animation: "clear"
             })
             window.client.emit("playerMovement", {
-                blockNum:this.blockNum,
+                blockNum: this.blockNum,
                 blocksPosition: [],
-                x:this.x,
-                y:this.y
+                x: this.x,
+                y: this.y
             })
+
             game.board.splice(line, 1)
             let nl = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
             game.board.unshift(nl)
@@ -236,10 +239,10 @@ class Tetramino {
                                 if (element.data.piece == data.piece) {
                                     game.animations.splice(j, 1)
                                     window.client.emit("boardUpdate", {
-                                        board:game.board,
+                                        board: game.board,
                                     })
                                     break;
-                                    
+
                                 }
                             }
 
@@ -249,7 +252,7 @@ class Tetramino {
                 }
                 game.animations.push(animation)
 
-               // piece.add(sprite); // this centers the glow at the mesh
+                // piece.add(sprite); // this centers the glow at the mesh
                 game.oldBoard[line][i] = 8
                 // window.client.emit("boardUpdate", {
                 //     board:game.board,
@@ -707,10 +710,10 @@ class Tetramino {
     }
     addTetramino() {
         window.client.emit("playerMovement", {
-            blockNum:this.blockNum,
+            blockNum: this.blockNum,
             blocksPosition: this.blocksPosition,
-            x:this.x,
-            y:this.y
+            x: this.x,
+            y: this.y
         })
         for (let i = 0; i < this.blocksPosition.length; i++) {
             for (let j = 0; j < this.blocksPosition[i].length; j++) {
@@ -768,10 +771,10 @@ class Tetramino {
             }
         }
         window.client.emit("playerMovement", {
-            blockNum:this.blockNum,
+            blockNum: this.blockNum,
             blocksPosition: this.blocksPosition,
-            x:this.x,
-            y:this.y
+            x: this.x,
+            y: this.y
         })
         //game.liveBoard
         //this.hekForLines()
@@ -808,7 +811,8 @@ class Tetramino {
             }
         }
 
-
+        window.client.emit("place", {
+        })
 
         // console.log('owo '+game.board)
         // console.log('uwu ' + game.oldBoard)
@@ -833,17 +837,17 @@ class Tetramino {
 
 
     hardDrop() {
-        
+
         //  console.log(window.ghost.hardDrop)
 
         let oldY = this.y
         this.y = window.ghost.hardDrop
 
         window.client.emit("hardDrop", {
-            oldY:oldY,
-            y:this.y,
-            x:this.x,
-            blocksPosition:this.blocksPosition
+            oldY: oldY,
+            y: this.y,
+            x: this.x,
+            blocksPosition: this.blocksPosition
         })
 
         for (let i = 0; i < this.blocksPosition.length; i++) {

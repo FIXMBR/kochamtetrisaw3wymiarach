@@ -2,7 +2,7 @@ var settings = {
     materialTetra: new THREE.MeshNormalMaterial({
         side: THREE.DoubleSide,
     }),
-    colors: [0xdd4613, 0x75c9e5, 0xf99e1d, 0x106ae8, 0xef0bc5, 0x02d325, 0xcdd10a],
+    colors: [0xdd4613, 0x75c9e5, 0xf99e1d, 0x106ae8, 0xef0bc5, 0x02d325, 0xcdd10a, 0xe0e0e0],
     normalMaterial: new THREE.MeshNormalMaterial(),
     hardD1: new THREE.TextureLoader().load("images/hardD1.png"),
     hardD2: new THREE.TextureLoader().load("images/hardD2.png"),
@@ -18,6 +18,11 @@ settings.ghostMaterial = new THREE.MeshLambertMaterial({
 
     clippingPlanes: [window.localPlane],
     clipShadows: true
+})
+settings.attackMaterial = new THREE.MeshLambertMaterial({
+    color: 0xe0e0e0,
+    // transparent: true,
+    // opacity: 0.9,
 })
 settings.clearMaterial = new THREE.MeshLambertMaterial({
     color: 0xffffff,
@@ -57,8 +62,18 @@ let spriteMaterial = new THREE.SpriteMaterial({
     blending: THREE.AdditiveBlending
 });
 settings.spriteOG = new THREE.Sprite(spriteMaterial);
-
 settings.spriteOG.scale.set(33, 50, 1.0);
+
+let attackAnimationMaterial = new THREE.SpriteMaterial({
+    map: settings.hardD2,
+    transparent: true,
+    opacity: 1,
+    color: 0xffffff,
+    blending: THREE.AdditiveBlending
+});
+settings.attackAnimationSprite = new THREE.Sprite(attackAnimationMaterial);
+settings.attackAnimationSprite.scale.set(20, 20, 1.0)
+
 
 window.getMaterialTetra = function (color) {
     if (color == 'ghost') {
@@ -129,6 +144,7 @@ settings.pieceGeometry.translate(-length / 2, -width / 2, -depth / 2)
 var pieces = []
 var noclipPieces = []
 var ghostPiece = new THREE.Mesh(settings.ghostGeometry, settings.ghostMaterial)
+var attackPiece = new THREE.Mesh(settings.pieceGeometry, settings.attackMaterial)
 
 
 
