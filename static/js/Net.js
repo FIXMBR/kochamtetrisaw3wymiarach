@@ -1,6 +1,10 @@
 class Net {
     constructor() {
         this.ui = new Ui
+        //console.log(this.getHelpDataFromSrv("anime"))
+        this.getHelpDataFromSrv("anime", function (data ) {
+            console.log(data)
+        })
     }
     sendScoreToSrv(name, score) {
         var that = this
@@ -48,6 +52,7 @@ class Net {
 
         })
     }
+
     getPlayersList() {
         var that = this
         $.ajax({
@@ -83,6 +88,31 @@ class Net {
 
         })
     }
+
+    getHelpDataFromSrv(data, callback) {
+        //console.log("getScoreNet")
+        var that = this
+        $.ajax({
+            data: {
+                name: data
+            },
+            url: "/getData",
+            type: "POST",
+            success: function (data) {
+
+                //console.log(data)
+                //that.ui.makeTable(data)
+                //console.log(data)
+                callback(data)
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr);
+            }
+
+        })
+    }
+
+
     start(){
         $.ajax({
             url: "/startGame",
