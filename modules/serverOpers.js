@@ -28,5 +28,12 @@ module.exports = {
             collection = coll;
             callback(collection)
           })
+    },
+    getHelpCollection: function(db, callback) {
+        db.createCollection("help", function (err, coll) {
+            //console.log("kolekcja powstała, sprawdź w konsoli mango")
+            collection = coll;
+            callback(collection)
+          })
     }
 }

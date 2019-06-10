@@ -69,6 +69,22 @@ app.post('/sendScore', function (req, res) {
     })
 })
 
+app.post('/getData', function(req, res) {
+    serverOperations.getHelpCollection(serverObject.currentDatabase, function (data) {
+        //console.log(data)
+        operations.SelectAndLimitData(data, req.body, function(dataRec){
+            console.log(dataRec)
+            res.send(dataRec)
+        })
+        //operations.SelectAll(data, function (data) {
+            //console.log(data)
+          //  res.send(data)
+       // })
+
+
+    })
+}) 
+
 app.post('/getPlayers', function (req, res) {
     //console.log(playersId)
     res.send(playersId)

@@ -32,6 +32,20 @@ module.exports = {
         });
     },
 
+
+    SelectAndLimitData: function (collection,data, callback,) {
+        collection.find(
+            data
+        ).toArray(function (err, items) {
+            //console.log(items)
+            if (err) console.log(err)
+            else callback(items)
+        });
+    },
+
+
+
+
     //delete - usunięcie poprzez id - uwaga na ObjectID
 
     DeleteById: function (ObjectID, collection, id, callback) {
