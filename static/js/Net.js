@@ -70,10 +70,12 @@ class Net {
                 var blue = 150
                 var green = 255
                 data.forEach((element, index) => {
-
+                    if(element.realId == undefined) {
+                        console.log("undefined gracz jezusie")
+                    }
                     table += `<tr style="color:rgb(${red},${green},${blue});" > <td> ${index + 1}. </td>  <td> ${
-                        element
-                        } </td> <td> ${element} </td> </tr>`;
+                        element.name
+                        } </td> <td> ${element.realId} </td> </tr>`;
                     red -= 40;
                     blue += 20;
                     green -= 5;

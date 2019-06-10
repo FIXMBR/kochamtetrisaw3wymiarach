@@ -13,27 +13,35 @@ class Ui {
     $("#btnGetScore").on("click", () => {
       this.showScore();
       console.log("getScoreClick");
-    window.net.getScoreFromSrv();
     });
   }
   showScore() {
+    window.net.getScoreFromSrv();
+    settings.scoreOpened = true
     $("#scoreDiv").show("slow");
+      
   }
 
   closeScoreClick() {
+   
     $("#btnCloseScore").on("click", () => {
-      $("#scoreDiv").hide("slow");
+      this.closeScore()
       console.log("closeScoreClick");
     });
   }
 
+  closeScore() {
+    settings.scoreOpened = false
+    $("#scoreDiv").hide("slow");
+  }
+
   makeTable(data) {
-    console.log(data);
+   // console.log(data);
     var byScore = data.slice(0);
     byScore.sort(function(a, b) {
       return b.score - a.score;
     });
-    console.log(byScore);
+   // console.log(byScore);
     var table = "<table><tr>  <td></td> <td>PLAYER</td>  <td>SCORE</td> </tr>";
 
     byScore.forEach((element, index) => {
@@ -60,8 +68,11 @@ class Ui {
       $("#waitDiv h1").css('color', window.ui.getRandomColor);
       $("#helpText").css('color', window.ui.getRandomColor);
     $("#logujSubmit").on("click", () => {
-      console.log("logujSubmit");
+      //console.log("logujSubmit");
       settings.name = $('#loginInput').val()
+      window.client.emit("nameSend", {
+        name: settings.name
+      })
       $("#loginDiv").hide("slow");
       $("#waitDiv").show("slow");
       
@@ -84,7 +95,6 @@ class Ui {
     $("#helpBtn").on("click", () => {
       $("#help").show("slow");
       window.net.getHelpDataFromSrv("helpDiv", function (data ) {
-        console.log(data[0].text)
         $('#helpText').html(data[0].text)
         $('#helpText1').html(data[0].text1)
         $('#helpText2').html(data[0].text2)

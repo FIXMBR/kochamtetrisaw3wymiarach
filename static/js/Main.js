@@ -1,6 +1,10 @@
 ﻿javascript: (function () { var script = document.createElement('script'); script.onload = function () { var stats = new Stats(); document.body.appendChild(stats.dom); requestAnimationFrame(function loop() { stats.update(); requestAnimationFrame(loop) }); }; script.src = '//mrdoob.github.io/stats.js/build/stats.min.js'; document.head.appendChild(script); })()
 $(document).ready(function () {
-  
+    settings.scoreOpened = false
+    window.ui = new Ui()
+    window.ui.init()
+    window.net = new Net()
+
     window.xOffset = 0
     window.offsetAmount = 200
     window.playerNum = 1
@@ -151,7 +155,7 @@ $(document).ready(function () {
         game.newTetramino()
 
         render();
-        console.log('asdf')
+        //console.log('asdf')
     }
 
     rng = new RNG(start)
@@ -254,6 +258,17 @@ $(document).ready(function () {
                 }
                 else if (e.keyCode == '67') {
                     window.tetramino.hold()
+                } else if (e.keyCode == '9') {
+                    e.preventDefault()
+                    console.log('pressed')
+                    console.log(settings.scoreOpened)
+                    if (settings.scoreOpened) {
+                        window.ui.closeScore()
+                        console.log('clScore')
+                    } else if (settings.scoreOpened == false) {
+                        window.ui.showScore()
+                        console.log('opScore')
+                    }
                 }
             }
         }
@@ -265,7 +280,5 @@ $(document).ready(function () {
     // UI LISTENERS 
     //ui = new Ui()
    // ui.init()
-    window.ui = new Ui()
-    window.ui.init()
-    window.net = new Net()
+ 
 })

@@ -155,3 +155,6 @@ for (let i = 0; i < settings.materials.length; i++) {
 for (let i = 0; i < settings.noClipMaterials.length; i++) {
     noclipPieces.push(new THREE.Mesh(settings.pieceGeometry, settings.noClipMaterials[i]))
 }
+
+
+settings.scoresOpened = false;
