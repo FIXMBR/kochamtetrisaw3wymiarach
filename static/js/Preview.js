@@ -9,7 +9,7 @@ class Preview {
 
         });
         this.previewBoys = []
-        for (let x = 0; x <4; x++) {
+        for (let x = 0; x <3; x++) {
 
             switch (parseInt(game.incomingTetraminos[x])) {
                 case 0:
@@ -75,11 +75,11 @@ class Preview {
                         let piece = noclipPieces[parseInt(game.incomingTetraminos[x])].clone()
                         piece.name = "prevBoy"
                         if (x == 0) {
-                            piece.position.y = 210 - 10 * i 
-                            piece.position.x = 10 * j + window.offsetAmount * window.xOffset + 112
-                            
+                            piece.position.y = 190 - 9 * i 
+                            piece.position.x = 9 * j + window.offsetAmount * window.xOffset + 112
+                            piece.scale.set(0.9, 0.9, 0.9)
                         } else {
-                            piece.position.y = 210 - 7 * i - 30 * x
+                            piece.position.y = 183 - 7 * i - 25 * x
                             piece.position.x = 7 * j + window.offsetAmount * window.xOffset + 112
                             piece.scale.set(0.7, 0.7, 0.7)
                         }

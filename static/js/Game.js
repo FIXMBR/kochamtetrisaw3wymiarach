@@ -109,6 +109,7 @@ class Game {
         this.dropTimer
         this.incomingTetraminos = []
         this.gameStarted = false
+        this.attacks = 0
     }
     clearLiveBoard() {
         this.liveBoard.forEach(i => {
@@ -193,5 +194,6 @@ class Game {
         this.dropTimer
         this.incomingTetraminos = []
         this.gameStarted = false
+        this.attacks = 0
     }
 }

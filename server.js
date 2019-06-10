@@ -10,6 +10,7 @@ var max = 0
 var playersId = []
 var rngArray = []
 var gameState = 'waiting'
+var attacks = []
 
 function shuffle(a) {
     var j, x, i;
@@ -146,7 +147,7 @@ socketio.on("connection", function (client) {
             break
         }
     }
-
+    attacks.push(0)
     players.push(id)
     playersId.push(client.id)
 
@@ -175,7 +176,7 @@ socketio.on("connection", function (client) {
             }
         }
         console.log('players left: ' + players);
-
+        attacks.unshift()
     })
 
     client.on("playerMovement", function (data) {
@@ -196,13 +197,45 @@ socketio.on("connection", function (client) {
                 board: data.board
             })
     })
-
     client.on("animation", function (data) {
         if (gameState == 'playing')
             client.broadcast.emit("animation", {
                 id: id,
                 line: data.line,
             })
+    })
+    //TODO fix this shit man (attacks)
+    client.on("attack", function (data) {
+        if (gameState == 'playing') {
+            console.log(attacks)
+            if (attacks[id] > 0) {
+                let rmamount = attacks[id]
+                if (attacks[id] - (data.lines - 1) < 0) {
+                    for (let i = 0; i < attacks.length; i++) {
+                        //const element = attacks[i];
+                        attacks[i] += (data.lines.length - 1) - rmamount
+                    }
+                    attacks[id] = 0
+                }
+
+                socketio.sockets.emit("defend", {
+                    id: id,
+                    lines: data.lines,
+                    attacks: attacks
+                })
+            } else {
+                for (let i = 0; i < attacks.length; i++) {
+                    //const element = attacks[i];
+                    if (i != id)
+                        attacks[i] += (data.lines.length - 1) - attacks[id]
+                }
+
+                socketio.sockets.emit("attack", {
+                    id: id,
+                    lines: data.lines,
+                })
+            }
+        }
     })
     client.on("hardDrop", function (data) {
         if (gameState == 'playing')
@@ -215,6 +248,22 @@ socketio.on("connection", function (client) {
             })
     })
 
+    client.on("place", function (data) {
+        if (gameState == 'playing') {
+            if (attacks[id]>0) {
+                client.emit("trash", {
+                    id: id,
+                    trash:attacks[id]
+                })
+            }
+        }
+    })
+
+    client.on("trashed", function (data) {
+        if (gameState == 'playing') {
+            attacks[id] -= data.trash
+        }
+    })
 
     client.emit("onconnect", {
         players: players,

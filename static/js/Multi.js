@@ -2,14 +2,34 @@ class Multi {
     constructor() {
         this.boysArray = []
         this.board3dArray = []
-        this.oldBoards=[]
-        var _this=this
+        this.oldBoards = []
+        var _this = this
+        window.client.on('trash', function (data) {
+            console.log(data.trash)
+            let rng = Math.floor(Math.random() * (10))
+            
+            for (let i = 0; i < data.trash; i++) {
+                game.board.splice(0, 1)
+                let newRng = Math.floor(Math.random() * (10))
+                if(newRng >=7){
+                    rng = Math.floor(Math.random() * (10))
+                }
+                let nl = [7, 7, 7, 7, 7, 7, 7, 7, 7, 7]
+                nl[rng] = -1
+                game.board.push(nl)
+                //check if out of range
+            }
+            window.Renderr.render(true)
+            window.client.emit('trashed', {
+                trash: data.trash
+            })
+        })
         window.client.on("playerMoved", function (data) {
             //console.log(data)
-            while(_this.boysArray.length-1<data.id){
+            while (_this.boysArray.length - 1 < data.id) {
                 _this.boysArray.push([])
             }
-            _this.boysArray.forEach(element => {
+            _this.boysArray[data.id].forEach(element => {
                 window.scene.remove(element)
             });
             for (let i = 0; i < data.blocksPosition.length; i++) {
@@ -21,7 +41,7 @@ class Multi {
                         piece.position.y = 210 - 10 * i - 10 * data.y
                         piece.position.x = 10 * j + 10 * data.x + window.offsetAmount * data.id
                         window.scene.add(piece)
-                        _this.boysArray.push(piece)
+                        _this.boysArray[data.id].push(piece)
                     }
                 }
             }
@@ -29,7 +49,7 @@ class Multi {
         window.client.on("boardUpdate", function (data) {
             //console.log(data)
 
-            while(_this.board3dArray.length-1<data.id){
+            while (_this.board3dArray.length - 1 < data.id) {
                 _this.board3dArray.push([
                     [null, null, null, null, null, null, null, null, null, null],
                     [null, null, null, null, null, null, null, null, null, null],
@@ -55,7 +75,7 @@ class Multi {
                     [null, null, null, null, null, null, null, null, null, null]
                 ])
             }
-            while(_this.oldBoards.length-1<data.id){
+            while (_this.oldBoards.length - 1 < data.id) {
                 _this.oldBoards.push([
                     [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
                     [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
@@ -112,63 +132,63 @@ class Multi {
             }
         })
         window.client.on("animation", function (data) {
-                let line = data.line
-                for (let i = 0; i < _this.board3dArray[data.id][line].length; i++) {
+            let line = data.line
+            for (let i = 0; i < _this.board3dArray[data.id][line].length; i++) {
 
-                    window.scene.remove(_this.board3dArray[data.id][line][i])
-                    ////console.log(piece)
-                    _this.board3dArray[data.id][line][i] = new THREE.Mesh(settings.pieceGeometry, settings.clearMaterial)
-                    //piece.material = settings.clearMaterial
-    
-                    _this.board3dArray[data.id][line][i].name = "staticBoy"
-                    _this.board3dArray[data.id][line][i].position.y = 210 - 10 * line
-                    _this.board3dArray[data.id][line][i].position.x = 10 * i + window.offsetAmount * data.id
-                    const piece = _this.board3dArray[data.id][line][i];
-                    window.scene.add(_this.board3dArray[data.id][line][i])
-    
-                    
-                    let sprite = settings.clearSprite.clone()
-                    sprite.scale.set(30, 30, 1.0);
-                    piece.add(sprite); // this centers the glow at the mesh
-    
-                    let animation = {
-                        data: {
-                            sprite: sprite,
-                            piece: piece,
-                            id: i,
-                            time: 0
-                        },
-                        animate: function (data, dt) {
-    
-                            // if (data.frames < 8) {
-                            //     data.sprite.opacity += 0.1
-                            // } else {
-                            //     data.sprite.opacity += 0.05
-                            // }
-    
-                            piece.translateX((4.5 - data.id) * dt / 20)
-    
-                            if (data.time > 200) {
-                                
-                                window.scene.remove(data.piece)
-                                for (let j = 0; j < game.animations.length; j++) {
-                                    const element = game.animations[j];
-                                    if (element.data.piece == data.piece) {
-                                        game.animations.splice(j, 1)
-                                        break;
-                                    }
+                window.scene.remove(_this.board3dArray[data.id][line][i])
+                ////console.log(piece)
+                _this.board3dArray[data.id][line][i] = new THREE.Mesh(settings.pieceGeometry, settings.clearMaterial)
+                //piece.material = settings.clearMaterial
+
+                _this.board3dArray[data.id][line][i].name = "staticBoy"
+                _this.board3dArray[data.id][line][i].position.y = 210 - 10 * line
+                _this.board3dArray[data.id][line][i].position.x = 10 * i + window.offsetAmount * data.id
+                const piece = _this.board3dArray[data.id][line][i];
+                window.scene.add(_this.board3dArray[data.id][line][i])
+
+
+                let sprite = settings.clearSprite.clone()
+                sprite.scale.set(30, 30, 1.0);
+                piece.add(sprite); // this centers the glow at the mesh
+
+                let animation = {
+                    data: {
+                        sprite: sprite,
+                        piece: piece,
+                        id: i,
+                        time: 0
+                    },
+                    animate: function (data, dt) {
+
+                        // if (data.frames < 8) {
+                        //     data.sprite.opacity += 0.1
+                        // } else {
+                        //     data.sprite.opacity += 0.05
+                        // }
+
+                        piece.translateX((4.5 - data.id) * dt / 20)
+
+                        if (data.time > 200) {
+
+                            window.scene.remove(data.piece)
+                            for (let j = 0; j < game.animations.length; j++) {
+                                const element = game.animations[j];
+                                if (element.data.piece == data.piece) {
+                                    game.animations.splice(j, 1)
+                                    break;
                                 }
-    
                             }
-                            data.time += dt
+
                         }
+                        data.time += dt
                     }
-                    game.animations.push(animation)
-    
-                    //piece.add(sprite); // this centers the glow at the mesh
-                    _this.oldBoards[data.id][line][i] = 8
                 }
-            
+                game.animations.push(animation)
+
+                //piece.add(sprite); // this centers the glow at the mesh
+                _this.oldBoards[data.id][line][i] = 8
+            }
+
         })
         window.client.on("hardDrop", function (data) {
             for (let i = 0; i < data.blocksPosition.length; i++) {
@@ -189,7 +209,7 @@ class Multi {
                                 time: 0
                             },
                             animate: function (data, dt) {
-    
+
                                 if (data.time < 75) {
                                     data.sprite.material.opacity += 0.1 * dt / 10
                                 } else {
@@ -201,7 +221,7 @@ class Multi {
                                 //console.log(data.sprite.material.opacity)
                                 sprite.scale.set(33, (data.y - data.oldY) * 4, 1.0)
                                 sprite.translateY((dt / 30) * (data.y - data.oldY))
-    
+
                                 if (data.time > 200) {
                                     for (let j = 0; j < game.animations.length; j++) {
                                         const element = game.animations[j];
@@ -211,17 +231,17 @@ class Multi {
                                             break;
                                         }
                                     }
-    
+
                                 }
                                 data.time += dt
                             }
                         }
                         game.animations.push(animation)
-    
+
                     }
                 }
             }
-        
-    })
+
+        })
     }
 }

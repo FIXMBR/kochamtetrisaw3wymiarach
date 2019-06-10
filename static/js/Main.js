@@ -2,10 +2,12 @@
 $(document).ready(function () {
     window.xOffset = 0
     window.offsetAmount = 200
+    window.playerNum = 1
     window.client = io();
     window.client.on("onconnect", function (data) {
         // alert(data.id)
         xOffset = data.id
+        window.playerNum = data.players.length
         data.players.forEach(id => {
             let frame = new Frame
             frame.position.x = window.offsetAmount * (id) + 45;
@@ -47,7 +49,7 @@ $(document).ready(function () {
 
         window.camera.position.x = 40 + 100 * (data.players.length - 1)
         // controls.target.set(40 + 100 * (data.players.length - 1), 100, 500);
-
+        window.playerNum = data.players.length
     })
 
 
@@ -61,7 +63,7 @@ $(document).ready(function () {
         game.reset()
 
         game.gameStarted = true
-        
+
         window.Renderr.render(false)
         window.Renderr.render(true)
         $("#waitDiv").hide("slow");
@@ -155,6 +157,7 @@ $(document).ready(function () {
     hold = new Hold
     var multi = new Multi()
     window.preview = new Preview()
+    window.attacks = new Attacks()
     //  var orbitControl = new THREE.OrbitControls(camera, renderer.domElement);
     //  orbitControl.addEventListener('change', function () {
     //       renderer.render(window.scene, camera)
