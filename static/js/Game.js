@@ -111,6 +111,8 @@ class Game {
         this.gameStarted = false
         this.attacks = 0
         this.justAttacked=false
+        this.combo = 0
+        this.comboed = false
     }
     clearLiveBoard() {
         this.liveBoard.forEach(i => {

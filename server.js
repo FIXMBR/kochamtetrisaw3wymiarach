@@ -73,7 +73,7 @@ app.post('/sendScore', function (req, res) {
 app.post('/getData', function (req, res) {
     serverOperations.getHelpCollection(serverObject.currentDatabase, function (data) {
         //console.log(data)
-        operations.SelectAndLimitData(data, req.body, function(dataRec){
+        operations.SelectAndLimitData(data, req.body, function (dataRec) {
             //console.log(dataRec)
             res.send(dataRec)
         })
@@ -232,11 +232,20 @@ socketio.on("connection", function (client) {
                 let rmamount = players[id].attack
                 console.log(players[id].attack - (data.lines.length - 1))
                 if (players[id].attack - (data.lines.length - 1) < 0) {
+                    // for (let i = 0; i < players.length; i++) {
+                    //     //const element = attacks[i];
+                    //     players[i].attack += (data.lines.length - 1) - rmamount
+                    // }
+                    players[id].attack = 0
                     for (let i = 0; i < players.length; i++) {
                         //const element = attacks[i];
-                        players[i].attack += (data.lines.length - 1) - rmamount
+                        if (i != id)
+                            if (data.lines.length == 4) {
+                                players[i].attack += (data.lines.length) - rmamount
+                            } else {
+                                players[i].attack += (data.lines.length - 1) - rmamount
+                            }
                     }
-                    players[id].attack = 0
                 } else {
                     players[id].attack -= (data.lines.length - 1)
                 }
@@ -280,7 +289,7 @@ socketio.on("connection", function (client) {
     client.on("place", function (data) {
         if (gameState == 'playing') {
             if (players[id] != undefined) {
-                
+
                 if (players[id].attack > 0) {
                     client.emit("trash", {
                         id: id,

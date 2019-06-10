@@ -120,6 +120,16 @@ class Net {
             data: {
                 confirm: true
             },
+            success: function (data) {
+
+                //console.log(data)
+                //that.ui.makeTable(data)
+                //console.log(data)
+                console.log(data)
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr);
+            }
         })
     }
 }

@@ -139,7 +139,7 @@ class Attacks {
                 let piece = noclipPieces[7].clone()
                 piece.name = "attackBoy"
                 piece.position.y = 220 
-                piece.position.x = 10 * i + window.offsetAmount * player.id
+                piece.position.x = 17 * i + window.offsetAmount * player.id
                 window.scene.add(piece)
                 // window.staticBoisArray.push(piece)
                 this.attackBoys.push(piece)
