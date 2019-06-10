@@ -18,6 +18,9 @@ class Render {
                     if (element != game.oldBoard[i][j]) {
 
                         if (element != -1) {
+                             if(i<=1){
+                                window.tetramino.loss()
+                            }
                             if (game.oldBoard[i][j] != -1) {
                                 window.scene.remove(game.board3d[i][j])
                             }

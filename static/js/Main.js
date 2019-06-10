@@ -34,11 +34,13 @@ $(document).ready(function () {
 
             // console.log(id)
             if (data.id == id.id) {
-                xOffset = x
+                xOffset = id.id
             }
 
             x++
         })
+        if (window.model != undefined)
+            window.model.position.setX(40 + 100 * (window.lastPlayers.length - 1))
         window.camera.position.x = 40 + 100 * (data.players.length - 1)
         //  controls.target.set(40 + 100 * (data.players.length - 1), 100, 500);
 
@@ -58,7 +60,7 @@ $(document).ready(function () {
             frameArray.push(frame)
 
             if (data.id == id.id) {
-                xOffset = x
+                xOffset = id.id
             }
 
             // let background = new Background
@@ -69,7 +71,8 @@ $(document).ready(function () {
         })
 
         window.Renderr.render(false)
-
+        if (window.model != undefined)
+            window.model.position.setX(40 + 100 * (window.lastPlayers.length - 1))
         window.camera.position.x = 40 + 100 * (data.players.length - 1)
         // controls.target.set(40 + 100 * (data.players.length - 1), 100, 500);
         window.playerNum = data.players.length
@@ -104,6 +107,35 @@ $(document).ready(function () {
     }
 
     window.client.on("startGame", function (data) {
+        frameArray.forEach(frame => {
+            scene.remove(frame)
+        });
+        window.lastPlayers = [...data.players]
+        let x = 0
+        data.players.forEach(id => {
+
+            let frame = new Frame(id)
+            frame.position.x = window.offsetAmount * (x) + 45;
+            scene.add(frame)
+            frameArray.push(frame)
+
+            if (data.id == id.id) {
+                xOffset = id.id
+            }
+
+            // let background = new Background
+            // background.position.x = window.offsetAmount * (id )// +45;
+            // //bgArray.push(background)
+            // scene.add(background)
+            x++
+        })
+
+        window.Renderr.render(false)
+        if (window.model != undefined)
+            window.model.position.setX(40 + 100 * (window.lastPlayers.length - 1))
+        window.camera.position.x = 40 + 100 * (data.players.length - 1)
+        // controls.target.set(40 + 100 * (data.players.length - 1), 100, 500);
+        window.playerNum = data.players.length
         console.log('startGame')
         hold.holdyBoysArray.forEach(boy => {
             window.scene.remove(boy)
@@ -118,7 +150,7 @@ $(document).ready(function () {
         game.gameStarted = true
 
         addLabels()
-
+        window.scene.remove(window.model)
         window.Renderr.render(false)
         window.Renderr.render(true)
         $("#waitDiv").hide("slow");
@@ -128,6 +160,7 @@ $(document).ready(function () {
     })
 
     window.client.on("gameEnded", function (data) {
+        window.scene.add(window.model)
         console.log('startGame')
         hold.holdyBoysArray.forEach(boy => {
             window.scene.remove(boy)
@@ -263,7 +296,10 @@ $(document).ready(function () {
         var now = Date.now();
         var dt = (now - lastUpdate);
         lastUpdate = now;
-        mixer.update(dt/100000);
+        if (mixer) {
+            mixer.update(dt / 5000);
+        }
+
         animate(dt)
         if (window.tetramino.touching) {
             window.tetramino.localLock -= dt
@@ -292,7 +328,7 @@ $(document).ready(function () {
         if (l) {
             if (timers.l > 0) {
 
-                
+
                 if (timers.l - 200 >= 100) {
                     //console.log('asdasd')
                     timers.l -= 100
@@ -436,6 +472,8 @@ $(document).ready(function () {
                     window.ui.showScore()
                     // console.log('opScore')
                 }
+            }else if (e.keyCode == '16') {
+                e.preventDefault()
             }
         }
 
@@ -448,42 +486,47 @@ $(document).ready(function () {
     //ui = new Ui()
     // ui.init()
 
-   
+
     var loader = new THREE.GLTFLoader();
 
     loader.load(
         // resource URL
         'images/orange_justice/scene.gltf',
         // called when the resource is loaded
-        function ( gltf ) {
-            const model = gltf.scene
-            window.scene.add(model);
+        function (gltf) {
+            window.gltf = gltf
+            window.model = gltf.scene
+            // window.model.position
+            window.model.position.set(140, 20, 10)
+            window.model.position.setX(40 + 100 * (window.lastPlayers.length - 1))
+            //window.scene.add(window.model)
+            //window.scene.add(model);
             //window.scene.add(gltf.animations)
             //gltf.animations; // Array<THREE.AnimationClip>
-           // gltf.scene; // THREE.Scene
-           // gltf.scenes; // Array<THREE.Scene>
-         //   gltf.cameras; // Array<THREE.Camera>
-          //  gltf.asset; // Object
+            // gltf.scene; // THREE.Scene
+            // gltf.scenes; // Array<THREE.Scene>
+            //   gltf.cameras; // Array<THREE.Camera>
+            //  gltf.asset; // Object
 
-            mixer = new THREE.AnimationMixer(model);
+            mixer = new THREE.AnimationMixer(window.model);
             mixer.timeScale = 5;
-            console.log(gltf.animations)
-            mixer.clipAction(gltf.animations[0]).play();
-   
-    
+            console.log(window.gltf.animations)
+            mixer.clipAction(window.gltf.animations[0]).play();
+
+
         },
         // called while loading is progressing
-        function ( xhr ) {
-    
-            console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-    
+        function (xhr) {
+
+            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+
         },
         // called when loading has errors
-        function ( error ) {
-    
-            console.log( 'An error happened' );
+        function (error) {
+
+            console.log('An error happened');
             console.log(error)
-    
+
         }
     );
 

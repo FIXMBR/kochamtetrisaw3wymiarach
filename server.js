@@ -115,7 +115,7 @@ app.post('/startGame', function (req, res) {
             rngArray = []
             playingPlayers = [...players]
             gameState = 'playing'
-            socketio.sockets.emit("startGame", { /*posX: data.posX, posY:data.posY*/ });
+            socketio.sockets.emit("startGame", {players: playingPlayers });
         }
     }
 })

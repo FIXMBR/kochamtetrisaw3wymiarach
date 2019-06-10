@@ -4,7 +4,7 @@ class Tetramino {
         this.blockNum = num;
         this.blockRotation = 0;
         this.x = 3
-        this.y = 0
+        this.y = 3
         this.localLock = 500
         this.totalLock = 4000
         this.touching = false
@@ -784,6 +784,7 @@ class Tetramino {
     loss() {
         if (game.gameStarted) {
             game.playing = false
+            game.gameStarted = false
             game.lock = true
             game.ghostyBoisArray.forEach(element => {
                 window.scene.remove(element)
