@@ -111,7 +111,7 @@ class Game {
         this.gameStarted = false
         this.attacks = 0
         this.justAttacked=false
-        this.combo = 0
+        this.combo = -1
         this.comboed = false
     }
     clearLiveBoard() {

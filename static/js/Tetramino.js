@@ -180,6 +180,8 @@ class Tetramino {
 
     clearLines(callback) {
         if (game.lines.length > 0) {
+            game.combo += 1
+            game.comboed = true
             window.attacks.attack(game.lines)
             game.justAttacked = true
         }
@@ -824,13 +826,21 @@ class Tetramino {
 
         window.Renderr.render(false)
         window.Renderr.render(true)
-        
+
+        game.comboed = false
         game.justAttacked = false
         this.clearLines(function () {
             game.newTetramino()
             game.lock = false
             window.Renderr.render(false)
             window.Renderr.render(true)
+            if (game.comboed == false) {
+                if (game.combo > 0) {
+                    attacks.sendCombo()
+                } else {
+                    game.combo = -1
+                }
+            }
             //game.heldNow=false
         })
         game.heldNow = false

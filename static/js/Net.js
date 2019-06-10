@@ -113,7 +113,7 @@ class Net {
     }
 
 
-    start(){
+    startGame(){
         $.ajax({
             url: "/startGame",
             type: "POST",

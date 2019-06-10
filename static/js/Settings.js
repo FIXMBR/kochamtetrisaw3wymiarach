@@ -6,7 +6,7 @@ var settings = {
     normalMaterial: new THREE.MeshNormalMaterial(),
     hardD1: new THREE.TextureLoader().load("images/hardD1.png"),
     hardD2: new THREE.TextureLoader().load("images/hardD2.png"),
-
+    font: new THREE.FontLoader().load('fonts/Roboto_Light.json')
 
 }
 window.localPlane = new THREE.Plane(new THREE.Vector3(0, - 1, 0), 200);

@@ -76,7 +76,7 @@ class Ui {
       console.log("startGame");
       clearInterval(this.interval)
       $("#waitDiv").hide("slow");
-      window.net.start()
+      window.net.startGame()
     });
   }
 

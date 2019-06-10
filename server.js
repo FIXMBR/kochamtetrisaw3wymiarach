@@ -38,6 +38,22 @@ function getRNG(num) {
 }
 //var playersNumber = 0
 
+function translateComboToAddLines(combo){
+    if(combo<2){
+        return 0
+    }else if(combo<4){
+        return 1
+    }else if(combo<6){
+        return 2
+    }else if(combo<8){
+        return 3
+    }else if(combo<11){
+        return 4
+    }else{
+        return 5
+    }
+}
+
 var operations = require("./modules/Operations.js");
 var serverOperations = require("./modules/serverOpers.js");
 var serverObject;
@@ -221,7 +237,60 @@ socketio.on("connection", function (client) {
                 line: data.line,
             })
     })
-    //TODO fix this shit man (attacks)
+    
+    client.on('combo',function(data){
+        if (gameState == 'playing') {
+            // console.log(attacks)
+            console.log(players)
+
+            let comboAttack = translateComboToAddLines(data.combo)
+
+            if (players[id].attack > 0) {
+                console.log('DEFEND! currAttack: ' + players[id].attack)
+                let rmamount = players[id].attack
+                console.log(players[id].attack - (comboAttack - 1))
+                
+                    if (players[id].attack - (comboAttack) < 0) {
+                        // for (let i = 0; i < players.length; i++) {
+                        //     //const element = attacks[i];
+                        //     players[i].attack += (comboAttack - 1) - rmamount
+                        // }
+                        players[id].attack = 0
+                        for (let i = 0; i < players.length; i++) {
+                            //const element = attacks[i];
+                            if (i != id)
+                                if (comboAttack == 4) {
+                                    players[i].attack += (comboAttack) - rmamount
+                                }
+                        }
+                    } else {
+                        players[id].attack -= (comboAttack)
+                    }
+                
+                console.log('DEFEND! final attack: ' + players[id].attack)
+
+                socketio.sockets.emit("defend", {
+                    id: id,
+                    lines: data.lines,
+                    attacks: players
+                })
+            } else {
+                for (let i = 0; i < players.length; i++) {
+                    //const element = attacks[i];
+                    if (i != id)
+                            players[i].attack += (comboAttack) - players[id].attack
+                        
+                }
+
+                socketio.sockets.emit("attackCombo", {
+                    id: id,
+                    lines: comboAttack,
+                    attacks: players
+                })
+            }
+        }
+    })
+
     client.on("attack", function (data) {
         if (gameState == 'playing') {
             // console.log(attacks)
@@ -231,23 +300,39 @@ socketio.on("connection", function (client) {
                 console.log('DEFEND! currAttack: ' + players[id].attack)
                 let rmamount = players[id].attack
                 console.log(players[id].attack - (data.lines.length - 1))
-                if (players[id].attack - (data.lines.length - 1) < 0) {
-                    // for (let i = 0; i < players.length; i++) {
-                    //     //const element = attacks[i];
-                    //     players[i].attack += (data.lines.length - 1) - rmamount
-                    // }
-                    players[id].attack = 0
-                    for (let i = 0; i < players.length; i++) {
-                        //const element = attacks[i];
-                        if (i != id)
-                            if (data.lines.length == 4) {
-                                players[i].attack += (data.lines.length) - rmamount
-                            } else {
-                                players[i].attack += (data.lines.length - 1) - rmamount
-                            }
+                if (data.lines.length == 4) {
+                    if (players[id].attack - (data.lines.length) < 0) {
+                        // for (let i = 0; i < players.length; i++) {
+                        //     //const element = attacks[i];
+                        //     players[i].attack += (data.lines.length - 1) - rmamount
+                        // }
+                        players[id].attack = 0
+                        for (let i = 0; i < players.length; i++) {
+                            //const element = attacks[i];
+                            if (i != id)
+                                if (data.lines.length == 4) {
+                                    players[i].attack += (data.lines.length) - rmamount
+                                }
+                        }
+                    } else {
+                        players[id].attack -= (data.lines.length)
                     }
                 } else {
-                    players[id].attack -= (data.lines.length - 1)
+                    if (players[id].attack - (data.lines.length - 1) < 0) {
+                        // for (let i = 0; i < players.length; i++) {
+                        //     //const element = attacks[i];
+                        //     players[i].attack += (data.lines.length - 1) - rmamount
+                        // }
+                        players[id].attack = 0
+                        for (let i = 0; i < players.length; i++) {
+                            //const element = attacks[i];
+                            if (i != id)
+                                players[i].attack += (data.lines.length - 1) - rmamount
+
+                        }
+                    } else {
+                        players[id].attack -= (data.lines.length - 1)
+                    }
                 }
                 console.log('DEFEND! final attack: ' + players[id].attack)
 
