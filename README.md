@@ -1,4 +1,4 @@
-# teTHREE.js
+# teTHREEis
 
 ## Opis 
 Bardzo profesjonalny tetris, kompletnie nie naruszający copyrightów napisany na THREE.js
