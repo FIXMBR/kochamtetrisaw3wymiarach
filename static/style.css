@@ -30,7 +30,7 @@ html{
     top: 0;
     width: 100vw;
     height: 100vh;
-    background-color:#050401AE;
+    background-color:#050401DE;
     color: white;
     font-weight: bolder;
     overflow-y: scroll;
@@ -136,6 +136,7 @@ input[type="submit"] {
     padding: 15px;
 
 }
+
 /* 
 Color palette: 
     jet: #303036;

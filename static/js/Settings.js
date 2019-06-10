@@ -6,10 +6,15 @@ var settings = {
     normalMaterial: new THREE.MeshNormalMaterial(),
     hardD1: new THREE.TextureLoader().load("images/hardD1.png"),
     hardD2: new THREE.TextureLoader().load("images/hardD2.png"),
-
-
 }
+
 window.localPlane = new THREE.Plane(new THREE.Vector3(0, - 1, 0), 200);
+
+settings.frameMaterial = new THREE.MeshLambertMaterial({
+    color: 0xfc5130,
+   //clippingPlanes: [window.localPlane],
+    //clipShadows: true
+})
 
 settings.ghostMaterial = new THREE.MeshLambertMaterial({
     color: 0xffffff,
