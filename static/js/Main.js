@@ -252,12 +252,12 @@ $(document).ready(function () {
         });
     }
 
-
+    var mixer;
     function render() {
         var now = Date.now();
         var dt = (now - lastUpdate);
         lastUpdate = now;
-
+        mixer.update(dt);
         animate(dt)
         if (window.tetramino.touching) {
             window.tetramino.localLock -= dt
@@ -361,5 +361,43 @@ $(document).ready(function () {
     // UI LISTENERS 
     //ui = new Ui()
     // ui.init()
+
+   
+    var loader = new THREE.GLTFLoader();
+
+    loader.load(
+        // resource URL
+        'images/orange_justice/scene.gltf',
+        // called when the resource is loaded
+        function ( gltf ) {
+            const model = gltf.scene
+            window.scene.add(model);
+            //window.scene.add(gltf.animations)
+            //gltf.animations; // Array<THREE.AnimationClip>
+           // gltf.scene; // THREE.Scene
+           // gltf.scenes; // Array<THREE.Scene>
+         //   gltf.cameras; // Array<THREE.Camera>
+          //  gltf.asset; // Object
+
+            mixer = new THREE.AnimationMixer(model);
+            console.log(gltf.animations)
+            mixer.clipAction(gltf.animations[0]).play();
+   
+    
+        },
+        // called while loading is progressing
+        function ( xhr ) {
+    
+            console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+    
+        },
+        // called when loading has errors
+        function ( error ) {
+    
+            console.log( 'An error happened' );
+            console.log(error)
+    
+        }
+    );
 
 })
