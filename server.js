@@ -107,6 +107,7 @@ app.post('/getPlayers', function (req, res) {
     res.send(players)
 
 })
+/*
 app.post('/startGame', function (req, res) {
     if (req.body.confirm) {
         if (gameState == 'waiting') {
@@ -119,7 +120,7 @@ app.post('/startGame', function (req, res) {
         }
     }
 })
-
+*/
 app.post('/getRNG', function (req, res) {
     //console.log("stram")
     //console.log(req.body.num)
@@ -399,6 +400,7 @@ socketio.on("connection", function (client) {
                 }
             }
         }
+        
     })
 
     client.on("trashed", function (data) {
@@ -454,5 +456,17 @@ socketio.on("connection", function (client) {
     })
     client.broadcast.emit("playerNumber", {
         players: players
+    })
+    client.on('startGame',function(data){
+        if (data.confirm) {
+            if (gameState == 'waiting') {
+                console.log('reee')
+                //res.send(playersId)
+                rngArray = []
+                playingPlayers = [...players]
+                gameState = 'playing'
+                socketio.sockets.emit("startGame", {players: playingPlayers,data:data.data });
+            }
+        }
     })
 })

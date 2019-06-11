@@ -1,4 +1,5 @@
-﻿// javascript: (function () { var script = document.createElement('script'); script.onload = function () { var stats = new Stats(); document.body.appendChild(stats.dom); requestAnimationFrame(function loop() { stats.update(); requestAnimationFrame(loop) }); }; script.src = '//mrdoob.github.io/stats.js/build/stats.min.js'; document.head.appendChild(script); })()
+﻿
+// javascript: (function () { var script = document.createElement('script'); script.onload = function () { var stats = new Stats(); document.body.appendChild(stats.dom); requestAnimationFrame(function loop() { stats.update(); requestAnimationFrame(loop) }); }; script.src = '//mrdoob.github.io/stats.js/build/stats.min.js'; document.head.appendChild(script); })()
 $(document).ready(function () {
     settings.scoreOpened = false
     window.ui = new Ui()
@@ -10,7 +11,7 @@ $(document).ready(function () {
     var r = false
     var timers = { l: 0, d: 0, r: 0 }
 
-    window.startData = {model:false,incremental:false,level:1}
+    window.startData = { model: false, incremental: false, level: 1 }
     window.lastPlayers = []
     window.labelsArray = []
     window.xOffset = 0
@@ -158,20 +159,20 @@ $(document).ready(function () {
         game.playing = true
         game.gameStarted = true
         game.lock = false
-        if(data.data.model=='true'){
+        if (data.data.model == true) {
             window.scene.add(window.model)
-        }else{
+        } else {
             window.scene.remove(window.model)
         }
-        if(data.data.incremental=='true'){
-            game.incremental=true
-        }else{
-            game.incremental=false 
+        if (data.data.incremental == true) {
+            game.incremental = true
+        } else {
+            game.incremental = false
         }
         game.level = parseInt(data.data.level)
         game.gravity = game.calcGravity(game.level)
         addLabels()
-        
+
         window.Renderr.render(false)
         window.Renderr.render(true)
         $("#waitDiv").hide("slow");
@@ -226,7 +227,7 @@ $(document).ready(function () {
         0.1,
         10000
     );
-    window.camera = new THREE.OrthographicCamera(width / -4, width / 4, height / 4, height / -4, 50, 150);
+    window.camera = new THREE.OrthographicCamera(width / -4, width / 4, height / 4, height / -4, 50, 1000);
     scene.add(window.camera);
     scene.add(camera2);
     //var controls = new THREE.OrbitControls(window.camera);
@@ -246,13 +247,13 @@ $(document).ready(function () {
 
     window.incremental = function () {
         console.log($('#incremental').is(':checked'))
-        window.startData.incremental=$('#incremental').is(':checked')
+        window.startData.incremental = $('#incremental').is(':checked')
     }
     window.addModel = function () {
         console.log($('#model').is(':checked'))
-        window.startData.model=$('#model').is(':checked')
+        window.startData.model = $('#model').is(':checked')
     }
-    window.setLevel=function(){
+    window.setLevel = function () {
         console.log(parseInt($('#selectLevel').val()))
         window.startData.level = parseInt($('#selectLevel').val())
     }
@@ -279,7 +280,7 @@ $(document).ready(function () {
 
     window.camera.position.x = 40;
     window.camera.position.y = 100;
-    window.camera.position.z = 100;
+    window.camera.position.z = 600;
     // camera.lookAt(window.scene.position);
     // 
     window.camera.lookAt(40, 100, 0);
@@ -348,6 +349,13 @@ $(document).ready(function () {
         if (mixer) {
             mixer.update(dt / 5000);
         }
+        if (settings.rotatingCam == true) {
+            var speed = Date.now() * 0.00025;
+            camera.position.x = Math.cos(speed) * 600;
+            camera.position.z = Math.sin(speed) * 600;
+
+            camera.lookAt(new THREE.Vector3(40 + 100 * (window.lastPlayers.length - 1),100,0)); //0,0,0
+        }
 
         animate(dt)
         if (window.tetramino.touching) {
@@ -364,7 +372,7 @@ $(document).ready(function () {
         if (d) {
             if (timers.d > 0) {
                 if (timers.d - 200 >= 30) {
-                    timers.d =200
+                    timers.d = 200
                     window.tetramino.move(0)
                 }
             } else {
@@ -381,7 +389,7 @@ $(document).ready(function () {
 
                 if (timers.l - 200 >= 100) {
                     //console.log('asdasd')
-                    timers.l = 200 
+                    timers.l = 200
                     window.tetramino.move(3)
                 }
             } else {
@@ -396,7 +404,7 @@ $(document).ready(function () {
         if (r) {
             if (timers.r > 0) {
                 if (timers.r - 200 >= 100) {
-                    timers.r =200
+                    timers.r = 200
                     window.tetramino.move(2)
                 }
             } else {

@@ -800,6 +800,9 @@ class Tetramino {
     }
     loss() {
         if (game.gameStarted) {
+            game.clearLiveBoard()
+            game.reset()
+            
             game.playing = false
             game.gameStarted = false
             game.lock = true

@@ -1,10 +1,10 @@
 class Net {
     constructor() {
-       // this.ui = new Ui
+        // this.ui = new Ui
         //console.log(this.getHelpDataFromSrv("anime"))
-       // this.getHelpDataFromSrv("anime", function (data ) {
-      //      console.log(data)
-     //   })
+        // this.getHelpDataFromSrv("anime", function (data ) {
+        //      console.log(data)
+        //   })
     }
     sendScoreToSrv(name, score) {
         var that = this
@@ -43,7 +43,7 @@ class Net {
             success: function (data) {
 
                 //console.log(data)
-              window.ui.makeTable(data)
+                window.ui.makeTable(data)
 
             },
             error: function (xhr, status, error) {
@@ -70,7 +70,7 @@ class Net {
                 var blue = 150
                 var green = 255
                 data.forEach((element, index) => {
-                    if(element.realId == undefined) {
+                    if (element.realId == undefined) {
                         console.log("undefined gracz jezusie")
                     }
                     table += `<tr style="color:rgb(${red},${green},${blue});" > <td> ${index + 1}. </td>  <td> ${
@@ -115,24 +115,30 @@ class Net {
     }
 
 
-    startGame(){
-        $.ajax({
-            url: "/startGame",
-            type: "POST",
-            data: {
-                confirm: true,
-                data:  window.startData
-            },
-            success: function (data) {
-
-                //console.log(data)
-                //that.ui.makeTable(data)
-                //console.log(data)
-                console.log(data)
-            },
-            error: function (xhr, status, error) {
-                console.log(xhr);
-            }
+    startGame() {
+        window.client.emit('startGame', {
+            confirm: true,
+            data: window.startData
         })
+        /*
+                $.ajax({
+                    url: "/startGame",
+                    type: "POST",
+                    data: {
+                        confirm: true,
+                        data: window.startData
+                    },
+                    success: function (data) {
+        
+                        //console.log(data)
+                        //that.ui.makeTable(data)
+                        //console.log(data)
+                        console.log(data)
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr);
+                    }
+                })
+                */
     }
 }
