@@ -222,7 +222,7 @@ class Attacks {
         this.attackBoys = []
         x=0
         attacks.forEach(player => {
-            console.log('sram')
+            console.log('anime')
             for (let i = 0; i < player.attack; i++) {
                 let piece = noclipPieces[7].clone()
                 let sprite2 = settings.clearSprite.clone()

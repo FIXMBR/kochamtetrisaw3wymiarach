@@ -160,7 +160,7 @@ serverOperations.loginToSrv("**login**", "**hasło**", "**host**", "**login**", 
 
 
 
-//sram ASDASDAs
+//anime ASDASDAs
 
 http.listen(3000, function () {
     console.log('listening on 3k');

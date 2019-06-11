@@ -1,4 +1,4 @@
-# teTHREEis
+# teTHREEs
 
 ## Opis 
 Bardzo profesjonalny tetris, kompletnie nie naruszający copyrightów napisany na THREE.js
@@ -7,7 +7,7 @@ Bardzo profesjonalny tetris, kompletnie nie naruszający copyrightów napisany n
 
 1.Otwieramy folder projektu
 
-2.Wpisujemy komendy:
+2.Wpisujemy komendy w terminalu:
   ```
   npm install express
   npm install mongodb

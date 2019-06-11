@@ -205,7 +205,7 @@ $(document).ready(function () {
             //break;
         }
         window.ui.showEnd()
-        window.scene.add(window.model)
+        //window.scene.add(window.model)
         console.log('startGame')
         hold.holdyBoysArray.forEach(boy => {
             window.scene.remove(boy)
@@ -402,13 +402,13 @@ $(document).ready(function () {
             if (timers.l > 0) {
 
 
-                if (timers.l - 200 >= 100) {
+                if (timers.l - 150 >= 100) {
                     //console.log('asdasd')
-                    timers.l = 200
+                    timers.l = 150
                     window.tetramino.move(3)
                 }
             } else {
-                //console.log('sram')
+                //console.log('anime')
                 window.tetramino.move(3)
             }
             timers.l += dt
@@ -418,8 +418,8 @@ $(document).ready(function () {
         }
         if (r) {
             if (timers.r > 0) {
-                if (timers.r - 200 >= 100) {
-                    timers.r = 200
+                if (timers.r - 150 >= 100) {
+                    timers.r = 150
                     window.tetramino.move(2)
                 }
             } else {
