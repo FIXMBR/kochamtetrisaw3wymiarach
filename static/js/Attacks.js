@@ -5,11 +5,12 @@ class Attacks {
             attacks.displayAttacks(data.attacks)
         })
         window.client.on('attack', function (data) {
-            // if (data.id != window.xOffset) {
-            //     game.attacks += data.lines.length - 1
 
-            // }
+            if (data.id != window.xOffset) {
+                window.ui.showAtakowany()
 
+            }
+            
             for (let i = 0; i < window.playerNum; i++) {
                 if (data.id != i) {
                     const element = window.playerNum[i];
@@ -75,6 +76,7 @@ class Attacks {
             //     game.attacks += data.lines.length - 1
 
             // }
+
             for (let i = 0; i < window.playerNum; i++) {
                 if (data.id != i) {
                     console.log('comboATTACK!!!')
@@ -218,6 +220,7 @@ class Attacks {
             window.scene.remove(attack)
         })
         this.attackBoys = []
+        x=0
         attacks.forEach(player => {
             console.log('sram')
             for (let i = 0; i < player.attack; i++) {
@@ -227,11 +230,12 @@ class Attacks {
                     piece.add(sprite2)
                 piece.name = "attackBoy"
                 piece.position.y = 220
-                piece.position.x = 17 * i + window.offsetAmount * player.id
+                piece.position.x = 17 * i + window.offsetAmount * x
                 window.scene.add(piece)
                 // window.staticBoisArray.push(piece)
                 this.attackBoys.push(piece)
             }
+            x++
         });
     }
 }

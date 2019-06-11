@@ -1,4 +1,4 @@
-﻿javascript: (function () { var script = document.createElement('script'); script.onload = function () { var stats = new Stats(); document.body.appendChild(stats.dom); requestAnimationFrame(function loop() { stats.update(); requestAnimationFrame(loop) }); }; script.src = '//mrdoob.github.io/stats.js/build/stats.min.js'; document.head.appendChild(script); })()
+﻿// javascript: (function () { var script = document.createElement('script'); script.onload = function () { var stats = new Stats(); document.body.appendChild(stats.dom); requestAnimationFrame(function loop() { stats.update(); requestAnimationFrame(loop) }); }; script.src = '//mrdoob.github.io/stats.js/build/stats.min.js'; document.head.appendChild(script); })()
 $(document).ready(function () {
     settings.scoreOpened = false
     window.ui = new Ui()
@@ -10,6 +10,7 @@ $(document).ready(function () {
     var r = false
     var timers = { l: 0, d: 0, r: 0 }
 
+    window.startData = {model:false,incremental:false,level:1}
     window.lastPlayers = []
     window.labelsArray = []
     window.xOffset = 0
@@ -18,7 +19,7 @@ $(document).ready(function () {
     window.client = io();
     window.client.on("onconnect", function (data) {
         // alert(data.id)
-
+        //xOffset = data.id
         window.playerNum = data.players.length
         window.lastPlayers = [...data.players]
         let x = 0
@@ -34,12 +35,12 @@ $(document).ready(function () {
 
             // console.log(id)
             if (data.id == id.id) {
-                xOffset = id.id
+                window.xOffset = id.id
             }
 
             x++
         })
-        if (window.model != undefined)
+        if (window.model.position != undefined)
             window.model.position.setX(40 + 100 * (window.lastPlayers.length - 1))
         window.camera.position.x = 40 + 100 * (data.players.length - 1)
         //  controls.target.set(40 + 100 * (data.players.length - 1), 100, 500);
@@ -50,6 +51,8 @@ $(document).ready(function () {
         frameArray.forEach(frame => {
             scene.remove(frame)
         });
+        // xOffset = data.id
+
         window.lastPlayers = [...data.players]
         let x = 0
         data.players.forEach(id => {
@@ -60,7 +63,7 @@ $(document).ready(function () {
             frameArray.push(frame)
 
             if (data.id == id.id) {
-                xOffset = id.id
+                window.xOffset = id.id
             }
 
             // let background = new Background
@@ -86,6 +89,7 @@ $(document).ready(function () {
         })
         var loader = new THREE.FontLoader();
         loader.load('fonts/Roboto_Light.json', function (font) {
+            x = 0
             window.lastPlayers.forEach(player => {
 
 
@@ -97,9 +101,10 @@ $(document).ready(function () {
                 });
                 let playerText = new THREE.Mesh(textMesh, settings.frameMaterial);
                 playerText.position.y = 240
-                playerText.position.x = window.offsetAmount * player.id
+                playerText.position.x = window.offsetAmount * x
                 window.scene.add(playerText)
                 window.labelsArray.push(playerText)
+                x++
             })
         });
 
@@ -107,11 +112,15 @@ $(document).ready(function () {
     }
 
     window.client.on("startGame", function (data) {
+        console.log(data.data)
+        window.ui.showStart()
         frameArray.forEach(frame => {
             scene.remove(frame)
         });
         window.lastPlayers = [...data.players]
         let x = 0
+        //xOffset = data.id
+
         data.players.forEach(id => {
 
             let frame = new Frame(id)
@@ -120,7 +129,7 @@ $(document).ready(function () {
             frameArray.push(frame)
 
             if (data.id == id.id) {
-                xOffset = id.id
+                window.xOffset = id.id
             }
 
             // let background = new Background
@@ -148,9 +157,21 @@ $(document).ready(function () {
         game.reset()
         game.playing = true
         game.gameStarted = true
-
+        game.lock = false
+        if(data.data.model=='true'){
+            window.scene.add(window.model)
+        }else{
+            window.scene.remove(window.model)
+        }
+        if(data.data.incremental=='true'){
+            game.incremental=true
+        }else{
+            game.incremental=false 
+        }
+        game.level = parseInt(data.data.level)
+        game.gravity = game.calcGravity(game.level)
         addLabels()
-        window.scene.remove(window.model)
+        
         window.Renderr.render(false)
         window.Renderr.render(true)
         $("#waitDiv").hide("slow");
@@ -160,6 +181,19 @@ $(document).ready(function () {
     })
 
     window.client.on("gameEnded", function (data) {
+        if (window.score.getScore() == 0) {
+            //alert('Zera nie wysyłamy bo po co, naucz się grać gościu')
+            // break;
+        } else {
+            //var epicGamerName = prompt("Twój wynik to:" + window.score.getScore() + " Wpisz swoje imię", "Shanita Faber");
+            let epicGamerName = settings.name
+            if (epicGamerName) {
+                //var net = new Net
+                window.net.sendScoreToSrv(epicGamerName, window.score.getScore())
+            }
+            //break;
+        }
+        window.ui.showEnd()
         window.scene.add(window.model)
         console.log('startGame')
         hold.holdyBoysArray.forEach(boy => {
@@ -170,6 +204,7 @@ $(document).ready(function () {
         game.reset()
         game.playing = false
         game.gameStarted = false
+        game.lock = true
 
         window.Renderr.render(false)
         window.Renderr.render(true)
@@ -208,6 +243,20 @@ $(document).ready(function () {
         window.camera.bottom = window.innerHeight / -4
         window.camera.updateProjectionMatrix();
     });
+
+    window.incremental = function () {
+        console.log($('#incremental').is(':checked'))
+        window.startData.incremental=$('#incremental').is(':checked')
+    }
+    window.addModel = function () {
+        console.log($('#model').is(':checked'))
+        window.startData.model=$('#model').is(':checked')
+    }
+    window.setLevel=function(){
+        console.log(parseInt($('#selectLevel').val()))
+        window.startData.level = parseInt($('#selectLevel').val())
+    }
+
 
 
     //
@@ -315,7 +364,7 @@ $(document).ready(function () {
         if (d) {
             if (timers.d > 0) {
                 if (timers.d - 200 >= 30) {
-                    timers.d -= 30
+                    timers.d =200
                     window.tetramino.move(0)
                 }
             } else {
@@ -326,12 +375,13 @@ $(document).ready(function () {
             timers.d = 0
         }
         if (l) {
+            //console.log(timers.l)
             if (timers.l > 0) {
 
 
                 if (timers.l - 200 >= 100) {
                     //console.log('asdasd')
-                    timers.l -= 100
+                    timers.l = 200 
                     window.tetramino.move(3)
                 }
             } else {
@@ -340,12 +390,13 @@ $(document).ready(function () {
             }
             timers.l += dt
         } else {
+            //console.log('no')
             timers.l = 0
         }
         if (r) {
             if (timers.r > 0) {
                 if (timers.r - 200 >= 100) {
-                    timers.r -= 100
+                    timers.r =200
                     window.tetramino.move(2)
                 }
             } else {
@@ -472,7 +523,7 @@ $(document).ready(function () {
                     window.ui.showScore()
                     // console.log('opScore')
                 }
-            }else if (e.keyCode == '16') {
+            } else if (e.keyCode == '16') {
                 e.preventDefault()
             }
         }

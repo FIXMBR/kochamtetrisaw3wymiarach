@@ -120,7 +120,8 @@ class Net {
             url: "/startGame",
             type: "POST",
             data: {
-                confirm: true
+                confirm: true,
+                data:  window.startData
             },
             success: function (data) {
 

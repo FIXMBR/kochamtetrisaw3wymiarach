@@ -166,3 +166,4 @@ for (let i = 0; i < settings.noClipMaterials.length; i++) {
 
 
 settings.scoresOpened = false;
+

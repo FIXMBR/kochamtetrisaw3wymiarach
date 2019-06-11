@@ -6,7 +6,7 @@ class Tetramino {
         this.x = 3
         this.y = 3
         this.localLock = 500
-        this.totalLock = 4000
+        this.totalLock = 3000
         this.touching = false
         this.adding = true;
         window.score = new Score()
@@ -184,6 +184,23 @@ class Tetramino {
             game.comboed = true
             window.attacks.attack(game.lines)
             game.justAttacked = true
+            
+            window.ui.showAtakujesz()
+            switch (game.lines.length) {
+                case 1:
+                    game.points += 1
+                    break
+                case 2:
+                    game.points += 3
+                    break
+                case 3:
+                    game.points += 5
+                    break
+                case 4:
+                    game.points += 8
+                    break
+            }
+            game.checklevel()
         }
         game.lines.forEach(line => {
             window.client.emit("animation", {
@@ -786,23 +803,13 @@ class Tetramino {
             game.playing = false
             game.gameStarted = false
             game.lock = true
+            window.client.emit("dead") 
             game.ghostyBoisArray.forEach(element => {
                 window.scene.remove(element)
             });
             this.adding = false;
-            if (window.score.getScore() == 0) {
-                //alert('Zera nie wysyłamy bo po co, naucz się grać gościu')
-                // break;
-            } else {
-                //var epicGamerName = prompt("Twój wynik to:" + window.score.getScore() + " Wpisz swoje imię", "Shanita Faber");
-                let epicGamerName = settings.name
-                if (epicGamerName) {
-                    //var net = new Net
-                    window.net.sendScoreToSrv(epicGamerName, window.score.getScore())
-                }
-                //break;
-            }
-            window.client.emit("dead")
+            
+         
         }
     }
     place() {
@@ -930,7 +937,7 @@ class Tetramino {
         this.x = 3
         this.y = 0
         this.localLock = 500
-        this.totalLock = 4000
+        this.totalLock = 3000
         this.touching = false
 
         switch (this.blockNum) {

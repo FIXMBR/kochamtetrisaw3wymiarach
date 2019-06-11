@@ -1,88 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>TEETYROOOS</title>
-    <script src="libs/three.js"></script>
-    <script src="libs/jquery.js"></script>
-    <script src="libs/Grid.js"></script>
-    <script src="libs/GLTFLoader.js"></script>
-    <script src="js/Game.js"></script>
-    <script src="libs/OrbitControls.js"></script>
-    <script src="js/Render.js"></script>
-    <script src="js/Hold.js"></script>
-    <script src="js/Tetramino.js"></script>
-    <script src="js/Frame.js"></script>
-    <script src="js/Attacks.js"></script>
-    <script src="js/Settings.js"></script>
-    <script src="js/RNG.js"></script>
-    <script src="js/Ghost.js"></script>
-    <script src="js/Ui.js"></script>
-    <script src="js/Mongo.js"></script>
-    <script src="js/Multi.js"></script>
-    <script src="js/Preview.js"></script>
-    <script src="js/Net.js"></script>
-    <script src="js/Score.js"></script>
-    <script src="js/Main.js"></script>
-    <script src="js/Camera.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
-    <link rel="stylesheet" href="style.css" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300&display=swap" rel="stylesheet"> 
-  </head>
 
-  <body>
-    <div id="background">
-    </div>
-    <div id="btns">
-      <!-- <button type="button" id="btnSendScore">sendScore</button> -->
-      <input type="submit" value="Scores" name="btnGetScore" id="btnGetScore">
-    </div>
-   
-    <div id="waitDiv"> 
-      <div id="waitDivHtml">
-          <h1>Waiting for players</h1>
-          <div id="connectedPlayers">
-            <h2>ConnectedPlayers:</h2>
-            <div id="connectedPlayersTable">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>TEETYROOOS</title>
+  <script src="libs/three.js"></script>
+  <script src="libs/jquery.js"></script>
+  <script src="libs/Grid.js"></script>
+  <script src="libs/GLTFLoader.js"></script>
+  <script src="js/Game.js"></script>
+  <script src="libs/OrbitControls.js"></script>
+  <script src="js/Render.js"></script>
+  <script src="js/Hold.js"></script>
+  <script src="js/Tetramino.js"></script>
+  <script src="js/Frame.js"></script>
+  <script src="js/Attacks.js"></script>
+  <script src="js/Settings.js"></script>
+  <script src="js/RNG.js"></script>
+  <script src="js/Ghost.js"></script>
+  <script src="js/Ui.js"></script>
+  <script src="js/Mongo.js"></script>
+  <script src="js/Multi.js"></script>
+  <script src="js/Preview.js"></script>
+  <script src="js/Net.js"></script>
+  <script src="js/Score.js"></script>
+  <script src="js/Main.js"></script>
+  <script src="js/Camera.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300&display=swap" rel="stylesheet">
+</head>
 
-            </div>
-          </div>
-          <input type="submit" value="startGame" name="startGame" id="startGame">
-          <input type="submit" value="help" name="helpBtn" id="helpBtn">
-      </div>
-    </div>
+<body>
+  <div id="background">
+  </div>
+  <div id="btns">
+    <!-- <button type="button" id="btnSendScore">sendScore</button> -->
+    <input type="submit" value="Scores" name="btnGetScore" id="btnGetScore">
+  </div>
 
-    <div id="loginDiv">
-      <div id="loginDivHtml">
-          <h1 id="title">Logowanie</h1>
-                <input type="text" value="" name="loginInput" id="loginInput">
-                <br>
-                <input type="submit" value="LOGUJ" name="logujInput" id="logujSubmit">
-      </div>
-    </div>
-    <div id="help">
-      <div id="helpDiv">
-        <h2 id="helpText"></h2>
-        <h3 id="helpText1"></h3>
-        <h3 id="helpText2"></h3>
-        <h3 id="helpText3"></h3>
-        <h3 id="helpText4"></h3>
-        <h3 id="helpText5"></h3>
-        <input type="submit" value="close" name="helpClBtn" id="helpClBtn">
-      </div>
-    </div>
+  <div id="waitDiv">
+    <div id="waitDivHtml">
+      <h1>Waiting for players</h1>
+      <div id="connectedPlayers">
+        <h2>ConnectedPlayers:</h2>
+        <div id="connectedPlayersTable">
 
-    <div id="scoreDiv">
-      <div id="scoreHtml">
-        <h1>High Scores</h1>
-        <div id="scoreTable"></div>
-        <!-- <button type="button" id="btnCloseScore">close</button> -->
-        <input type="submit" value="close" name="btnCloseScore" id="btnCloseScore">
-      </div>
+        </div>
+      </div> model
+      <input type="checkbox" id="model" onclick="window.addModel()"> incremental levels
+      <input type="checkbox" id="incremental" onclick="window.incremental()">
+      starting level
+      <select id ="selectLevel" onchange="window.setLevel()">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+      </select>
+      <input type="submit" value="startGame" name="startGame" id="startGame">
+      <input type="submit" value="help" name="helpBtn" id="helpBtn">
     </div>
+  </div>
 
-    <div id="render"></div>
-  </body>
+  <div id="loginDiv">
+    <div id="loginDivHtml">
+      <h1 id="title">Logowanie</h1>
+      <input type="text" value="" name="loginInput" id="loginInput">
+      <br>
+      <input type="submit" value="LOGUJ" name="logujInput" id="logujSubmit">
+    </div>
+  </div>
+  <div id="help">
+    <div id="helpDiv">
+      <h2 id="helpText"></h2>
+      <h3 id="helpText1"></h3>
+      <h3 id="helpText2"></h3>
+      <h3 id="helpText3"></h3>
+      <h3 id="helpText4"></h3>
+      <h3 id="helpText5"></h3>
+      <input type="submit" value="close" name="helpClBtn" id="helpClBtn">
+    </div>
+  </div>
+
+  <div id="message">
+    <div id="messageDiv">
+      <img id="msgImg" src="images/mark.png" alt="HTML5" />
+      <h3 id="msgH3">Przykładowy Tytuł</h3>
+      <h4 id="msgH4">Przykładowy text</h2>
+    </div>
+  </div>
+
+  <div id="message1">
+    <div id="messageDiv">
+      <img id="msgImg" src="images/mark.png" alt="HTML5" />
+      <h3 id="msgH3">Przykładowy Tytuł</h3>
+      <h4 id="msgH4">Przykładowy text</h2>
+    </div>
+  </div>
+
+  <div id="message2">
+    <div id="messageDiv">
+      <img id="msgImg" src="images/mark.png" alt="HTML5" />
+      <h3 id="msgH3">Przykładowy Tytuł</h3>
+      <h4 id="msgH4">Przykładowy text</h2>
+    </div>
+  </div>
+
+  <div id="message3">
+    <div id="messageDiv">
+      <img id="msgImg" src="images/mark.png" alt="HTML5" />
+      <h3 id="msgH3">Przykładowy Tytuł</h3>
+      <h4 id="msgH4">Przykładowy text</h2>
+    </div>
+  </div>
+
+  <div id="message4">
+    <div id="messageDiv">
+      <img id="msgImg" src="images/mark.png" alt="HTML5" />
+      <h3 id="msgH3">Przykładowy Tytuł</h3>
+      <h4 id="msgH4">Przykładowy text</h2>
+    </div>
+  </div>
+
+  <div id="scoreDiv">
+    <div id="scoreHtml">
+      <h1>High Scores</h1>
+      <div id="scoreTable"></div>
+      <!-- <button type="button" id="btnCloseScore">close</button> -->
+      <input type="submit" value="close" name="btnCloseScore" id="btnCloseScore">
+    </div>
+  </div>
+
+  <div id="render"></div>
+</body>
+
 </html>
