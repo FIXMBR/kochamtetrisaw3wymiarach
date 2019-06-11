@@ -11,7 +11,7 @@ $(document).ready(function () {
     var r = false
     var timers = { l: 0, d: 0, r: 0 }
 
-    window.startData = { model: false, incremental: false, level: 1 }
+    window.startData = { model: false, incremental: false, level: 1,rotation:false }
     window.lastPlayers = []
     window.labelsArray = []
     window.xOffset = 0
@@ -169,6 +169,16 @@ $(document).ready(function () {
         } else {
             game.incremental = false
         }
+        if(data.data.rotation==true){
+            settings.rotatingCam=true
+        }else{
+            settings.rotatingCam=false
+            window.camera.position.x = 40 + 100 * (data.players.length - 1)
+            window.camera.position.y = 100;
+            window.camera.position.z = 600;
+            camera.lookAt(new THREE.Vector3(40 + 100 * (window.lastPlayers.length - 1),100,0)); //0,0,0
+            
+        }
         game.level = parseInt(data.data.level)
         game.gravity = game.calcGravity(game.level)
         addLabels()
@@ -206,7 +216,7 @@ $(document).ready(function () {
         game.playing = false
         game.gameStarted = false
         game.lock = true
-
+        settings.rotatingCam=true
         window.Renderr.render(false)
         window.Renderr.render(true)
         $("#waitDiv").show("slow");
@@ -257,7 +267,10 @@ $(document).ready(function () {
         console.log(parseInt($('#selectLevel').val()))
         window.startData.level = parseInt($('#selectLevel').val())
     }
-
+    window.setCam = function () {
+        console.log($('#rotation').is(':checked'))
+        window.startData.rotation = $('#rotation').is(':checked')
+    }
 
 
     //
@@ -343,6 +356,8 @@ $(document).ready(function () {
     var mixer;
     function render() {
         //let delta = clock.getDelta();
+        
+        requestAnimationFrame(render);
         var now = Date.now();
         var dt = (now - lastUpdate);
         lastUpdate = now;
@@ -350,7 +365,7 @@ $(document).ready(function () {
             mixer.update(dt / 5000);
         }
         if (settings.rotatingCam == true) {
-            var speed = Date.now() * 0.00025;
+            var speed = Date.now() * 0.00125;
             camera.position.x = Math.cos(speed) * 600;
             camera.position.z = Math.sin(speed) * 600;
 
@@ -429,13 +444,10 @@ $(document).ready(function () {
             }
         }
 
-        requestAnimationFrame(render);
-        if (window.cameraNum == 1) {
-            renderer.render(window.scene, window.camera);
-        } else {
-            renderer.render(window.scene, window.camera2);
-        }
-
+        
+        
+        renderer.render(window.scene, window.camera);
+       
 
 
     }

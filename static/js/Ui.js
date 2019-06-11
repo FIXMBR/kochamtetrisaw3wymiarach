@@ -100,6 +100,7 @@ class Ui {
       window.startData.incremental = $('#incremental').is(':checked')
       window.startData.model = $('#model').is(':checked')
       window.startData.level = parseInt($('#selectLevel').val())
+      window.startData.rotation = $('#rotation').is(':checked')
       window.net.startGame()
       //$("#startGame").remove()
     });
