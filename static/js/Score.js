@@ -9,19 +9,19 @@ class Score {
     }
     
     singleAdd() {
-        this.score = this.score + (100 * this.level)
+        this.score = this.score + (100 * game.level)
     }
 
     doubleAdd() {
-        this.score = this.score + (300 * this.level)
+        this.score = this.score + (300 * game.level)
     }
 
     tripleAdd() {
-        this.score = this.score + (500 * this.level)
+        this.score = this.score + (500 * game.level)
     }
 
     tetrisAdd() {
-        this.score = this.score + (800 * this.level)
+        this.score = this.score + (800 * game.level)
     }
     newSoftDrop() {
         this.softDrop = 0;
