@@ -7,7 +7,8 @@ var settings = {
     glow: new THREE.TextureLoader().load("images/glow.png"),
     hardD1: new THREE.TextureLoader().load("images/hardD1.png"),
     hardD2: new THREE.TextureLoader().load("images/hardD2.png"),
-    rotatingCam:true
+    rotatingCam:true,
+    scoreSent:false
 
 }
 

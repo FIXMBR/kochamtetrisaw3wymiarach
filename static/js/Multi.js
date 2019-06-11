@@ -6,7 +6,7 @@ class Multi {
         var _this = this
         window.client.on('trash', function (data) {
             if (game.justAttacked == false) {
-                console.log(data.trash)
+              //console.log(data.trash)
                 let rng = Math.floor(Math.random() * (10))
 
                 for (let i = 0; i < data.trash; i++) {

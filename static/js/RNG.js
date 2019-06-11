@@ -13,7 +13,7 @@ class RNG {
             return a;
         }
         this.array = shuffle([0, 1, 2, 3, 4, 5, 6])
-        console.log(this.array)
+      //console.log(this.array)
         this.RNGnum = 0
 
         this.startNum = 5
@@ -43,7 +43,7 @@ class RNG {
                 }
             },
             error: function (xhr, status, error) {
-                console.log(xhr);
+              //console.log(xhr);
             }
 
         })
@@ -91,7 +91,7 @@ class RNG {
                 game.incomingTetraminos.push(added)
             },
             error: function (xhr, status, error) {
-                console.log(xhr);
+              //console.log(xhr);
             }
 
         })

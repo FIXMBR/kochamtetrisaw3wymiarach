@@ -71,7 +71,7 @@ module.exports = {
               //  }
             ,
             function (err, data) {
-                console.log("update: " + data)
+              //console.log("update: " + data)
                 if (err) console.log(err)
                 else callback(true)
             })

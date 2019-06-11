@@ -3,32 +3,35 @@ class Net {
         // this.ui = new Ui
         //console.log(this.getHelpDataFromSrv("anime"))
         // this.getHelpDataFromSrv("anime", function (data ) {
-        //      console.log(data)
+        //    //console.log(data)
         //   })
     }
     sendScoreToSrv(name, score) {
         var that = this
-        console.log(name, score)
-        $.ajax({
-            data: {
-                "name": name,
-                "score": score
-            },
-            url: "/sendScore",
-            type: "POST",
-            success: function (added) {
-                console.log(added)
-                if (added) {
+        if (!settings.scoreSent) {
+            //console.log(name, score)
+            $.ajax({
+                data: {
+                    "name": name,
+                    "score": score
+                },
+                url: "/sendScore",
+                type: "POST",
+                success: function (added) {
+                    //console.log(added)
+                    if (added) {
 
-                    that.getScoreFromSrv()
-                    window.ui.showScore()
+                        that.getScoreFromSrv()
+                        window.ui.showScore()
+                    }
+                },
+                error: function (xhr, status, error) {
+                    //console.log(xhr);
                 }
-            },
-            error: function (xhr, status, error) {
-                console.log(xhr);
-            }
 
-        })
+            })
+            settings.scoreSent=true
+        }
     }
 
     getScoreFromSrv() {
@@ -47,7 +50,7 @@ class Net {
 
             },
             error: function (xhr, status, error) {
-                console.log(xhr);
+                //console.log(xhr);
             }
 
         })
@@ -71,7 +74,7 @@ class Net {
                 var green = 255
                 data.forEach((element, index) => {
                     if (element.realId == undefined) {
-                        console.log("undefined gracz jezusie")
+                        //console.log("undefined gracz jezusie")
                     }
                     table += `<tr style="color:rgb(${red},${green},${blue});" > <td> ${index + 1}. </td>  <td> ${
                         element.name
@@ -85,7 +88,7 @@ class Net {
                 $("#connectedPlayersTable").html(table);
             },
             error: function (xhr, status, error) {
-                console.log(xhr);
+                //console.log(xhr);
             }
 
         })
@@ -108,7 +111,7 @@ class Net {
                 callback(data)
             },
             error: function (xhr, status, error) {
-                console.log(xhr);
+                //console.log(xhr);
             }
 
         })
@@ -133,10 +136,10 @@ class Net {
                         //console.log(data)
                         //that.ui.makeTable(data)
                         //console.log(data)
-                        console.log(data)
+                      //console.log(data)
                     },
                     error: function (xhr, status, error) {
-                        console.log(xhr);
+                      //console.log(xhr);
                     }
                 })
                 */

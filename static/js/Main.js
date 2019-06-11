@@ -11,7 +11,7 @@ $(document).ready(function () {
     var r = false
     var timers = { l: 0, d: 0, r: 0 }
 
-    window.startData = { model: false, incremental: false, level: 1,rotation:false }
+    window.startData = { model: false, incremental: false, level: 1, rotation: false }
     window.lastPlayers = []
     window.labelsArray = []
     window.xOffset = 0
@@ -113,7 +113,8 @@ $(document).ready(function () {
     }
 
     window.client.on("startGame", function (data) {
-        console.log(data.data)
+        //console.log(data.data)
+        settings.scoreSent = false
         window.ui.showStart()
         frameArray.forEach(frame => {
             scene.remove(frame)
@@ -146,7 +147,7 @@ $(document).ready(function () {
         window.camera.position.x = 40 + 100 * (data.players.length - 1)
         // controls.target.set(40 + 100 * (data.players.length - 1), 100, 500);
         window.playerNum = data.players.length
-        console.log('startGame')
+        //console.log('startGame')
         hold.holdyBoysArray.forEach(boy => {
             window.scene.remove(boy)
 
@@ -169,15 +170,15 @@ $(document).ready(function () {
         } else {
             game.incremental = false
         }
-        if(data.data.rotation==true){
-            settings.rotatingCam=true
-        }else{
-            settings.rotatingCam=false
+        if (data.data.rotation == true) {
+            settings.rotatingCam = true
+        } else {
+            settings.rotatingCam = false
             window.camera.position.x = 40 + 100 * (data.players.length - 1)
             window.camera.position.y = 100;
             window.camera.position.z = 600;
-            camera.lookAt(new THREE.Vector3(40 + 100 * (window.lastPlayers.length - 1),100,0)); //0,0,0
-            
+            camera.lookAt(new THREE.Vector3(40 + 100 * (window.lastPlayers.length - 1), 100, 0)); //0,0,0
+
         }
         game.level = parseInt(data.data.level)
         game.gravity = game.calcGravity(game.level)
@@ -206,7 +207,7 @@ $(document).ready(function () {
         }
         window.ui.showEnd()
         //window.scene.add(window.model)
-        console.log('startGame')
+        //console.log('startGame')
         hold.holdyBoysArray.forEach(boy => {
             window.scene.remove(boy)
 
@@ -216,7 +217,7 @@ $(document).ready(function () {
         game.playing = false
         game.gameStarted = false
         game.lock = true
-        settings.rotatingCam=true
+        settings.rotatingCam = true
         window.Renderr.render(false)
         window.Renderr.render(true)
         $("#waitDiv").show("slow");
@@ -256,19 +257,19 @@ $(document).ready(function () {
     });
 
     window.incremental = function () {
-        console.log($('#incremental').is(':checked'))
+        //console.log($('#incremental').is(':checked'))
         window.startData.incremental = $('#incremental').is(':checked')
     }
     window.addModel = function () {
-        console.log($('#model').is(':checked'))
+        //console.log($('#model').is(':checked'))
         window.startData.model = $('#model').is(':checked')
     }
     window.setLevel = function () {
-        console.log(parseInt($('#selectLevel').val()))
+        //console.log(parseInt($('#selectLevel').val()))
         window.startData.level = parseInt($('#selectLevel').val())
     }
     window.setCam = function () {
-        console.log($('#rotation').is(':checked'))
+        //console.log($('#rotation').is(':checked'))
         window.startData.rotation = $('#rotation').is(':checked')
     }
 
@@ -303,7 +304,7 @@ $(document).ready(function () {
     // camera.lookAt(window.scene.position);
     // 
     window.camera2.lookAt(40, 100, 0);
-    console.log(window.scene.position);
+    //console.log(window.scene.position);
     //grid = new Grid
     //window.scene.add(grid.getGrid())
 
@@ -356,7 +357,7 @@ $(document).ready(function () {
     var mixer;
     function render() {
         //let delta = clock.getDelta();
-        
+
         requestAnimationFrame(render);
         var now = Date.now();
         var dt = (now - lastUpdate);
@@ -369,7 +370,7 @@ $(document).ready(function () {
             camera.position.x = Math.cos(speed) * 600;
             camera.position.z = Math.sin(speed) * 600;
 
-            camera.lookAt(new THREE.Vector3(40 + 100 * (window.lastPlayers.length - 1),100,0)); //0,0,0
+            camera.lookAt(new THREE.Vector3(40 + 100 * (window.lastPlayers.length - 1), 100, 0)); //0,0,0
         }
 
         animate(dt)
@@ -444,10 +445,10 @@ $(document).ready(function () {
             }
         }
 
-        
-        
+
+
         renderer.render(window.scene, window.camera);
-       
+
 
 
     }
@@ -581,7 +582,7 @@ $(document).ready(function () {
 
             mixer = new THREE.AnimationMixer(window.model);
             mixer.timeScale = 5;
-            console.log(window.gltf.animations)
+            //console.log(window.gltf.animations)
             mixer.clipAction(window.gltf.animations[0]).play();
 
 
@@ -589,14 +590,14 @@ $(document).ready(function () {
         // called while loading is progressing
         function (xhr) {
 
-            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+            //console.log((xhr.loaded / xhr.total * 100) + '% loaded');
 
         },
         // called when loading has errors
         function (error) {
 
-            console.log('An error happened');
-            console.log(error)
+            //console.log('An error happened');
+            //console.log(error)
 
         }
     );

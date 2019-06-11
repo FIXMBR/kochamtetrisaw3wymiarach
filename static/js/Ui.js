@@ -20,7 +20,7 @@ class Ui {
   GetScoreClickListenerAdd() {
     $("#btnGetScore").on("click", () => {
       this.showScore();
-      console.log("getScoreClick");
+    //console.log("getScoreClick");
     });
   }
   showScore() {
@@ -34,7 +34,7 @@ class Ui {
 
     $("#btnCloseScore").on("click", () => {
       this.closeScore()
-      console.log("closeScoreClick");
+    //console.log("closeScoreClick");
     });
   }
 
@@ -92,7 +92,7 @@ class Ui {
 
   startGameClick() {
     $("#startGame").on("click", () => {
-      console.log("startGame");
+    //console.log("startGame");
       this.hideBckd();
       clearInterval(this.interval)
       $("#waitDiv").hide("slow");

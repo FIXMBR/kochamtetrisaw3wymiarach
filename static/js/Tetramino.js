@@ -861,7 +861,7 @@ class Tetramino {
 
     hardDrop() {
 
-        //  console.log(window.ghost.hardDrop)
+        ////console.log(window.ghost.hardDrop)
 
         let oldY = this.y
         this.y = window.ghost.hardDrop

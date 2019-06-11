@@ -126,8 +126,8 @@ class Game {
             this.points -= (this.level + 1) * 5
             this.level++
             this.gravity = this.calcGravity(this.level)
-            console.log('LEVELchange!: ' + this.level)
-            console.log('GRITY CHANGE!: ' + this.gravity)
+          //console.log('LEVELchange!: ' + this.level)
+          //console.log('GRITY CHANGE!: ' + this.gravity)
         }
     }
     calcGravity(lvl) {

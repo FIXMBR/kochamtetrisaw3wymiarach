@@ -50,10 +50,11 @@ class Attacks {
                                 for (let j = 0; j < game.animations.length; j++) {
                                     const element = game.animations[j];
                                     if (element.data.sprite == data.sprite) {
-                                        console.log('aaaaa')
+                                      //console.log('aaaaa')
                                         window.attacks.displayAttacks(data.attacks)
                                         game.animations.splice(j, 1)
                                         scene.remove(sprite)
+                                        window.client.emit('updateAttacks')
                                         break;
                                     }
                                 }
@@ -79,7 +80,7 @@ class Attacks {
 
             for (let i = 0; i < window.playerNum; i++) {
                 if (data.id != i) {
-                    console.log('comboATTACK!!!')
+                  //console.log('comboATTACK!!!')
                     const element = window.playerNum[i];
                     let sprite = settings.attackAnimationSprite.clone()
                     sprite.position.y = 110 - 5 * data.lines
@@ -117,10 +118,11 @@ class Attacks {
                                 for (let j = 0; j < game.animations.length; j++) {
                                     const element = game.animations[j];
                                     if (element.data.sprite == data.sprite) {
-                                        console.log('bbbbb')
+                                      //console.log('bbbbb')
                                         window.attacks.displayAttacks(data.attacks)
                                         game.animations.splice(j, 1)
                                         scene.remove(sprite)
+                                        window.client.emit('updateAttacks')
 
                                         break;
                                     }
@@ -145,7 +147,7 @@ class Attacks {
             sprite.position.x = 45 + window.offsetAmount * data.id
             sprite.position.z = 7 + Math.random()
             window.scene.add(sprite)
-            console.log(sprite)
+          //console.log(sprite)
             //directionVect = clickedVect.clone().sub(player.getPlayerCont().position).normalize()
             let dirVect = new THREE.Vector3(window.offsetAmount * data.id + 10, 215, 8)
             let sprite2 = settings.clearSprite.clone()
@@ -176,10 +178,11 @@ class Attacks {
                         for (let j = 0; j < game.animations.length; j++) {
                             const element = game.animations[j];
                             if (element.data.sprite == data.sprite) {
-                                console.log('ccccc')
+                              //console.log('ccccc')
                                 window.attacks.displayAttacks(data.attacks)
                                 game.animations.splice(j, 1)
                                 scene.remove(sprite)
+                                window.client.emit('updateAttacks')
 
 
                                 break;
@@ -215,14 +218,14 @@ class Attacks {
     }
 
     displayAttacks(attacks) {
-        console.log(attacks)
+      //console.log(attacks)
         this.attackBoys.forEach(attack => {
             window.scene.remove(attack)
         })
         this.attackBoys = []
         x=0
         attacks.forEach(player => {
-            console.log('anime')
+          //console.log('anime')
             for (let i = 0; i < player.attack; i++) {
                 let piece = noclipPieces[7].clone()
                 let sprite2 = settings.clearSprite.clone()
