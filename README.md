@@ -7,11 +7,9 @@ Bardzo profesjonalny tetris, kompletnie nie naruszający copyrightów napisany n
 
 1.Otwieramy folder projektu
 
-2.Wpisujemy komendy w terminalu:
+2.Wpisujemy komend w terminalu:
   ```
-  npm install express
-  npm install mongodb
-  npm install socket.io
+  npm install 
   ```
 3.Otwieramy plik server.js za pomocą node
 
