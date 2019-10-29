@@ -7,7 +7,7 @@ Bardzo profesjonalny tetris, kompletnie nie naruszający copyrightów napisany n
 
 1.Otwieramy folder projektu
 
-2.Wpisujemy komend w terminalu:
+2.Wpisujemy command w terminalu:
   ```
   npm install 
   ```
